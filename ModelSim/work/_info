@@ -1,0 +1,151 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dC:/Users/harki/Downloads/part1/ModelSim
+vdff
+Z1 !s110 1762302409
+!i10b 1
+!s100 7]>DYKc6Y3NOYkaDMZJn[3
+IbdM0=<>1lk73Mo@QnEd<N2
+Z2 VDg1SIo80bB@j0V0VzS_@n1
+R0
+Z3 w1762302353
+Z4 8../part1.v
+Z5 F../part1.v
+L0 62
+Z6 OV;L;10.5b;63
+r1
+!s85 0
+31
+Z7 !s108 1762302409.000000
+Z8 !s107 ../part1.v|
+Z9 !s90 -reportprogress|300|../part1.v|
+!i113 1
+Z10 tCvgOpt 0
+vdffA
+R1
+!i10b 1
+!s100 PL8AEIL^ogABAJlkM>[;70
+ImGK7f1ea8h@bmNTLTEg=B0
+R2
+R0
+R3
+R4
+R5
+L0 44
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 1
+R10
+ndff@a
+vled
+Z11 !s110 1762810477
+!i10b 1
+!s100 08k=f`9LhfkUPoOGSQ_]S1
+IQRboCbaGj;>Q2CiTdz^7i1
+R2
+Z12 dC:/Users/harki/ece241/project/ModelSim
+Z13 w1762810469
+Z14 8../led.v
+Z15 F../led.v
+L0 1
+R6
+r1
+!s85 0
+31
+Z16 !s108 1762810477.000000
+Z17 !s107 ../led.v|
+Z18 !s90 -reportprogress|300|../led.v|
+!i113 1
+R10
+vonesec_clock
+!s110 1762804297
+!i10b 1
+!s100 L;Zj:j3`H]Lo<OIWe3mb33
+I=?S5DioIN`j=NiJ7B;Zee2
+R2
+R12
+w1762804293
+R14
+R15
+L0 12
+R6
+r1
+!s85 0
+31
+!s108 1762804297.000000
+R17
+R18
+!i113 1
+R10
+vpart1
+R1
+!i10b 1
+!s100 Gi9cCc7:=MM`P:K[:Umi?0
+If6@moa5eFRG=9K?h^Nzb22
+R2
+R0
+R3
+R4
+R5
+L0 1
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 1
+R10
+vtestbench
+R11
+!i10b 1
+!s100 iX9k0JV]?]B1c4Z;`_AlR0
+IVNB?jLGX[=DXOJMJ[A>4d2
+R2
+R12
+w1762809521
+8testbench.v
+Ftestbench.v
+L0 3
+R6
+r1
+!s85 0
+31
+R16
+!s107 testbench.v|
+!s90 -reportprogress|300|testbench.v|
+!i113 1
+R10
+vthird_counter
+R11
+!i10b 1
+!s100 9<?<ATlK;lFZz[ZCTflcR2
+I:1AHY;9IC5f_kS8FQH4J]2
+R2
+R12
+R13
+R14
+R15
+L0 26
+R6
+r1
+!s85 0
+31
+R16
+R17
+R18
+!i113 1
+R10
