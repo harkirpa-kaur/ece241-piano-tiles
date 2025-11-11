@@ -43,11 +43,14 @@ module shift_register (CLOCK_50, enable, b);
     
     reg [39:0] test = {4'd0,4'd1,4'd2,4'd3,4'd4,4'd5,4'd6,4'd7,4'd8,4'd9};
 
-always @(posedge CLOCK_50) begin
-  if (enable) begin
-    b    <= test[3:0];               // 4 bits at the top
-    test <= {test[39:4], 4'd0};        // shift left by 4, insert 0
-  end
-end
+    always @(posedge CLOCK_50) begin
+        if (enable) begin
+            b    <= {col1[71], col2[71], col3[71], col4[71]};
+            col1 <= {col1[70:0], 1'b0};
+            col2 <= {col2[70:0], 1'b0};
+            col3 <= {col3[70:0], 1'b0};
+            col4 <= {col4[70:0], 1'b0};
+        end
+    end
 
 endmodule
