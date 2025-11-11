@@ -50,21 +50,21 @@ R9
 R10
 ndff@a
 vled
-Z11 !s110 1762810477
+Z11 !s110 1762874140
 !i10b 1
-!s100 08k=f`9LhfkUPoOGSQ_]S1
-IQRboCbaGj;>Q2CiTdz^7i1
+!s100 40>XfP0]6@Nnb3b:KocLZ0
+IC0>zBVe^Ag:;D6Zl2zJl`2
 R2
 Z12 dC:/Users/harki/ece241/project/ModelSim
-Z13 w1762810469
+Z13 w1762874126
 Z14 8../led.v
 Z15 F../led.v
-L0 1
+L0 2
 R6
 r1
 !s85 0
 31
-Z16 !s108 1762810477.000000
+Z16 !s108 1762874140.000000
 Z17 !s107 ../led.v|
 Z18 !s90 -reportprogress|300|../led.v|
 !i113 1
@@ -109,14 +109,34 @@ R8
 R9
 !i113 1
 R10
+vshift_register
+R11
+!i10b 1
+!s100 _gS>b<m>Pi_n6SW0fUTOm2
+IA_=ZR4O^0:C72doeha7`n3
+R2
+R12
+R13
+R14
+R15
+L0 35
+R6
+r1
+!s85 0
+31
+R16
+R17
+R18
+!i113 1
+R10
 vtestbench
 R11
 !i10b 1
-!s100 iX9k0JV]?]B1c4Z;`_AlR0
-IVNB?jLGX[=DXOJMJ[A>4d2
+!s100 knW8QE50kD8C3h<V;WB[W2
+IWa`6[VMbA6l=1YS5nkR8>0
 R2
 R12
-w1762809521
+w1762870780
 8testbench.v
 Ftestbench.v
 L0 3
@@ -132,14 +152,14 @@ R10
 vthird_counter
 R11
 !i10b 1
-!s100 9<?<ATlK;lFZz[ZCTflcR2
-I:1AHY;9IC5f_kS8FQH4J]2
+!s100 NA?lJ7K>bGfcUSKDImWIf0
+I=WA]VFQdJ[Qfm=CKBPm^50
 R2
 R12
 R13
 R14
 R15
-L0 26
+L0 14
 R6
 r1
 !s85 0

@@ -4,7 +4,7 @@ module testbench ( );
 
 	parameter CLOCK_PERIOD = 10;
 
-    wire [9:0] LEDR;
+    wire [3:0] LEDR;
 	reg CLOCK_50;
 	wire t;
 	wire [7:0] index;
