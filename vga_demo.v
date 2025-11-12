@@ -79,7 +79,13 @@ module vga_demo(CLOCK_50, SW, KEY, LEDR, VGA_R, VGA_G, VGA_B,
                 if (req[3]) A_D = COLUMN4;          // see if tile 4 wants to be drawn
             end
             COLUMN1:
-            
+             if (!req[0]) A_D = IDLE;
+            COLUMN2:
+             if (!req[1]) A_D = IDLE;
+            COLUMN3:
+             if (!req[2]) A_D = IDLE;
+            COLUMN4:
+             if (!req[3]) A_D = IDLE;
             default:  Y_D = A;
         endcase
 
@@ -90,10 +96,10 @@ module vga_demo(CLOCK_50, SW, KEY, LEDR, VGA_R, VGA_G, VGA_B,
         gnt1 = 1'b0; gnt2 = 1'b0; MUX_write = 1'b0;
         MUX_x = O1_x; MUX_y = O1_y; MUX_color = O1_color;
         case (y_Q)
-            A:  ;
-            B:  begin gnt1 = 1'b1; MUX_write = O1_write; 
+            IDLE:  ;
+            COLUMN1:  begin gnt1 = 1'b1; MUX_write = O1_write; 
                       MUX_x = O1_x; MUX_y = O1_y; MUX_color = O1_color; end
-            C:  begin gnt2 = 1'b1; MUX_write = O2_write; 
+            COLUMN2:  begin gnt2 = 1'b1; MUX_write = O2_write; 
                       MUX_x = O2_x; MUX_y = O2_y; MUX_color = O2_color; end
         endcase
     end
