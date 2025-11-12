@@ -9,25 +9,105 @@ z2
 cModel Technology
 Z0 dC:/Users/harki/ece241/project/sim
 vled
-Z1 !s110 1762810845
+Z1 !s110 1762923056
 !i10b 1
-!s100 0ZImE?iU@@XY6?z3^NoKb0
-IV7MMT1GR[F2OQU`dI;Y4Y0
+!s100 40>XfP0]6@Nnb3b:KocLZ0
+IC0>zBVe^Ag:;D6Zl2zJl`2
 Z2 VDg1SIo80bB@j0V0VzS_@n1
 R0
-Z3 w1762810797
+Z3 w1762922401
 Z4 8../led.v
 Z5 F../led.v
-L0 1
+L0 2
 Z6 OV;L;10.5b;63
 r1
 !s85 0
 31
-Z7 !s108 1762810845.000000
-Z8 !s107 ../top.v|../led.v|
-Z9 !s90 ../led.v|../top.v|
+Z7 !s108 1762923056.000000
+Z8 !s107 ../vga_demo.v|../top.v|../led.v|
+Z9 !s90 ../led.v|../top.v|../vga_demo.v|
 !i113 1
 Z10 tCvgOpt 0
+vobject
+R1
+!i10b 1
+!s100 =lbm]EW@Sd:@_Rh__29[f3
+I_zDZBb`Cj1`P]A9?g9::]0
+R2
+R0
+Z11 w1762923053
+Z12 8../vga_demo.v
+Z13 F../vga_demo.v
+L0 289
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 1
+R10
+vregn
+R1
+!i10b 1
+!s100 PX_ik6gd:Y6NmnGzBK7AR2
+I]@:jd8hPJ]iD6NMQe07B11
+R2
+R0
+R11
+R12
+R13
+L0 231
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 1
+R10
+vshift_register
+R1
+!i10b 1
+!s100 8PZLAFe9Pm5Hi4?WNUZlT0
+ISRP`6D1<JLCk?VSjiAR]M3
+R2
+R0
+R3
+R4
+R5
+L0 35
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 1
+R10
+vsync
+R1
+!i10b 1
+!s100 [Cl1n0L;[N_@ioHDHcPM91
+IX1oZ0Z_Xo]3IDjEKE9d4<1
+R2
+R0
+R11
+R12
+R13
+L0 212
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 1
+R10
 vtb
 R1
 !i10b 1
@@ -51,14 +131,14 @@ R10
 vthird_counter
 R1
 !i10b 1
-!s100 D>DKE;7FIUPXH>5fKcUP[0
-Il6i1jUn5bFR77Ba5VbbRL2
+!s100 3WMl9h5doJ_o30ZXCoK=O1
+IaA<eCVhHX3kZIdmjz4]Ge1
 R2
 R0
 R3
 R4
 R5
-L0 26
+L0 14
 R6
 r1
 !s85 0
@@ -68,6 +148,27 @@ R8
 R9
 !i113 1
 R10
+vToggleFF
+R1
+!i10b 1
+!s100 [Eg>DCSOzm0h]0iDbVzBT3
+IX39j[=OjHI:`F<9d<fc1o1
+R2
+R0
+R11
+R12
+R13
+L0 245
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 1
+R10
+n@toggle@f@f
 vtop
 R1
 !i10b 1
@@ -75,10 +176,72 @@ R1
 IlM5CQ:Sf<0ABPkKfAX1kk3
 R2
 R0
-w1762809516
+w1762834879
 8../top.v
 F../top.v
 L0 4
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 1
+R10
+vUp_count
+R1
+!i10b 1
+!s100 zlBW5F:B2JjY[UD68d13_2
+IHlhX_i?jOUg_i8EJkbYl21
+R2
+R0
+R11
+R12
+R13
+L0 276
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 1
+R10
+n@up_count
+vUpDn_count
+R1
+!i10b 1
+!s100 []=hS:m3gB4<aJL02LCN`0
+Id>BCV>XXaem2BmQc4>_b12
+R2
+R0
+R11
+R12
+R13
+L0 257
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 1
+R10
+n@up@dn_count
+vvga_demo
+R1
+!i10b 1
+!s100 FXXd6?kg<>kXbgg6D6j@g2
+Il8nf:fSZ8i=PA0>GQ=lL43
+R2
+R0
+R11
+R12
+R13
+L0 16
 R6
 r1
 !s85 0

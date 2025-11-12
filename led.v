@@ -13,14 +13,14 @@ endmodule
 
 module third_counter (CLOCK_50, t);
     input CLOCK_50;
-    reg [1:0] little = 2'd0;
+    reg [24:0] little = 25'd0;
     output reg t = 1'b0;
     
     always @ (posedge CLOCK_50)
     begin
-        if (little == 2'd3)
+        if (little == 24'd16666666)
             begin
-                little <=2'd0;
+                little <=24'd0;
                 t <= 1'b1;
             end
         else
