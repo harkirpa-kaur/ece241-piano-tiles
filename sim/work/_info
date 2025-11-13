@@ -9,7 +9,7 @@ z2
 cModel Technology
 Z0 dC:/Users/harki/ece241/project/sim
 vled
-Z1 !s110 1762923056
+Z1 !s110 1762923330
 !i10b 1
 !s100 40>XfP0]6@Nnb3b:KocLZ0
 IC0>zBVe^Ag:;D6Zl2zJl`2
@@ -23,7 +23,7 @@ Z6 OV;L;10.5b;63
 r1
 !s85 0
 31
-Z7 !s108 1762923056.000000
+Z7 !s108 1762923330.000000
 Z8 !s107 ../vga_demo.v|../top.v|../led.v|
 Z9 !s90 ../led.v|../top.v|../vga_demo.v|
 !i113 1
@@ -176,7 +176,7 @@ R1
 IlM5CQ:Sf<0ABPkKfAX1kk3
 R2
 R0
-w1762834879
+w1762923176
 8../top.v
 F../top.v
 L0 4

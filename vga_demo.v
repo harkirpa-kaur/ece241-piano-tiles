@@ -65,7 +65,7 @@ module vga_demo(CLOCK_50, SW, KEY, LEDR, VGA_R, VGA_G, VGA_B,
     localparam integer XW = (RESOLUTION == "320x240") ? 320 : 
                             (RESOLUTION == "640x480") ? 640 : 160;
     localparam integer LANE_W = XW/4;
-    localparam [nX-1:0] L0_X = {nX{1'b0}};               // 0
+    localparam [nX-1:0] L0_X = {nX{1'b0}};
     localparam [nX-1:0] L1_X = LANE_W[nX-1:0];
     localparam [nX-1:0] L2_X = (2 * LANE_W) & {nX{1'b1}};
     localparam [nX-1:0] L3_X = (3 * LANE_W) & {nX{1'b1}};
