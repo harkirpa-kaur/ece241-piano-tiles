@@ -50,13 +50,13 @@ R9
 R10
 ndff@a
 vled
-Z11 !s110 1762922961
+Z11 !s110 1763062243
 !i10b 1
 !s100 40>XfP0]6@Nnb3b:KocLZ0
 IC0>zBVe^Ag:;D6Zl2zJl`2
 R2
 Z12 dC:/Users/harki/ece241/project/ModelSim
-Z13 w1762922401
+Z13 w1763062236
 Z14 8../led.v
 Z15 F../led.v
 L0 2
@@ -64,7 +64,7 @@ R6
 r1
 !s85 0
 31
-Z16 !s108 1762922961.000000
+Z16 !s108 1763062243.000000
 Z17 !s107 ../led.v|
 Z18 !s90 -reportprogress|300|../led.v|
 !i113 1
@@ -152,8 +152,8 @@ R10
 vthird_counter
 R11
 !i10b 1
-!s100 3WMl9h5doJ_o30ZXCoK=O1
-IaA<eCVhHX3kZIdmjz4]Ge1
+!s100 NA?lJ7K>bGfcUSKDImWIf0
+I=WA]VFQdJ[Qfm=CKBPm^50
 R2
 R12
 R13

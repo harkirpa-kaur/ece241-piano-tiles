@@ -1,5 +1,11 @@
 module test (KEY);
     input KEY[1:1];
+    wire t, sr;
+
+    third_counter (CLOCK_50, t);
+    shift_register (CLOCK_50, t, sr);
+
+    draw_tile (sr, res, tile_x, tile_y, CLOCK_50, enable_draw, reset, done_spawn, VGA_X, VGA_Y, VGA_COLOR)
 endmodule
 
 module fsm(CLOCK_50, state, start);
@@ -116,38 +122,91 @@ module fsm(CLOCK_50, state, start);
 
 endmodule
 
-module draw_tile (sr, res, tile_x, tile_y, CLOCK_50, reset, done_spawn);
+module state_actions (CLOCK_50, state)
+    input CLOCK_50;
+    input [6:0] state;
+
+    always @ (CLOCK_50)
+    begin
+
+    end
+
+endmodule
+
+module draw_tile (sr, res, tile_x, tile_y, CLOCK_50, enable_draw, enable_erase, enable_current, reset, done_spawn, VGA_X, VGA_Y, VGA_COLOR, enable_next);
     input sr;
     input res;
-    input reset;
+    //gives index of tile (4x4)
     input [1:0] tile_x;
     input [1:0] tile_y;
     input CLOCK_50;
-    output reg done_spawn;
+    //spawn00
+    input reg enable_draw;
+    input enable_erase;
+    input enable_current;
+    input reset;
 
-    reg [7:0] x_pixel = 8'd0;
-    reg [6:0] y_pixel = 7'd0;
+    output reg done_spawn;
+    output reg [7:0] VGA_X = 8'd0;
+    output reg [6:0] VGA_Y = 7'd0;
+    output reg VGA_COLOR;
+    output reg enable_next;
+
+    //picks colour when resetting, erasing, or drawing
+    always @ (posedge CLOCK_50)
+    begin
+        if (!reset || enable_erase)
+            VGA_COLOR <= 3'b010;
+        else
+            VGA_COLOR <= 3'b000;
+    end
+
+    //cycles through pixels of a 160x120 tile
+    always @ (posedge CLOCK_50)
+    begin
+        if (reset)
+        begin
+            VGA_X <= 8'd0;
+            VGA_Y <= 7'd0;
+            done_spawn <= 1'b0;
+        end
+        else if (enable_draw)
+        begin
+            done_spawn <= 1'b0;
+            if (VGA_X == 8'd159)
+            begin
+                VGA_X <= 8'd0;
+                if (VGA_Y == 7'd119)
+                begin
+                    VGA_Y <= 7'd0;
+                    done_spawn <= 1'b1;
+                end
+                else 
+                begin
+                    VGA_Y <= VGA_Y + 1;
+                end
+            end
+            else
+            begin
+                VGA_X <= VGA_X + 1;
+            end
+        end
+    end
 
     always @ (posedge CLOCK_50)
     begin
         if (!reset)
         begin
-            
+            done_spawn <= 1'b0;
+            enable_next <= 1'b0;
+            enable_draw <= 1'b0;
         end
-        else if (sr)
+		else if (enable_current)
+			enable_draw <= 1'b1;
+        else if (!enable_current && enable_draw)
         begin
-            if (x_pixel < 8'd160)
-            begin
-                VGA_COLOUR <= 3'b111;
-                x_pixel <= x_pixel + 1'b1;
-            end
-=            else
-                x_pixel <= 8'd0;
-            if (y_pixel < 7'd120)
-=                y_pixel <= y_pixel + 1'b1;
-            else
-                y_pixel <= 7'd0;
-            
+			enable_draw <= 1'b0;
+			done_spawn <= 1'b1;
         end
     end
 
