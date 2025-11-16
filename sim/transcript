@@ -1,12 +1,16 @@
 # vsim -pli "C:\Users\harki\Downloads\DESim\modelsim.vpi" -Lf 220model -Lf altera_mf_ver -Lf verilog -t 1ns -c -do "run -all" tb 
-# Start time: 23:55:32 on Nov 11,2025
+# Start time: 16:27:53 on Nov 16,2025
 # Loading work.tb
 # Loading work.top
 # Loading work.led
 # Loading work.third_counter
 # Loading work.shift_register
-# ** Warning: (vsim-3015) ../top.v(21): [PCDPC] - Port size (4) does not match connection size (10) for port 'LEDR'. The port definition is at: ../led.v(2).
-#    Time: 0 ns  Iteration: 0  Instance: /tb/T1/U1 File: ../led.v
+# Loading work.shift_register_delay
+# Loading work.test
+# Loading work.spawn_tile
+# Loading work.shift_tile
+# Loading work.vga_adapter
+# Loading work.vga_convert
 # Loading C:\Users\harki\Downloads\DESim\modelsim.vpi
 # run -all
 # Time scaling: 0.0001 sim seconds per real-time second
@@ -14,8 +18,8 @@
 # 
 # Connected to server!
 # ** Note: $finish    : ../tb/tb.v(26)
-#    Time: 141590 us  Iteration: 1  Instance: /tb
+#    Time: 14490 us  Iteration: 1  Instance: /tb
 # 
 # Quitting...
-# End time: 23:56:02 on Nov 11,2025, Elapsed time: 0:00:30
-# Errors: 0, Warnings: 1
+# End time: 16:28:00 on Nov 16,2025, Elapsed time: 0:00:07
+# Errors: 0, Warnings: 0

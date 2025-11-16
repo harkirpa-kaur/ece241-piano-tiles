@@ -9,15 +9,17 @@ module led (CLOCK_50, KEY, LEDR, t, index, sr, srd);
     wire reset = KEY[0];
 
     assign LEDR[3:0] = sr;
+
     
-    third_counter tc (CLOCK_50, t);
-    shift_register sr (CLOCK_50, t, sr);
-    shift_register_delay srd (CLOCK_50, t, srd);
+    third_counter tc (CLOCK_50, reset, t);
+    shift_register shr (CLOCK_50, reset, t, sr);
+    shift_register_delay shrd (CLOCK_50, reset, t, srd);
     
 endmodule
 
-module third_counter (CLOCK_50, t);
+module third_counter (CLOCK_50, reset, t);
     input CLOCK_50;
+    input reset;
     reg [1:0] little = 2'd0;
     output reg t = 1'b0;
     
@@ -28,7 +30,6 @@ module third_counter (CLOCK_50, t);
                 little <= 2'd0;
                 t <= 1'b0;
             end
-        else
         else if (little == 2'd3)
             begin
                 little <=2'd0;
@@ -43,8 +44,8 @@ module third_counter (CLOCK_50, t);
     
 endmodule
 
-module shift_register_delay (CLOCK_50, enable, b);
-    input CLOCK_50, enable;
+module shift_register_delay (CLOCK_50, reset, enable, b);
+    input CLOCK_50, enable, reset;
     output reg [3:0] b;
 
     reg delay = 1'b0;
@@ -71,20 +72,20 @@ module shift_register_delay (CLOCK_50, enable, b);
                 col4 <= col4_o;
                 b    <= 4'b0;
             end
-        else
-        else if (enable) begin
-            b    <= {col1[72], col2[72], col3[72], col4[72]};
-            col1 <= {col1[71:0], 1'b0};
-            col2 <= {col2[71:0], 1'b0};
-            col3 <= {col3[71:0], 1'b0};
-            col4 <= {col4[71:0], 1'b0};
-        end
+        else if (enable) 
+            begin
+                b    <= {col1[72], col2[72], col3[72], col4[72]};
+                col1 <= {col1[71:0], 1'b0};
+                col2 <= {col2[71:0], 1'b0};
+                col3 <= {col3[71:0], 1'b0};
+                col4 <= {col4[71:0], 1'b0};
+            end
     end
 
 endmodule
 
-module shift_register (CLOCK_50, enable, b);
-    input CLOCK_50, enable;
+module shift_register (CLOCK_50, reset, enable, b);
+    input CLOCK_50, enable, reset;
     output reg [3:0] b;
 
     parameter [71:0] col1_o = {1'b0,1'b0,1'b0,1'b1,1'b1,1'b0,1'b0,1'b1,1'b0,1'b1,1'b1,1'b1,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b1,1'b0,1'b0,1'b0,1'b1,1'b0,1'b0,1'b0,1'b0,1'b0,1'b1,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b1,1'b1,1'b1,1'b1,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b1,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b1,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0};
