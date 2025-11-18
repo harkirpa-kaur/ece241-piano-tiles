@@ -1,12 +1,14 @@
 # vsim -pli "C:\Users\harki\Downloads\DESim\modelsim.vpi" -Lf 220model -Lf altera_mf_ver -Lf verilog -t 1ns -c -do "run -all" tb 
-# Start time: 16:27:53 on Nov 16,2025
+# Start time: 00:05:46 on Nov 18,2025
 # Loading work.tb
 # Loading work.top
+# Loading work.test
 # Loading work.led
 # Loading work.third_counter
 # Loading work.shift_register
-# Loading work.shift_register_delay
-# Loading work.test
+# Loading work.shift_register_delay1
+# Loading work.shift_register_delay2
+# Loading work.shift_register_delay3
 # Loading work.spawn_tile
 # Loading work.shift_tile
 # Loading work.vga_adapter
@@ -17,9 +19,3 @@
 # 
 # 
 # Connected to server!
-# ** Note: $finish    : ../tb/tb.v(26)
-#    Time: 14490 us  Iteration: 1  Instance: /tb
-# 
-# Quitting...
-# End time: 16:28:00 on Nov 16,2025, Elapsed time: 0:00:07
-# Errors: 0, Warnings: 0

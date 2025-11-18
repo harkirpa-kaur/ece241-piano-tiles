@@ -9,36 +9,36 @@ z2
 cModel Technology
 Z0 dC:/Users/harki/ece241/project/sim
 vled
-Z1 !s110 1763328471
+Z1 !s110 1763442344
 !i10b 1
-!s100 @13A8oaz=>ZH>R6UZG>I<2
-I[nB8d]261Z?z4?<b>Zd1h3
+!s100 5BD[kL3Xb22`OP1G3S7j:0
+IjEnO5el:<c@8:Ib7SMNS73
 Z2 VDg1SIo80bB@j0V0VzS_@n1
 R0
-Z3 w1763327994
-Z4 8../led.v
-Z5 F../led.v
+Z3 w1763441976
+Z4 8..\led.v
+Z5 F..\led.v
 L0 2
 Z6 OV;L;10.5b;63
 r1
 !s85 0
 31
-Z7 !s108 1763328471.000000
-Z8 !s107 ../vga_pll.v|../vga_controller.v|../vga_address_translator.v|../vga_adapter.v|../top.v|../test.v|../led.v|
+Z7 !s108 1763442344.000000
+Z8 !s107 ..\led.v|../vga_pll.v|../vga_controller.v|../vga_address_translator.v|../vga_adapter.v|../top.v|../test.v|../led.v|
 Z9 !s90 ../led.v|../test.v|../top.v|../vga_adapter.v|../vga_address_translator.v|../vga_controller.v|../vga_pll.v|
 !i113 1
 Z10 tCvgOpt 0
 vshift_register
 R1
 !i10b 1
-!s100 PmNWlXdJ>[T2>k4koXa:92
-I3ZGfPk`PeL5`C@Z5nb]g21
+!s100 MiPRCkdBV]6i1NRE08c3L1
+I02^2kKfG]10Vb9><Pe4^[0
 R2
 R0
 R3
 R4
 R5
-L0 87
+L0 165
 R6
 r1
 !s85 0
@@ -48,17 +48,57 @@ R8
 R9
 !i113 1
 R10
-vshift_register_delay
+vshift_register_delay1
 R1
 !i10b 1
-!s100 hafQbnfQ<UGP8aN@IlS:b0
-IC[5=a6ibAGjFNk=SCLE^V3
+!s100 ]aRHNn9kN7SnKej_bQM_E3
+IMja^1^>bIlWbeCT<N@Onb0
 R2
 R0
 R3
 R4
 R5
-L0 47
+L0 49
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 1
+R10
+vshift_register_delay2
+R1
+!i10b 1
+!s100 ZXMNMCcX^262]N7Gib5Te2
+Im10LI1bP;DTF[2B1kM[Oz2
+R2
+R0
+R3
+R4
+R5
+L0 89
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 1
+R10
+vshift_register_delay3
+R1
+!i10b 1
+!s100 LJ`G5<bcD2DT46<So4hNB0
+IE2Z=TcQ:2>D9jl1PUChg73
+R2
+R0
+R3
+R4
+R5
+L0 127
 R6
 r1
 !s85 0
@@ -71,14 +111,14 @@ R10
 vshift_tile
 R1
 !i10b 1
-!s100 eEVE1U4Dlce9zU5P[jEzU3
-I1>T[fL:CNFBCO7Ool`9`c2
+!s100 5IVN8kb2ZMCKkUU]PJTNd2
+IzjM>aEk7oP>KAC`joghZU1
 R2
 R0
-Z11 w1763328468
+Z11 w1763442341
 Z12 8../test.v
 Z13 F../test.v
-L0 131
+L0 295
 R6
 r1
 !s85 0
@@ -91,14 +131,14 @@ R10
 vspawn_tile
 R1
 !i10b 1
-!s100 6KY<]B9gbiQO<40_>A>S30
-Igz:U5MJd>Nz1VFCLF>BHO1
+!s100 4=V7m?8>><L3VRWFgCi7R3
+ITVf^[?GlGS7hQdXmO@VAY0
 R2
 R0
 R11
 R12
 R13
-L0 77
+L0 239
 R6
 r1
 !s85 0
@@ -111,11 +151,11 @@ R10
 vtb
 R1
 !i10b 1
-!s100 k[DeXhnUC>NCH1Oa2l<Fg0
-IY;2_0DaWbDi@G7H[CX@M]1
+!s100 c5zgGX_OWDMi2SBCL9HJN3
+IUPRDR>GC<>j1LV69g8V;X1
 R2
 R0
-w1762801295
+w1763409238
 8../tb/tb.v
 F../tb/tb.v
 L0 9
@@ -131,14 +171,14 @@ R10
 vtest
 R1
 !i10b 1
-!s100 Z6gRSQI4`Xj5eQzYWJ[5H2
-I7^><22]9=f:3A[kYB:j1G2
+!s100 zD0Bofg^7M<5WJDH:jTH`0
+I:3dZ@Di5YhjV8S7QYDF?L3
 R2
 R0
 R11
 R12
 R13
-L0 1
+L0 3
 R6
 r1
 !s85 0
@@ -151,14 +191,14 @@ R10
 vthird_counter
 R1
 !i10b 1
-!s100 z9;7N2?eXAh[cU]?OGUM>1
-IA=fEONa:bz;CfVmO^?R_Z0
+!s100 il8S==li_VKl8_806DUm31
+I<6mO47L1b=nGHJcgLEBW_2
 R2
 R0
 R3
 R4
 R5
-L0 20
+L0 22
 R6
 r1
 !s85 0
@@ -171,11 +211,11 @@ R10
 vtop
 R1
 !i10b 1
-!s100 CaEKCH2bOYEE8AXDAU<M92
-Ih?EE`QMG`NYSaglG3U:2k2
+!s100 >kn1_[L?n@@RKn===X2mQ1
+IJVBB_IKdIQzg>fL_lGXO]3
 R2
 R0
-w1763328096
+w1763441572
 8../top.v
 F../top.v
 L0 4
