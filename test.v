@@ -1,8 +1,6 @@
 `include "led.v"
 
 module test (CLOCK_50, KEY, LEDR, VGA_X, VGA_Y, VGA_COLOR, done_spawn, t, sr, srd1, srd2, srd3);
-	input wire CLOCK_50;
-	input wire KEY;
 	input CLOCK_50;
     input KEY;
 	wire reset = KEY;
@@ -14,10 +12,10 @@ module test (CLOCK_50, KEY, LEDR, VGA_X, VGA_Y, VGA_COLOR, done_spawn, t, sr, sr
 	wire [9:0] shift_VGA_X1, shift_VGA_X2, shift_VGA_X3;
 	wire [8:0] spawn_VGA_Y;
 	wire [8:0] shift_VGA_Y1, shift_VGA_Y2, shift_VGA_Y3;
-	wire [2:0] spawn_VGA_COLOR, shift_VGA_COLOR1, shift_VGA_COLOR2, shift_VGA_COLOR3;
+	wire [8:0] spawn_VGA_COLOR, shift_VGA_COLOR1, shift_VGA_COLOR2, shift_VGA_COLOR3;
 	output reg [9:0] VGA_X;
 	output reg [8:0] VGA_Y;
-	output reg [2:0] VGA_COLOR;
+	output reg [8:0] VGA_COLOR;
 	output [3:0] LEDR;
 
 	reg [2:0] spawn_count, shift_count1, shift_count2, shift_count3;
@@ -247,7 +245,7 @@ module spawn_tile (shift_reg, tile_x, tile_y, CLOCK_50, reset, done_spawn, VGA_X
     output reg done_spawn;
     output reg [9:0] VGA_X = 10'd0;
     output reg [8:0] VGA_Y = 9'd0;
-    output reg [2:0] VGA_COLOR;
+    output reg [8:0] VGA_COLOR;
 
 	//wire [3:0] test = 4'b1010;
 	wire sr = shift_reg[tile_x];
@@ -259,18 +257,18 @@ module spawn_tile (shift_reg, tile_x, tile_y, CLOCK_50, reset, done_spawn, VGA_X
         begin
             VGA_X <= tile_x * 10'd160;
             VGA_Y <= tile_y * 9'd120;
-			VGA_COLOR <= 3'b010;
+			VGA_COLOR <= 9'h5a;
             done_spawn <= 2'b0;
         end
         else
         begin
 			done_spawn <= 1'b0;
 			if (sr == 1'b1)
-				VGA_COLOR <= 3'b111; //white
+				VGA_COLOR <= 9'hffffff; //white
 			else if (sr == 1'b0)
-				VGA_COLOR <= 3'b010; //green
+				VGA_COLOR <= 9'h5a; //green
 
-            if (VGA_X >= (tile_x * 10'd160) + 10'd160)
+            if (VGA_X >= (tile_x * 10'd160) + 10'd159)
 				begin
 					VGA_X <= tile_x * 10'd160;
 					if (VGA_Y == 9'd120)
@@ -306,7 +304,7 @@ module shift_tile (reset, CLOCK_50, tile_x, tile_y, shift_reg_delay, done_shift,
 	output reg done_shift;
 	output reg [9:0] VGA_X;
 	output reg [8:0] VGA_Y;
-	output reg [2:0] VGA_COLOR;	
+	output reg [8:0] VGA_COLOR;	
 
 	always @ (posedge CLOCK_50)
     begin
@@ -314,16 +312,16 @@ module shift_tile (reset, CLOCK_50, tile_x, tile_y, shift_reg_delay, done_shift,
         begin
             VGA_X <= tile_x * 10'd160;
             VGA_Y <= tile_y * 9'd120;
-			VGA_COLOR <= 3'b010;
+				VGA_COLOR <= 9'h5a;
             done_shift <= 1'b0;
         end
         else
         begin
 			done_shift <= 1'b0;
 			if (srd == 1'b1)
-				VGA_COLOR <= 3'b111; //white
+				VGA_COLOR <= 9'hffffff; //white
 			else if (srd == 1'b0)
-				VGA_COLOR <= 3'b010; //green
+				VGA_COLOR <= 9'h5a; //green
 
 			if (!initialized)
 			begin
@@ -332,10 +330,10 @@ module shift_tile (reset, CLOCK_50, tile_x, tile_y, shift_reg_delay, done_shift,
 				initialized <= 1'b1;
 			end
 
-            if (VGA_X >= (tile_x * 10'd160) + 10'd160 && initialized)
+            if (VGA_X >= (tile_x * 10'd160) + 10'd159 && initialized)
             begin
                 VGA_X <= tile_x * 10'd160;
-                if (VGA_Y == (tile_y * 9'd120) + 9'd120)
+                if (VGA_Y >= (tile_y * 9'd120) + 9'd119)
                 begin
                     VGA_Y <= tile_y * 9'd120;
                     done_shift <= 1'b1;
