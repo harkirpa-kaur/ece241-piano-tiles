@@ -9,7 +9,7 @@ z2
 cModel Technology
 Z0 dC:/Users/harki/ece241/project/sim
 vaudio_counter
-Z1 !s110 1763571721
+Z1 !s110 1763573259
 !i10b 1
 !s100 ;?6?2YVFg1ZD[OEVfnJg>3
 INYQD=8aNSl0P5T3NH?e`T3
@@ -23,7 +23,7 @@ Z3 OV;L;10.5b;63
 r1
 !s85 0
 31
-Z4 !s108 1763571721.000000
+Z4 !s108 1763573259.000000
 Z5 !s107 ..\vga_adapter_desim.v|../vga_pll.v|../vga_controller.v|../vga_address_translator.v|../vga_adapter_desim.v|../vga_adapter.v|../top.v|../test.v|../led.v|../audio_counter.v|
 Z6 !s90 ../audio_counter.v|../led.v|../test.v|../top.v|../vga_adapter.v|../vga_adapter_desim.v|../vga_address_translator.v|../vga_controller.v|../vga_pll.v|
 !i113 1
@@ -131,14 +131,14 @@ R7
 vshift_tile
 R1
 !i10b 1
-!s100 k3NWI?D8F>lDjTm8SX5VY2
-IJdaQJa=kOVhhcBGdXHQ8<1
+!s100 7@O>kDkgd;ZMFJ3G==WQo0
+IMYVfRWjA`?9m`O88I?A]z1
 R2
 R0
-Z11 w1763570191
+Z11 w1763573254
 Z12 8../test.v
 Z13 F../test.v
-L0 311
+L0 326
 R3
 r1
 !s85 0
@@ -151,14 +151,14 @@ R7
 vspawn_tile
 R1
 !i10b 1
-!s100 ]]70`M2=045H<hl=6id_73
-I103zASUZaJMa=aB1SZS;22
+!s100 4nYz2K4]f@cY]lJSdk>4[3
+I[L<S9m<]N<>2VZN51BLRN2
 R2
 R0
 R11
 R12
 R13
-L0 225
+L0 240
 R3
 r1
 !s85 0
@@ -169,7 +169,7 @@ R6
 !i113 1
 R7
 vtb
-!s110 1763571720
+R1
 !i10b 1
 !s100 c5zgGX_OWDMi2SBCL9HJN3
 IUPRDR>GC<>j1LV69g8V;X1
@@ -183,7 +183,7 @@ R3
 r1
 !s85 0
 31
-!s108 1763571720.000000
+R4
 !s107 ../tb/tb.v|
 !s90 ../tb/tb.v|
 !i113 1
@@ -191,8 +191,8 @@ R7
 vtest
 R1
 !i10b 1
-!s100 elcG23Yhz6B7VCilZIQlm3
-I@MFYO`l<A5<eG_DOS=JFM0
+!s100 n4Vo:>A>6;m2n5nm:bE6K1
+IjGL9:EIQfZMQUQzFQU=Uo1
 R2
 R0
 R11

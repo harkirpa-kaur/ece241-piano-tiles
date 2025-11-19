@@ -40,65 +40,80 @@ module test (CLOCK_50, KEY, LEDR, VGA_X, VGA_Y, VGA_COLOR, done_spawn, t, sr, sr
 	// FIX: Changed to synchronous reset for counters
 	always @ (posedge CLOCK_50)
 	begin
-		if (!reset)
-			spawn_count <= 3'd0;
-		else if (done_spawn && spawn_count < 3'd4)
-			spawn_count <= spawn_count + 1;
-		else if (done_spawn)
-			spawn_count <= 3'd0;
+		if (state == SPAWN)
+		begin
+			if (!reset)
+				spawn_count <= 3'd0;
+			else if (done_spawn && spawn_count < 3'd4)
+				spawn_count <= spawn_count + 1;
+			else if (done_spawn)
+				spawn_count <= 3'd0;
+		end
 	end
 
 	always @ (posedge CLOCK_50)
 	begin
-		if (!reset)
-			shift_count1 <= 3'd0;
-		else if (done_shift1 && shift_count1 < 3'd4)
-			shift_count1 <= shift_count1 + 1;
-		else if (done_shift1)
-			shift_count1 <= 3'd0;
+		if (state == SHIFT1)
+		begin
+			if (!reset)
+				shift_count1 <= 3'd0;
+			else if (done_shift1 && shift_count1 < 3'd4)
+				shift_count1 <= shift_count1 + 1;
+			else if (done_shift1)
+				shift_count1 <= 3'd0;
+		end
 	end
 
 	always @ (posedge CLOCK_50)
 	begin
-		if (!reset)
-			shift_count2 <= 3'd0;
-		else if (done_shift2 && shift_count2 < 3'd4)
-			shift_count2 <= shift_count2 + 1;
-		else if (done_shift2)
-			shift_count2 <= 3'd0;
+		if (state == SHIFT2)
+		begin
+			if (!reset)
+				shift_count2 <= 3'd0;
+			else if (done_shift2 && shift_count2 < 3'd4)
+				shift_count2 <= shift_count2 + 1;
+			else if (done_shift2)
+				shift_count2 <= 3'd0;
+		end
 	end
 
 	always @ (posedge CLOCK_50)
 	begin
-		if (!reset)
-			shift_count3 <= 3'd0;
-		else if (done_shift3 && shift_count3 < 3'd4)
-			shift_count3 <= shift_count3 + 1;
-		else if (done_shift3)
-			shift_count3 <= 3'd0;
+		if (state == SHIFT3)
+		begin
+			if (!reset)
+				shift_count3 <= 3'd0;
+			else if (done_shift3 && shift_count3 < 3'd4)
+				shift_count3 <= shift_count3 + 1;
+			else if (done_shift3)
+				shift_count3 <= 3'd0;
+		end
 	end
 
 	//counter for spawning tiles over the columns
 	always @ (posedge CLOCK_50)
 	begin
-		if (!reset)
+		if (state == SPAWN)
 		begin
-			spawn_tile_x <= 2'b00;
-		end
-		else if (spawn_tile_x < 2'd3 && done_spawn)
-			begin
-				spawn_tile_x <= spawn_tile_x + 1;
-			end
-		else if (done_spawn)
+			if (!reset)
 			begin
 				spawn_tile_x <= 2'b00;
 			end
+			else if (spawn_tile_x < 2'd3 && done_spawn)
+				begin
+					spawn_tile_x <= spawn_tile_x + 1;
+				end
+			else if (done_spawn)
+				begin
+					spawn_tile_x <= 2'b00;
+				end
+		end
 	end
 
 	// counter for shifting tiles over the columns
 	always @ (posedge CLOCK_50)
 	begin
-		if (!reset)
+		if (!reset && state != SPAWN && state != WAIT)
 		begin
 			shift_tile_x1 <= 2'b00;
 			shift_tile_x2 <= 2'b00;
@@ -282,7 +297,7 @@ module spawn_tile (shift_reg, enable_spawn, tile_x, tile_y, CLOCK_50, reset, don
 				if (latched_color == 1'b1)
 					VGA_COLOR <= 9'h1ff; //white
 				else
-					VGA_COLOR <= 9'h0a0; //green
+					VGA_COLOR <= 9'h5a; //green
 
 				// Increment pixel position
 				if (pixel_x >= 6'd39)
@@ -369,7 +384,7 @@ module shift_tile (reset, CLOCK_50, shift_enable, tile_x, tile_y, shift_reg_dela
 				if (latched_color == 1'b1)
 					VGA_COLOR <= 9'h1ff; //white
 				else
-					VGA_COLOR <= 9'h0a0; //green
+					VGA_COLOR <= 9'h5a; //green
 
 				if (VGA_X >= start_x + 10'd39 && initialized)
 				begin
