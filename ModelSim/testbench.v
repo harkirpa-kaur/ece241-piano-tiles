@@ -48,18 +48,18 @@ module testbench ( );
     //     .VGA_CLK()
     // );
 
-    // vga_adapter VGA_DESIM (
-    //     .resetn(KEY[0]),
-    //     .clock(CLOCK_50),
-    //     .color(VGA_COLOR),
-    //     .x(VGA_X), 
-    //     .y(VGA_Y), 
-    //     .write(t),
-    //     .VGA_X(VGA_X_OUT), 
-    //     .VGA_Y(VGA_Y_OUT), 
-    //     .VGA_COLOR(VGA_COLOR_OUT), 
-    //     .VGA_SYNC(),
-    //     .plot()
-    // );
+    vga_adapter_desim VGA_DESIM (
+        .resetn(KEY[0]),
+        .clock(CLOCK_50),
+        .color(VGA_COLOR),
+        .x(VGA_X), 
+        .y(VGA_Y), 
+        .write(t),
+        .VGA_X(VGA_X_OUT), 
+        .VGA_Y(VGA_Y_OUT), 
+        .VGA_COLOR(VGA_COLOR_OUT), 
+        .VGA_SYNC(),
+        .plot()
+    );
 
 endmodule

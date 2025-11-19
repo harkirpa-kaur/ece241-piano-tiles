@@ -1,4 +1,4 @@
-`include "led.v"
+// Fixed version - key changes marked with comments
 
 module test (CLOCK_50, KEY, LEDR, VGA_X, VGA_Y, VGA_COLOR, done_spawn, t, sr, srd1, srd2, srd3);
 	input CLOCK_50;
@@ -37,45 +37,44 @@ module test (CLOCK_50, KEY, LEDR, VGA_X, VGA_Y, VGA_COLOR, done_spawn, t, sr, sr
 			start <= 1'b1;
 	end
   
-	// counters for number of spawn and shift operations
-
-	always @ (posedge done_spawn)
+	// FIX: Changed to synchronous reset for counters
+	always @ (posedge CLOCK_50)
 	begin
 		if (!reset)
 			spawn_count <= 3'd0;
-		else if (spawn_count < 3'd4)
+		else if (done_spawn && spawn_count < 3'd4)
 			spawn_count <= spawn_count + 1;
-		else
+		else if (done_spawn)
 			spawn_count <= 3'd0;
 	end
 
-	always @ (posedge done_shift1)
+	always @ (posedge CLOCK_50)
 	begin
 		if (!reset)
 			shift_count1 <= 3'd0;
-		else if (shift_count1 < 3'd4)
+		else if (done_shift1 && shift_count1 < 3'd4)
 			shift_count1 <= shift_count1 + 1;
-		else
+		else if (done_shift1)
 			shift_count1 <= 3'd0;
 	end
 
-	always @ (posedge done_shift2)
+	always @ (posedge CLOCK_50)
 	begin
 		if (!reset)
 			shift_count2 <= 3'd0;
-		else if (shift_count2 < 3'd4)
+		else if (done_shift2 && shift_count2 < 3'd4)
 			shift_count2 <= shift_count2 + 1;
-		else
+		else if (done_shift2)
 			shift_count2 <= 3'd0;
 	end
 
-	always @ (posedge done_shift3)
+	always @ (posedge CLOCK_50)
 	begin
 		if (!reset)
 			shift_count3 <= 3'd0;
-		else if (shift_count3 < 3'd4)
+		else if (done_shift3 && shift_count3 < 3'd4)
 			shift_count3 <= shift_count3 + 1;
-		else
+		else if (done_shift3)
 			shift_count3 <= 3'd0;
 	end
 
@@ -170,136 +169,161 @@ module test (CLOCK_50, KEY, LEDR, VGA_X, VGA_Y, VGA_COLOR, done_spawn, t, sr, sr
 		end
 	end
 
-    spawn_tile dt (sr, spawn_tile_x, 2'd0, CLOCK_50, reset, done_spawn, spawn_VGA_X, spawn_VGA_Y, spawn_VGA_COLOR);
-	shift_tile st1 (reset, CLOCK_50, shift_tile_x1, 2'd1, srd1, done_shift1, shift_VGA_X1, shift_VGA_Y1, shift_VGA_COLOR1);
-	shift_tile st2 (reset, CLOCK_50, shift_tile_x2, 2'd2, srd2, done_shift2, shift_VGA_X2, shift_VGA_Y2, shift_VGA_COLOR2);
-	shift_tile st3 (reset, CLOCK_50, shift_tile_x3, 2'd3, srd3, done_shift3, shift_VGA_X3, shift_VGA_Y3, shift_VGA_COLOR3);
+    spawn_tile dt (sr, (state == SPAWN), spawn_tile_x, 2'd0, CLOCK_50, reset, done_spawn, spawn_VGA_X, spawn_VGA_Y, spawn_VGA_COLOR);
+	shift_tile st1 (reset, CLOCK_50, (state == SHIFT1), shift_tile_x1, 2'd1, srd1, done_shift1, shift_VGA_X1, shift_VGA_Y1, shift_VGA_COLOR1);
+	shift_tile st2 (reset, CLOCK_50, (state == SHIFT2), shift_tile_x2, 2'd2, srd2, done_shift2, shift_VGA_X2, shift_VGA_Y2, shift_VGA_COLOR2);
+	shift_tile st3 (reset, CLOCK_50, (state == SHIFT3), shift_tile_x3, 2'd3, srd3, done_shift3, shift_VGA_X3, shift_VGA_Y3, shift_VGA_COLOR3);
 
-	// state machine to control spawning and shifting
-
-
+	// FIX: Separated state transition and next state logic
 	always @ (posedge CLOCK_50)
 	begin
 		if (!reset)
 			state <= WAIT;
 		else
 			state <= next_state;
-			
+	end
+
+	// FIX: Combinational logic for next_state in separate block
+	always @ (*)
+	begin
 		case (state)
 			WAIT: begin
 				if (start)
-					next_state <= SPAWN;
+					next_state = SPAWN;
 				else
-					next_state <= WAIT;
+					next_state = WAIT;
 			end
 			SPAWN: begin
 				if (spawn_count >= 3'd4)
-				begin
-					next_state <= SHIFT1;
-					//done_spawn <= 1'b0;
-				end
+					next_state = SHIFT1;
 				else
-					next_state <= SPAWN;
+					next_state = SPAWN;
 			end
 			SHIFT1: begin
 				if (shift_count1 >= 3'd4)
-				begin
-					next_state <= SHIFT2;
-					//done_shift1 <= 1'b0;
-				end
+					next_state = SHIFT2;
 				else
-					next_state <= SHIFT1;
+					next_state = SHIFT1;
 			end
 			SHIFT2: begin
 				if (shift_count2 >= 3'd4)
-				begin
-					next_state <= SHIFT3;
-					//done_shift2 <= 1'b0;
-				end
+					next_state = SHIFT3;
 				else
-					next_state <= SHIFT2;
+					next_state = SHIFT2;
 			end
 			SHIFT3: begin
 				if (shift_count3 >= 3'd4)
-				begin
-					next_state <= SPAWN;
-					//done_shift3 <= 1'b0;
-				end
+					next_state = SPAWN;
 				else
-					next_state <= SHIFT3;
+					next_state = SHIFT3;
 			end
-			default: next_state <= WAIT;
+			default: next_state = WAIT;
 		endcase
 	end
-
 endmodule
 
-module spawn_tile (shift_reg, tile_x, tile_y, CLOCK_50, reset, done_spawn, VGA_X, VGA_Y, VGA_COLOR);
+module spawn_tile (shift_reg, enable_spawn, tile_x, tile_y, CLOCK_50, reset, done_spawn, VGA_X, VGA_Y, VGA_COLOR);
     input [3:0] shift_reg;
-    //gives index of tile (4x4)
     input [1:0] tile_x;
     input [1:0] tile_y;
     input CLOCK_50;
     input reset;
+	input enable_spawn;
 
     output reg done_spawn;
     output reg [9:0] VGA_X = 10'd0;
     output reg [8:0] VGA_Y = 9'd0;
     output reg [8:0] VGA_COLOR;
 
-	//wire [3:0] test = 4'b1010;
+	// FIX: Latch the color at the start of each tile
+	reg latched_color = 1'b0;
+	reg [1:0] current_tile_x = 2'd0;
+	reg [1:0] current_tile_y = 2'd0;
+	reg [5:0] pixel_x = 6'd0;  // 0-39
+	reg [4:0] pixel_y = 5'd0;  // 0-29
+	
 	wire sr = shift_reg[tile_x];
 
-    //cycles through pixels of a 160x120 tile
     always @ (posedge CLOCK_50)
     begin
-        if (!reset)
-        begin
-            VGA_X <= tile_x * 10'd160;
-            VGA_Y <= tile_y * 9'd120;
-			VGA_COLOR <= 9'h5a;
-            done_spawn <= 2'b0;
-        end
-        else
-        begin
-			done_spawn <= 1'b0;
-			if (sr == 1'b1)
-				VGA_COLOR <= 9'hffffff; //white
-			else if (sr == 1'b0)
-				VGA_COLOR <= 9'h5a; //green
-
-            if (VGA_X >= (tile_x * 10'd160) + 10'd159)
+		if (enable_spawn)
+		begin
+			if (!reset)
+			begin
+				current_tile_x <= 2'd0;
+				current_tile_y <= 2'd0;
+				pixel_x <= 6'd0;
+				pixel_y <= 5'd0;
+				VGA_X <= 10'd0;
+				VGA_Y <= 9'd0;
+				VGA_COLOR <= 9'h0a0;
+				latched_color <= 1'b0;
+				done_spawn <= 1'b0;
+			end
+			else
+			begin
+				done_spawn <= 1'b0;
+				
+				// Update tile position when tile_x changes or at start
+				if (tile_x != current_tile_x || tile_y != current_tile_y)
 				begin
-					VGA_X <= tile_x * 10'd160;
-					if (VGA_Y == 9'd120)
+					current_tile_x <= tile_x;
+					current_tile_y <= tile_y;
+					pixel_x <= 6'd0;
+					pixel_y <= 5'd0;
+					latched_color <= sr;  // Latch color for new tile
+				end
+				
+				// Calculate actual VGA coordinates
+				VGA_X <= (current_tile_x * 10'd40) + pixel_x;
+				VGA_Y <= (current_tile_y * 9'd30) + pixel_y;
+				
+				// Use latched color for entire tile
+				if (latched_color == 1'b1)
+					VGA_COLOR <= 9'h1ff; //white
+				else
+					VGA_COLOR <= 9'h0a0; //green
+
+				// Increment pixel position
+				if (pixel_x >= 6'd39)
+				begin
+					pixel_x <= 6'd0;
+					if (pixel_y >= 5'd29)
 					begin
-						VGA_Y <= 9'd0;
+						pixel_y <= 5'd0;
 						done_spawn <= 1'b1;
 					end
 					else 
 					begin
-						VGA_Y <= VGA_Y + 1;
+						pixel_y <= pixel_y + 1;
 					end
 				end
-            else
+				else
 				begin
-					VGA_X <= VGA_X + 1;
+					pixel_x <= pixel_x + 1;
 				end
-        end
+			end
+		end
     end
 
 endmodule
 
-module shift_tile (reset, CLOCK_50, tile_x, tile_y, shift_reg_delay, done_shift, VGA_X, VGA_Y, VGA_COLOR);
+module shift_tile (reset, CLOCK_50, shift_enable, tile_x, tile_y, shift_reg_delay, done_shift, VGA_X, VGA_Y, VGA_COLOR);
 	input CLOCK_50;
 	input reset;
 	input [1:0] tile_x;
 	input [1:0] tile_y;
 	input [3:0] shift_reg_delay;
+	input shift_enable;
 
 	wire srd = shift_reg_delay[tile_x];
 
 	reg initialized = 1'b0;
+	
+	// FIX: Latch the color at the start of each tile
+	reg latched_color;
+	reg [9:0] start_x;
+	reg [8:0] start_y;
 
 	output reg done_shift;
 	output reg [9:0] VGA_X;
@@ -308,46 +332,65 @@ module shift_tile (reset, CLOCK_50, tile_x, tile_y, shift_reg_delay, done_shift,
 
 	always @ (posedge CLOCK_50)
     begin
-        if (!reset)
-        begin
-            VGA_X <= tile_x * 10'd160;
-            VGA_Y <= tile_y * 9'd120;
-				VGA_COLOR <= 9'h5a;
-            done_shift <= 1'b0;
-        end
-        else
-        begin
-			done_shift <= 1'b0;
-			if (srd == 1'b1)
-				VGA_COLOR <= 9'hffffff; //white
-			else if (srd == 1'b0)
-				VGA_COLOR <= 9'h5a; //green
-
-			if (!initialized)
+		if (shift_enable)
+		begin
+			if (!reset)
 			begin
-				VGA_X <= tile_x * 10'd160;
-				VGA_Y <= tile_y * 9'd120;
-				initialized <= 1'b1;
+				VGA_X <= tile_x * 10'd40;
+				VGA_Y <= tile_y * 9'd30;
+				start_x <= tile_x * 10'd40;
+				start_y <= tile_y * 9'd30;
+				VGA_COLOR <= 9'h5a;
+				latched_color <= 1'b0;
+				initialized <= 1'b0;
+				done_shift <= 1'b0;
 			end
+			else
+			begin
+				done_shift <= 1'b0;
 
-            if (VGA_X >= (tile_x * 10'd160) + 10'd159 && initialized)
-            begin
-                VGA_X <= tile_x * 10'd160;
-                if (VGA_Y >= (tile_y * 9'd120) + 9'd119)
-                begin
-                    VGA_Y <= tile_y * 9'd120;
-                    done_shift <= 1'b1;
-                end
-                else 
-                begin
-                    VGA_Y <= VGA_Y + 1;
-                end
-            end
-            else if (initialized)
-            begin
-                VGA_X <= VGA_X + 1;
-            end
-        end
+				if (!initialized)
+				begin
+					VGA_X <= start_x;
+					VGA_Y <= start_y;
+					initialized <= 1'b1;
+					latched_color <= srd;  // FIX: Latch at initialization
+				end
+				else
+				begin
+					// FIX: Latch color only at the start of drawing a tile
+					if (VGA_X == start_x && VGA_Y == start_y)
+					begin
+						latched_color <= srd;
+					end
+				end
+				
+				// Use latched color for entire tile
+				if (latched_color == 1'b1)
+					VGA_COLOR <= 9'h1ff; //white
+				else
+					VGA_COLOR <= 9'h0a0; //green
+
+				if (VGA_X >= start_x + 10'd39 && initialized)
+				begin
+					VGA_X <= start_x;
+					if (VGA_Y >= start_y + 9'd29)
+					begin
+						VGA_Y <= start_y;
+						done_shift <= 1'b1;
+						initialized <= 1'b0;  // FIX: Reset for next tile
+					end
+					else 
+					begin
+						VGA_Y <= VGA_Y + 1;
+					end
+				end
+				else if (initialized)
+				begin
+					VGA_X <= VGA_X + 1;
+				end
+			end
+		end
     end
 
 endmodule

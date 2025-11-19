@@ -1,5 +1,5 @@
 # vsim -pli "C:\Users\harki\Downloads\DESim\modelsim.vpi" -Lf 220model -Lf altera_mf_ver -Lf verilog -t 1ns -c -do "run -all" tb 
-# Start time: 00:05:46 on Nov 18,2025
+# Start time: 12:02:04 on Nov 19,2025
 # Loading work.tb
 # Loading work.top
 # Loading work.test
@@ -11,8 +11,16 @@
 # Loading work.shift_register_delay3
 # Loading work.spawn_tile
 # Loading work.shift_tile
-# Loading work.vga_adapter
+# Loading work.vga_adapter_desim
 # Loading work.vga_convert
+# ** Warning: (vsim-3015) ../top.v(65): [PCDPC] - Port size (8) does not match connection size (10) for port 'x'. The port definition is at: ../vga_adapter_desim.v(17).
+#    Time: 0 ns  Iteration: 0  Instance: /tb/T1/VGA_DESIM File: ../vga_adapter_desim.v
+# ** Warning: (vsim-3015) ../top.v(65): [PCDPC] - Port size (7) does not match connection size (9) for port 'y'. The port definition is at: ../vga_adapter_desim.v(17).
+#    Time: 0 ns  Iteration: 0  Instance: /tb/T1/VGA_DESIM File: ../vga_adapter_desim.v
+# ** Warning: (vsim-3015) ../top.v(65): [PCDPC] - Port size (8) does not match connection size (10) for port 'VGA_X'. The port definition is at: ../vga_adapter_desim.v(18).
+#    Time: 0 ns  Iteration: 0  Instance: /tb/T1/VGA_DESIM File: ../vga_adapter_desim.v
+# ** Warning: (vsim-3015) ../top.v(65): [PCDPC] - Port size (7) does not match connection size (9) for port 'VGA_Y'. The port definition is at: ../vga_adapter_desim.v(19).
+#    Time: 0 ns  Iteration: 0  Instance: /tb/T1/VGA_DESIM File: ../vga_adapter_desim.v
 # Loading C:\Users\harki\Downloads\DESim\modelsim.vpi
 # run -all
 # Time scaling: 0.0001 sim seconds per real-time second
