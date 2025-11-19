@@ -7,6 +7,7 @@ vlib work;
 # compile the Verilog source code in the parent folder
 vlog ../led.v
 vlog ../test.v
+vlog ../vga_adapter_desim.v
 # compile the Verilog code of the testbench
 vlog *.v
 # start the Simulator, including some libraries that may be needed

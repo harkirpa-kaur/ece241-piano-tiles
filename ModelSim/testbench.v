@@ -19,7 +19,7 @@ module testbench ( );
 	wire [9:0] spawn_VGA_X;
 	wire [8:0] spawn_VGA_Y;
 
-	wire [3:0] sr, srd1, srd2, srd3;
+	wire [2:0] state;
 
 	initial begin
         CLOCK_50 <= 1'b0;
@@ -30,7 +30,7 @@ module testbench ( );
 	end
 
 	//led U1 (CLOCK_50, KEY[0], LEDR[3:0], t, index, sr, srd);
-    test U2 (CLOCK_50, KEY[0], LEDR[3:0], x, y, color, done_spawn, t, sr, srd1, srd2, srd3);
+    test U2 (CLOCK_50, KEY[0], LEDR[3:0], x, y, color, state, t);
     // vga_adapter VGA(
     //     .reset(KEY[0]),
     //     .clock(CLOCK_50),
@@ -48,18 +48,18 @@ module testbench ( );
     //     .VGA_CLK()
     // );
 
-    vga_adapter_desim VGA_DESIM (
-        .resetn(KEY[0]),
-        .clock(CLOCK_50),
-        .color(VGA_COLOR),
-        .x(VGA_X), 
-        .y(VGA_Y), 
-        .write(t),
-        .VGA_X(VGA_X_OUT), 
-        .VGA_Y(VGA_Y_OUT), 
-        .VGA_COLOR(VGA_COLOR_OUT), 
-        .VGA_SYNC(),
-        .plot()
-    );
+vga_adapter_desim VGA_DESIM (
+       .resetn(KEY[0]),
+       .clock(CLOCK_50),
+       .color(color),
+       .x(x), 
+       .y(y), 
+       .write(KEY[0]),
+       .VGA_X(VGA_X), 
+       .VGA_Y(VGA_Y), 
+       .VGA_COLOR(VGA_COLOR), 
+       .VGA_SYNC(),
+       .plot(plot)
+   );
 
 endmodule

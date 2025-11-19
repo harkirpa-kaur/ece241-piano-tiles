@@ -32,7 +32,7 @@ module third_counter (CLOCK_50, reset, t);
                 little <= 15'd0;
                 t <= 1'b0;
             end
-        else if (little == 15'd20_000)
+        else if (little == 15'd3)
             begin
                 little <= 15'd0;
                 t <= 1'b1;

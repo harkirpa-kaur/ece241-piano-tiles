@@ -1,12 +1,12 @@
 // Fixed version - key changes marked with comments
 
-module test (CLOCK_50, KEY, LEDR, VGA_X, VGA_Y, VGA_COLOR, done_spawn, t, sr, srd1, srd2, srd3);
+module test (CLOCK_50, KEY, LEDR, VGA_X, VGA_Y, VGA_COLOR, state, t);
 	input CLOCK_50;
     input KEY;
 	wire reset = KEY;
 
-	output [3:0] sr, srd1, srd2, srd3;
-	output wire done_spawn;
+	wire [3:0] sr, srd1, srd2, srd3;
+	wire done_spawn;
 	wire done_shift1, done_shift2, done_shift3;
 	wire [9:0] spawn_VGA_X;
 	wire [9:0] shift_VGA_X1, shift_VGA_X2, shift_VGA_X3;
@@ -20,10 +20,11 @@ module test (CLOCK_50, KEY, LEDR, VGA_X, VGA_Y, VGA_COLOR, done_spawn, t, sr, sr
 
 	reg [2:0] spawn_count, shift_count1, shift_count2, shift_count3;
 
-	output t;
+	output wire t;
 	reg start;
 	parameter SPAWN = 3'b000, SHIFT1 = 3'b001, SHIFT2 = 3'b010, SHIFT3 = 3'b011, WAIT = 3'b100;
-	reg [2:0] state = WAIT, next_state;
+	output reg [2:0] state = WAIT;
+	reg [2:0] next_state;
 
 	reg [1:0] spawn_tile_x = 2'd0, shift_tile_x1 = 2'd0, shift_tile_x2 = 2'd0, shift_tile_x3 = 2'd0;
 
@@ -184,10 +185,10 @@ module test (CLOCK_50, KEY, LEDR, VGA_X, VGA_Y, VGA_COLOR, done_spawn, t, sr, sr
 		end
 	end
 
-    spawn_tile dt (sr, (state == SPAWN), spawn_tile_x, 2'd0, CLOCK_50, reset, done_spawn, spawn_VGA_X, spawn_VGA_Y, spawn_VGA_COLOR);
-	shift_tile st1 (reset, CLOCK_50, (state == SHIFT1), shift_tile_x1, 2'd1, srd1, done_shift1, shift_VGA_X1, shift_VGA_Y1, shift_VGA_COLOR1);
-	shift_tile st2 (reset, CLOCK_50, (state == SHIFT2), shift_tile_x2, 2'd2, srd2, done_shift2, shift_VGA_X2, shift_VGA_Y2, shift_VGA_COLOR2);
-	shift_tile st3 (reset, CLOCK_50, (state == SHIFT3), shift_tile_x3, 2'd3, srd3, done_shift3, shift_VGA_X3, shift_VGA_Y3, shift_VGA_COLOR3);
+    spawn_tile dt (sr, spawn_tile_x, 2'd0, CLOCK_50, reset, done_spawn, spawn_VGA_X, spawn_VGA_Y, spawn_VGA_COLOR);
+	shift_tile st1 (reset, CLOCK_50, shift_tile_x1, 2'd1, srd1, done_shift1, shift_VGA_X1, shift_VGA_Y1, shift_VGA_COLOR1);
+	shift_tile st2 (reset, CLOCK_50, shift_tile_x2, 2'd2, srd2, done_shift2, shift_VGA_X2, shift_VGA_Y2, shift_VGA_COLOR2);
+	shift_tile st3 (reset, CLOCK_50, shift_tile_x3, 2'd3, srd3, done_shift3, shift_VGA_X3, shift_VGA_Y3, shift_VGA_COLOR3);
 
 	// FIX: Separated state transition and next state logic
 	always @ (posedge CLOCK_50)
@@ -199,7 +200,7 @@ module test (CLOCK_50, KEY, LEDR, VGA_X, VGA_Y, VGA_COLOR, done_spawn, t, sr, sr
 	end
 
 	// FIX: Combinational logic for next_state in separate block
-	always @ (*)
+	always @ (CLOCK_50)
 	begin
 		case (state)
 			WAIT: begin
@@ -237,99 +238,89 @@ module test (CLOCK_50, KEY, LEDR, VGA_X, VGA_Y, VGA_COLOR, done_spawn, t, sr, sr
 	end
 endmodule
 
-module spawn_tile (shift_reg, enable_spawn, tile_x, tile_y, CLOCK_50, reset, done_spawn, VGA_X, VGA_Y, VGA_COLOR);
+module spawn_tile (shift_reg, tile_x, tile_y, CLOCK_50, reset, done_spawn, VGA_X, VGA_Y, VGA_COLOR);
     input [3:0] shift_reg;
     input [1:0] tile_x;
     input [1:0] tile_y;
     input CLOCK_50;
     input reset;
-	input enable_spawn;
 
     output reg done_spawn;
-    output reg [9:0] VGA_X = 10'd0;
-    output reg [8:0] VGA_Y = 9'd0;
+    output reg [7:0] VGA_X = 8'd0;
+    output reg [6:0] VGA_Y = 7'd0;
     output reg [8:0] VGA_COLOR;
 
-	// FIX: Latch the color at the start of each tile
-	reg latched_color = 1'b0;
-	reg [1:0] current_tile_x = 2'd0;
-	reg [1:0] current_tile_y = 2'd0;
-	reg [5:0] pixel_x = 6'd0;  // 0-39
-	reg [4:0] pixel_y = 5'd0;  // 0-29
+	reg initialized = 1'b0;
+	reg [8:0] latched_color;
+	reg [1:0] prev_tile_x = 1'b0;
+
+	reg [7:0] start_x;
+	reg [6:0] start_y;
 	
 	wire sr = shift_reg[tile_x];
 
     always @ (posedge CLOCK_50)
     begin
-		if (enable_spawn)
-		begin
+			if (prev_tile_x != tile_x)
+				begin
+					prev_tile_x <= tile_x;
+					initialized <= 1'b0;
+					VGA_COLOR <= sr ? 9'h1ff : 9'h5a;
+				end
 			if (!reset)
-			begin
-				current_tile_x <= 2'd0;
-				current_tile_y <= 2'd0;
-				pixel_x <= 6'd0;
-				pixel_y <= 5'd0;
-				VGA_X <= 10'd0;
-				VGA_Y <= 9'd0;
-				VGA_COLOR <= 9'h0a0;
-				latched_color <= 1'b0;
-				done_spawn <= 1'b0;
-			end
+				begin
+					VGA_X <= tile_x * 8'd40;
+					VGA_Y <= tile_y * 7'd30;
+					start_x <= tile_x * 8'd40;
+					start_y <= tile_y * 7'd30;
+					done_spawn <= 1'b0;
+					initialized <= 1'b0;
+					VGA_COLOR <= 9'h1ff;
+					prev_tile_x <= 1'b0;
+				end
+			else if (!initialized)
+				begin
+					start_x <= tile_x * 8'd40;
+					start_y <= tile_y * 8'd30;
+					VGA_X <= tile_x * 8'd40;
+					VGA_Y <= tile_y * 8'd30;
+					initialized <= 1'b1;
+					VGA_COLOR <= sr ? 9'h1ff : 9'h5a;
+				end
 			else
 			begin
-				done_spawn <= 1'b0;
-				
-				// Update tile position when tile_x changes or at start
-				if (tile_x != current_tile_x || tile_y != current_tile_y)
-				begin
-					current_tile_x <= tile_x;
-					current_tile_y <= tile_y;
-					pixel_x <= 6'd0;
-					pixel_y <= 5'd0;
-					latched_color <= sr;  // Latch color for new tile
-				end
-				
-				// Calculate actual VGA coordinates
-				VGA_X <= (current_tile_x * 10'd40) + pixel_x;
-				VGA_Y <= (current_tile_y * 9'd30) + pixel_y;
-				
-				// Use latched color for entire tile
-				if (latched_color == 1'b1)
-					VGA_COLOR <= 9'h1ff; //white
-				else
-					VGA_COLOR <= 9'h5a; //green
-
+				done_spawn <= 1'b0;								
 				// Increment pixel position
-				if (pixel_x >= 6'd39)
+				if (VGA_X >= start_x + 8'd39)
 				begin
-					pixel_x <= 6'd0;
-					if (pixel_y >= 5'd29)
+					VGA_X <= start_x;
+					if (VGA_Y >= 7'd29)
 					begin
-						pixel_y <= 5'd0;
+						VGA_Y <= start_y;
 						done_spawn <= 1'b1;
 					end
 					else 
 					begin
-						pixel_y <= pixel_y + 1;
+						VGA_Y <= VGA_Y + 1;
 					end
 				end
 				else
 				begin
-					pixel_x <= pixel_x + 1;
+					VGA_X <= VGA_X + 1;
 				end
 			end
 		end
-    end
 
 endmodule
 
-module shift_tile (reset, CLOCK_50, shift_enable, tile_x, tile_y, shift_reg_delay, done_shift, VGA_X, VGA_Y, VGA_COLOR);
+module shift_tile (reset, CLOCK_50, tile_x, tile_y, shift_reg_delay, done_shift, VGA_X, VGA_Y, VGA_COLOR);
 	input CLOCK_50;
 	input reset;
 	input [1:0] tile_x;
 	input [1:0] tile_y;
 	input [3:0] shift_reg_delay;
-	input shift_enable;
+
+	reg [1:0] prev_tile_x = 1'b0;
 
 	wire srd = shift_reg_delay[tile_x];
 
@@ -347,16 +338,18 @@ module shift_tile (reset, CLOCK_50, shift_enable, tile_x, tile_y, shift_reg_dela
 
 	always @ (posedge CLOCK_50)
     begin
-		if (shift_enable)
-		begin
+			if (prev_tile_x != tile_x)
+			begin
+				prev_tile_x <= tile_x;
+				initialized <= 1'b0;
+			end
 			if (!reset)
 			begin
-				VGA_X <= tile_x * 10'd40;
-				VGA_Y <= tile_y * 9'd30;
-				start_x <= tile_x * 10'd40;
-				start_y <= tile_y * 9'd30;
+				VGA_X <= tile_x * 8'd40;
+				VGA_Y <= tile_y * 7'd30;
+				start_x <= tile_x * 8'd40;
+				start_y <= tile_y * 7'd30;
 				VGA_COLOR <= 9'h5a;
-				latched_color <= 1'b0;
 				initialized <= 1'b0;
 				done_shift <= 1'b0;
 			end
@@ -366,34 +359,21 @@ module shift_tile (reset, CLOCK_50, shift_enable, tile_x, tile_y, shift_reg_dela
 
 				if (!initialized)
 				begin
-					VGA_X <= start_x;
-					VGA_Y <= start_y;
+					start_x <= tile_x * 8'd40;
+					start_y <= tile_y * 8'd30;
+					VGA_X <= tile_x * 8'd40;
+					VGA_Y <= tile_y * 8'd30;
 					initialized <= 1'b1;
-					latched_color <= srd;  // FIX: Latch at initialization
+					VGA_COLOR <= srd ? 9'h1ff : 9'h5a;
 				end
-				else
-				begin
-					// FIX: Latch color only at the start of drawing a tile
-					if (VGA_X == start_x && VGA_Y == start_y)
-					begin
-						latched_color <= srd;
-					end
-				end
-				
-				// Use latched color for entire tile
-				if (latched_color == 1'b1)
-					VGA_COLOR <= 9'h1ff; //white
-				else
-					VGA_COLOR <= 9'h5a; //green
 
-				if (VGA_X >= start_x + 10'd39 && initialized)
+				if (VGA_X >= start_x + 8'd39 && initialized)
 				begin
 					VGA_X <= start_x;
-					if (VGA_Y >= start_y + 9'd29)
+					if (VGA_Y >= start_y + 7'd29)
 					begin
 						VGA_Y <= start_y;
 						done_shift <= 1'b1;
-						initialized <= 1'b0;  // FIX: Reset for next tile
 					end
 					else 
 					begin
@@ -406,6 +386,4 @@ module shift_tile (reset, CLOCK_50, shift_enable, tile_x, tile_y, shift_reg_dela
 				end
 			end
 		end
-    end
-
 endmodule

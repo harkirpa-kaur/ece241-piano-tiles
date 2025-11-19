@@ -4,13 +4,10 @@ add wave -noupdate -label CLOCK_50 -radix binary /testbench/CLOCK_50
 add wave -noupdate -label LEDR -radix binary /testbench/LEDR
 add wave -noupdate -label t -radix binary /testbench/t
 add wave -noupdate -label index -radix binary /testbench/index
-add wave -noupdate -label VGA_X -radix binary /testbench/VGA_X
-add wave -noupdate -label VGA_Y -radix binary /testbench/VGA_Y
+add wave -noupdate -label x -radix binary /testbench/x
+add wave -noupdate -label y -radix binary /testbench/y
 add wave -noupdate -label VGA_COLOR -radix binary /testbench/VGA_COLOR
-add wave -noupdate -label sr -radix binary /testbench/sr
-add wave -noupdate -label srd1 -radix binary /testbench/srd1
-add wave -noupdate -label srd2 -radix binary /testbench/srd2
-add wave -noupdate -label srd3 -radix binary /testbench/shsrd3ift_tile_x
+add wave -noupdate -label state -radix binary /testbench/state
 
 
 add wave -noupdate -divider led

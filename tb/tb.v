@@ -22,6 +22,11 @@ module tb();
     wire [23:0] VGA_COLOR;          // "VGA pixel" colour
     wire plot;                      // "Pixel" is drawn when this is pulsed
     wire [31:0] GPIO;               // DE-series GPIO port
+    wire t;
+    wire [2:0] state;
+    wire [9:0] x;
+    wire [8:0] y;
+
 
     initial $sim_fpga(CLOCK_50, SW, KEY, LEDR, HEX, key_action, scan_code, 
                       ps2_lock_control, VGA_X, VGA_Y, VGA_COLOR, plot, GPIO);
@@ -41,5 +46,5 @@ module tb();
     assign HEX[15: 8] = {1'b0, HEX4};
     assign HEX[ 7: 0] = {1'b0, HEX5};
 
- top T1 (CLOCK_50, SW, KEY, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, LEDR, VGA_X, VGA_Y, VGA_COLOR, plot);
+ top T1 (CLOCK_50, SW, KEY, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, LEDR, VGA_X, VGA_Y, VGA_COLOR, plot, state, t, x, y);
 endmodule
