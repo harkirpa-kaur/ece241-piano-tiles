@@ -48,18 +48,43 @@ module testbench ( );
     //     .VGA_CLK()
     // );
 
-vga_adapter_desim VGA_DESIM (
-       .resetn(KEY[0]),
-       .clock(CLOCK_50),
-       .color(color),
-       .x(x), 
-       .y(y), 
-       .write(KEY[0]),
-       .VGA_X(VGA_X), 
-       .VGA_Y(VGA_Y), 
-       .VGA_COLOR(VGA_COLOR), 
-       .VGA_SYNC(),
-       .plot(plot)
-   );
+// vga_adapter_desim VGA_DESIM (
+//        .resetn(KEY[0]),
+//        .clock(CLOCK_50),
+//        .color(color),
+//        .x(x), 
+//        .y(y), 
+//        .write(KEY[0]),
+//        .VGA_X(VGA_X), 
+//        .VGA_Y(VGA_Y), 
+//        .VGA_COLOR(VGA_COLOR), 
+//        .VGA_SYNC(),
+//        .plot(plot)
+//    );
+
+   wire [7:0] received_data;
+   wire received_data_en;
+   wire lose, break;
+     wire PS2_CLK;
+     wire PS2_DAT;
+
+    PS2_Controller ps2 (
+	// Inputs
+	.CLOCK_50(CLOCK_50),
+	.reset(KEY[0]),
+	.the_command(),
+	.send_command(),
+
+	// Bidirectionals
+	.PS2_CLK(PS2_CLK),					// PS2 Clock
+ 	.PS2_DAT(PS2_DAT),					// PS2 Data
+
+	// Outputs
+	.command_was_sent(),
+	.error_communication_timed_out(),
+
+	.received_data(received_data),
+	.received_data_en(received_data_en)			// If 1 - new data has been received
+);
 
 endmodule

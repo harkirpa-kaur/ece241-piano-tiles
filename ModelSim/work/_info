@@ -50,13 +50,13 @@ R9
 R10
 ndff@a
 vled
-Z11 !s110 1763576196
+Z11 !s110 1763661438
 !i10b 1
 !s100 5BD[kL3Xb22`OP1G3S7j:0
 I`HEJBM4GKAUYKYEEjXeN@1
 R2
 Z12 dC:/Users/harki/ece241/project/ModelSim
-Z13 w1763575288
+Z13 w1763598385
 Z14 8../led.v
 Z15 F../led.v
 L0 2
@@ -64,7 +64,7 @@ R6
 r1
 !s85 0
 31
-Z16 !s108 1763576196.000000
+Z16 !s108 1763661438.000000
 Z17 !s107 ../led.v|
 Z18 !s90 -reportprogress|300|../led.v|
 !i113 1
@@ -109,6 +109,27 @@ R8
 R9
 !i113 1
 R10
+vPS2_Controller
+Z19 !s110 1763661439
+!i10b 1
+!s100 0cRRGk3S7bQzAlXY?Ggc[2
+IohQB0O`Q1md?KWSXIXl2D2
+R2
+R12
+w1763661435
+8../PS2_Controller.v
+F../PS2_Controller.v
+L0 8
+R6
+r1
+!s85 0
+31
+Z20 !s108 1763661439.000000
+!s107 ../PS2_Controller.v|
+!s90 -reportprogress|300|../PS2_Controller.v|
+!i113 1
+R10
+n@p@s2_@controller
 vshift_register
 R11
 !i10b 1
@@ -146,7 +167,7 @@ r1
 31
 !s108 1763426551.000000
 !s107 ..\led.v|../test.v|
-Z19 !s90 -reportprogress|300|../test.v|
+Z21 !s90 -reportprogress|300|../test.v|
 !i113 1
 R10
 vshift_register_delay1
@@ -192,8 +213,8 @@ R10
 vshift_register_delay3
 R11
 !i10b 1
-!s100 LJ`G5<bcD2DT46<So4hNB0
-I=jWIXzd`:ekflcmz=BGV_3
+!s100 CeIioU?ICl6gZWhEUzh6G3
+Ie`BA3hi>;AHOm[UnRG6ma2
 R2
 R12
 R13
@@ -210,73 +231,73 @@ R18
 !i113 1
 R10
 vshift_tile
-R11
+R19
 !i10b 1
-!s100 L;dWAb1]d<g=O]l0VA8dH1
-IdD71H^SbiT]f0Dmh@]:UG0
+!s100 jzHGEQ^zS2`9CMWD=oM[C3
+I]C0K09KUThCCh>BS>SNn30
 R2
 R12
-Z20 w1763575817
-Z21 8../test.v
-Z22 F../test.v
-L0 323
+Z22 w1763580068
+Z23 8../test.v
+Z24 F../test.v
+L0 316
 R6
 r1
 !s85 0
 31
 R16
-Z23 !s107 ../test.v|
-R19
+Z25 !s107 ../test.v|
+R21
 !i113 1
 R10
 vspawn_tile
-R11
+R19
 !i10b 1
-!s100 QX;U^0?OQ;g4BW3NhFcd50
-I6N4USV;U4I?e6DWSkaX7z2
+!s100 l3Ia>6Je5W@AHa@LAfo<70
+I>B^go:^;3=bSH]`DMaj8H2
 R2
 R12
-R20
-R21
 R22
+R23
+R24
 L0 241
 R6
 r1
 !s85 0
 31
 R16
-R23
-R19
+R25
+R21
 !i113 1
 R10
 vtest
-R11
+R19
 !i10b 1
 !s100 aMgnDVPE2?03HQDM9Q2ok3
 IXgP2n;AW?_UePfl_OSmXc0
 R2
 R12
-R20
-R21
 R22
+R23
+R24
 L0 3
 R6
 r1
 !s85 0
 31
 R16
-R23
-R19
+R25
+R21
 !i113 1
 R10
 vtestbench
-!s110 1763576197
+R19
 !i10b 1
-!s100 [bYJ[I8:_R93;^QSdQf^^3
-I6EgnE96b4hX2oYdBLEVDD1
+!s100 h@0Bi3]UL^B3JiZYHY11C3
+I<bP`lK_A9BO8b>H8H``[X0
 R2
 R12
-w1763575907
+w1763661086
 8testbench.v
 Ftestbench.v
 L0 3
@@ -284,7 +305,7 @@ R6
 r1
 !s85 0
 31
-!s108 1763576197.000000
+R20
 !s107 testbench.v|
 !s90 -reportprogress|300|testbench.v|
 !i113 1
@@ -319,73 +340,73 @@ R12
 w1763328321
 8..\vga_adapter.v
 F..\vga_adapter.v
-Z24 L0 13
+Z26 L0 13
 R6
 r1
 !s85 0
 31
 !s108 1763412746.000000
 !s107 ..\vga_adapter.v|../test.v|
-R19
+R21
 !i113 1
 R10
 vvga_adapter_desim
-R11
+R19
 !i10b 1
 !s100 [HbFM88WleII5JMCMMo<G3
 ITdbd@=IGoRm722C;`fHnC3
 R2
 R12
-Z25 w1763568355
-Z26 8../vga_adapter_desim.v
-Z27 F../vga_adapter_desim.v
-R24
+Z27 w1763568355
+Z28 8../vga_adapter_desim.v
+Z29 F../vga_adapter_desim.v
+R26
 R6
 r1
 !s85 0
 31
-R16
-Z28 !s107 ../vga_adapter_desim.v|
-Z29 !s90 -reportprogress|300|../vga_adapter_desim.v|
+R20
+Z30 !s107 ../vga_adapter_desim.v|
+Z31 !s90 -reportprogress|300|../vga_adapter_desim.v|
 !i113 1
 R10
 vvga_convert
-R11
+R19
 !i10b 1
 !s100 AZjhQ_[N<FJZ5X]@1GXfV1
 IRaiO>5Lm7lUB@Ue3k]NB_1
 R2
 R12
-R25
-R26
 R27
+R28
+R29
 L0 170
 R6
 r1
 !s85 0
 31
-R16
-R28
-R29
+R20
+R30
+R31
 !i113 1
 R10
 vvga_ff
-R11
+R19
 !i10b 1
 !s100 ca<XezdKL@Qk^R]<d9_zU3
 I>6f:LM2YV<bQSj@><1Emh3
 R2
 R12
-R25
-R26
 R27
+R28
+R29
 L0 154
 R6
 r1
 !s85 0
 31
-R16
-R28
-R29
+R20
+R30
+R31
 !i113 1
 R10
