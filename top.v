@@ -2,11 +2,13 @@
 // Please see license at https://github.com/fpgacademy/DESim
 `include "vga_adapter_desim.v"
 
-module top (CLOCK_50, SW, KEY, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, LEDR, VGA_X, VGA_Y, VGA_COLOR, plot, state, t, x, y);
+module top (CLOCK_50, SW, KEY, PS2_CLK, PS2_DAT, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, LEDR, received_data);
 
     input CLOCK_50;             // DE-series 50 MHz clock signal
     input wire [9:0] SW;        // DE-series switches
     input wire [3:0] KEY;       // DE-series pushbuttons
+    input wire PS2_CLK;
+    input wire PS2_DAT;
 
     output wire [6:0] HEX0;     // DE-series HEX displays
     output wire [6:0] HEX1;
@@ -15,18 +17,18 @@ module top (CLOCK_50, SW, KEY, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, LEDR, VGA_X, 
     output wire [6:0] HEX4;
     output wire [6:0] HEX5;
 
-    output wire [9:0] x;
-    output wire [8:0] y;
-    wire [8:0] color;
-    wire done_spawn, done_shift;
-    wire [1:0] spawn_tile_x, shift_tile_x, shift_tile_y;
-    wire [9:0] spawn_VGA_x;
-    wire [8:0] spawn_VGA_Y;
+//     output wire [9:0] x;
+//     output wire [8:0] y;
+//     wire [8:0] color;
+//     wire done_spawn, done_shift;
+//     wire [1:0] spawn_tile_x, shift_tile_x, shift_tile_y;
+//     wire [9:0] spawn_VGA_x;
+//     wire [8:0] spawn_VGA_Y;
 
-   output wire [9:0] VGA_X;
-   output wire [8:0] VGA_Y;
-   output wire [23:0] VGA_COLOR;
-   output wire plot;
+//    output wire [9:0] VGA_X;
+//    output wire [8:0] VGA_Y;
+//    output wire [23:0] VGA_COLOR;
+//    output wire plot;
 	 
 	// output wire [7:0] VGA_R;
 	// output wire [7:0] VGA_G;
@@ -39,11 +41,11 @@ module top (CLOCK_50, SW, KEY, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, LEDR, VGA_X, 
 
 
     output wire [9:0] LEDR;     // DE-series LEDs   
-    output wire [2:0] state;
-    output wire t;
+    // output wire [2:0] state;
+    // output wire t;
 
     //led U1 (CLOCK_50, KEY[0], LEDR[3:0], t, index, sr, srd);
-    test U2 (CLOCK_50, KEY[0], LEDR[3:0], x, y, color, state);
+    //test U2 (CLOCK_50, KEY[0], LEDR[3:0], x, y, color, state);
     //  vga_adapter VGA(
     //      .resetn(KEY[0]),
     //      .clock(CLOCK_50),
@@ -61,18 +63,47 @@ module top (CLOCK_50, SW, KEY, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, LEDR, VGA_X, 
     //      .VGA_CLK(VGA_CLK)
     //  );
 
-   vga_adapter_desim VGA_DESIM (
-       .resetn(KEY[0]),
-       .clock(CLOCK_50),
-       .color(color),
-       .x(x), 
-       .y(y), 
-       .write(KEY[0]),
-       .VGA_X(VGA_X), 
-       .VGA_Y(VGA_Y), 
-       .VGA_COLOR(VGA_COLOR), 
-       .VGA_SYNC(),
-       .plot(plot)
-   );
+//    vga_adapter_desim VGA_DESIM (
+//        .resetn(KEY[0]),
+//        .clock(CLOCK_50),
+//        .color(color),
+//        .x(x), 
+//        .y(y), 
+//        .write(KEY[0]),
+//        .VGA_X(VGA_X), 
+//        .VGA_Y(VGA_Y), 
+//        .VGA_COLOR(VGA_COLOR), 
+//        .VGA_SYNC(),
+//        .plot(plot)
+//    );
+
+   output [7:0] received_data;
+   wire received_data_en;
+   wire lose, break;
+
+    PS2_Controller ps2 (
+	// Inputs
+	.CLOCK_50(CLOCK_50),
+	.reset(KEY[0]),
+	.the_command(),
+	.send_command(),
+
+	// Bidirectionals
+	.PS2_CLK(PS2_CLK),					// PS2 Clock
+ 	.PS2_DAT(PS2_DAT),					// PS2 Data
+
+	// Outputs
+	.command_was_sent(),
+	.error_communication_timed_out(),
+
+	.received_data(received_data),
+	.received_data_en(received_data_en)			// If 1 - new data has been received
+);
+
+keyboard kbd (CLOCK_50, KEY[0], received_data, received_data_en, lose, break, LEDR[7:0]);
+
+
+
+
     
 endmodule
