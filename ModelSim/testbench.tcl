@@ -9,6 +9,8 @@ vlog ../led.v
 vlog ../test.v
 vlog ../vga_adapter_desim.v
 vlog ../PS2_Controller.v
+vlog ../Altera_UP_PS2_Data_In.v
+vlog ../Altera_UP_PS2_Command_Out.v
 # compile the Verilog code of the testbench
 vlog *.v
 # start the Simulator, including some libraries that may be needed

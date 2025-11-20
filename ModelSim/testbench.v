@@ -68,23 +68,7 @@ module testbench ( );
      wire PS2_CLK;
      wire PS2_DAT;
 
-    PS2_Controller ps2 (
-	// Inputs
-	.CLOCK_50(CLOCK_50),
-	.reset(KEY[0]),
-	.the_command(),
-	.send_command(),
+    ps2_demo ps2 (CLOCK_50, KEY, PS2_CLK, PS2_DAT, LEDR, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, scancode, ps2_rec);
 
-	// Bidirectionals
-	.PS2_CLK(PS2_CLK),					// PS2 Clock
- 	.PS2_DAT(PS2_DAT),					// PS2 Data
-
-	// Outputs
-	.command_was_sent(),
-	.error_communication_timed_out(),
-
-	.received_data(received_data),
-	.received_data_en(received_data_en)			// If 1 - new data has been received
-);
 
 endmodule

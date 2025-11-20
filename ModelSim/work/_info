@@ -8,114 +8,156 @@ z2
 !i10f 100
 cModel Technology
 Z0 dC:/Users/harki/Downloads/part1/ModelSim
-vdff
-Z1 !s110 1762302409
+vAltera_UP_PS2_Command_Out
+Z1 !s110 1763662710
 !i10b 1
-!s100 7]>DYKc6Y3NOYkaDMZJn[3
-IbdM0=<>1lk73Mo@QnEd<N2
+!s100 ZjDIV:z^W4aE7ECD]ReVK0
+IU]h3@CJD>0jRZPEfYKgI33
 Z2 VDg1SIo80bB@j0V0VzS_@n1
-R0
-Z3 w1762302353
-Z4 8../part1.v
-Z5 F../part1.v
-L0 62
+Z3 dC:/Users/harki/ece241/project/ModelSim
+Z4 w1763603393
+8../Altera_UP_PS2_Command_Out.v
+F../Altera_UP_PS2_Command_Out.v
+Z5 L0 10
 Z6 OV;L;10.5b;63
 r1
 !s85 0
 31
-Z7 !s108 1762302409.000000
-Z8 !s107 ../part1.v|
-Z9 !s90 -reportprogress|300|../part1.v|
+Z7 !s108 1763662710.000000
+!s107 ../Altera_UP_PS2_Command_Out.v|
+!s90 -reportprogress|300|../Altera_UP_PS2_Command_Out.v|
 !i113 1
-Z10 tCvgOpt 0
-vdffA
+Z8 tCvgOpt 0
+n@altera_@u@p_@p@s2_@command_@out
+vAltera_UP_PS2_Data_In
 R1
 !i10b 1
-!s100 PL8AEIL^ogABAJlkM>[;70
-ImGK7f1ea8h@bmNTLTEg=B0
+!s100 ee^TmQcGZ[E_>UMojW[Zg0
+Iz]dZ6=8YWGzhO3=k2Uk?B0
 R2
-R0
 R3
 R4
+8../Altera_UP_PS2_Data_In.v
+F../Altera_UP_PS2_Data_In.v
 R5
-L0 44
 R6
 r1
 !s85 0
 31
 R7
-R8
-R9
+!s107 ../Altera_UP_PS2_Data_In.v|
+!s90 -reportprogress|300|../Altera_UP_PS2_Data_In.v|
 !i113 1
+R8
+n@altera_@u@p_@p@s2_@data_@in
+vdff
+Z9 !s110 1762302409
+!i10b 1
+!s100 7]>DYKc6Y3NOYkaDMZJn[3
+IbdM0=<>1lk73Mo@QnEd<N2
+R2
+R0
+Z10 w1762302353
+Z11 8../part1.v
+Z12 F../part1.v
+L0 62
+R6
+r1
+!s85 0
+31
+Z13 !s108 1762302409.000000
+Z14 !s107 ../part1.v|
+Z15 !s90 -reportprogress|300|../part1.v|
+!i113 1
+R8
+vdffA
+R9
+!i10b 1
+!s100 PL8AEIL^ogABAJlkM>[;70
+ImGK7f1ea8h@bmNTLTEg=B0
+R2
+R0
 R10
+R11
+R12
+L0 44
+R6
+r1
+!s85 0
+31
+R13
+R14
+R15
+!i113 1
+R8
 ndff@a
 vled
-Z11 !s110 1763661438
+R1
 !i10b 1
 !s100 5BD[kL3Xb22`OP1G3S7j:0
 I`HEJBM4GKAUYKYEEjXeN@1
 R2
-Z12 dC:/Users/harki/ece241/project/ModelSim
-Z13 w1763598385
-Z14 8../led.v
-Z15 F../led.v
+R3
+Z16 w1763598385
+Z17 8../led.v
+Z18 F../led.v
 L0 2
 R6
 r1
 !s85 0
 31
-Z16 !s108 1763661438.000000
-Z17 !s107 ../led.v|
-Z18 !s90 -reportprogress|300|../led.v|
+Z19 !s108 1763662709.000000
+Z20 !s107 ../led.v|
+Z21 !s90 -reportprogress|300|../led.v|
 !i113 1
-R10
+R8
 vonesec_clock
 !s110 1762804297
 !i10b 1
 !s100 L;Zj:j3`H]Lo<OIWe3mb33
 I=?S5DioIN`j=NiJ7B;Zee2
 R2
-R12
+R3
 w1762804293
-R14
-R15
+R17
+R18
 L0 12
 R6
 r1
 !s85 0
 31
 !s108 1762804297.000000
-R17
-R18
+R20
+R21
 !i113 1
-R10
+R8
 vpart1
-R1
+R9
 !i10b 1
 !s100 Gi9cCc7:=MM`P:K[:Umi?0
 If6@moa5eFRG=9K?h^Nzb22
 R2
 R0
-R3
-R4
-R5
+R10
+R11
+R12
 L0 1
 R6
 r1
 !s85 0
 31
-R7
-R8
-R9
+R13
+R14
+R15
 !i113 1
-R10
+R8
 vPS2_Controller
-Z19 !s110 1763661439
+R1
 !i10b 1
 !s100 0cRRGk3S7bQzAlXY?Ggc[2
 IohQB0O`Q1md?KWSXIXl2D2
 R2
-R12
+R3
 w1763661435
 8../PS2_Controller.v
 F../PS2_Controller.v
@@ -124,39 +166,39 @@ R6
 r1
 !s85 0
 31
-Z20 !s108 1763661439.000000
+R7
 !s107 ../PS2_Controller.v|
 !s90 -reportprogress|300|../PS2_Controller.v|
 !i113 1
-R10
+R8
 n@p@s2_@controller
 vshift_register
-R11
+R1
 !i10b 1
 !s100 MiPRCkdBV]6i1NRE08c3L1
 I[f:75ZKfQ^BiE8R>Lk8mz3
 R2
-R12
-R13
-R14
-R15
+R3
+R16
+R17
+R18
 L0 165
 R6
 r1
 !s85 0
 31
-R16
-R17
-R18
+R19
+R20
+R21
 !i113 1
-R10
+R8
 vshift_register_delay
 !s110 1763426551
 !i10b 1
 !s100 Z?SC=lY2zl<6naAkB1KDi3
 I:XzIKomXzSQPV2W9i7?`;1
 R2
-R12
+R3
 w1763415629
 8..\led.v
 F..\led.v
@@ -167,136 +209,136 @@ r1
 31
 !s108 1763426551.000000
 !s107 ..\led.v|../test.v|
-Z21 !s90 -reportprogress|300|../test.v|
+Z22 !s90 -reportprogress|300|../test.v|
 !i113 1
-R10
+R8
 vshift_register_delay1
-R11
+R1
 !i10b 1
 !s100 ]aRHNn9kN7SnKej_bQM_E3
 IR?ZT9H:24fHb9XJnj7VB<2
 R2
-R12
-R13
-R14
-R15
+R3
+R16
+R17
+R18
 L0 49
 R6
 r1
 !s85 0
 31
-R16
-R17
-R18
+R19
+R20
+R21
 !i113 1
-R10
+R8
 vshift_register_delay2
-R11
+R1
 !i10b 1
 !s100 ZXMNMCcX^262]N7Gib5Te2
 IbGInGmMR6J7EAYDV?]EU>1
 R2
-R12
-R13
-R14
-R15
+R3
+R16
+R17
+R18
 L0 89
 R6
 r1
 !s85 0
 31
-R16
-R17
-R18
+R19
+R20
+R21
 !i113 1
-R10
+R8
 vshift_register_delay3
-R11
+R1
 !i10b 1
 !s100 CeIioU?ICl6gZWhEUzh6G3
 Ie`BA3hi>;AHOm[UnRG6ma2
 R2
-R12
-R13
-R14
-R15
+R3
+R16
+R17
+R18
 L0 127
 R6
 r1
 !s85 0
 31
-R16
-R17
-R18
-!i113 1
-R10
-vshift_tile
 R19
+R20
+R21
+!i113 1
+R8
+vshift_tile
+R1
 !i10b 1
 !s100 jzHGEQ^zS2`9CMWD=oM[C3
 I]C0K09KUThCCh>BS>SNn30
 R2
-R12
-Z22 w1763580068
-Z23 8../test.v
-Z24 F../test.v
+R3
+Z23 w1763580068
+Z24 8../test.v
+Z25 F../test.v
 L0 316
 R6
 r1
 !s85 0
 31
-R16
-Z25 !s107 ../test.v|
-R21
+R7
+Z26 !s107 ../test.v|
+R22
 !i113 1
-R10
+R8
 vspawn_tile
-R19
+R1
 !i10b 1
 !s100 l3Ia>6Je5W@AHa@LAfo<70
 I>B^go:^;3=bSH]`DMaj8H2
 R2
-R12
-R22
+R3
 R23
 R24
+R25
 L0 241
 R6
 r1
 !s85 0
 31
-R16
-R25
-R21
+R7
+R26
+R22
 !i113 1
-R10
+R8
 vtest
-R19
+R1
 !i10b 1
 !s100 aMgnDVPE2?03HQDM9Q2ok3
 IXgP2n;AW?_UePfl_OSmXc0
 R2
-R12
-R22
+R3
 R23
 R24
+R25
 L0 3
 R6
 r1
 !s85 0
 31
-R16
-R25
-R21
+R7
+R26
+R22
 !i113 1
-R10
+R8
 vtestbench
-R19
+!s110 1763662711
 !i10b 1
 !s100 h@0Bi3]UL^B3JiZYHY11C3
 I<bP`lK_A9BO8b>H8H``[X0
 R2
-R12
+R3
 w1763661086
 8testbench.v
 Ftestbench.v
@@ -305,108 +347,108 @@ R6
 r1
 !s85 0
 31
-R20
+!s108 1763662711.000000
 !s107 testbench.v|
 !s90 -reportprogress|300|testbench.v|
 !i113 1
-R10
+R8
 vthird_counter
-R11
+R1
 !i10b 1
 !s100 =Q04?>4D_>lebn5f_AgFB1
 I_Bi^9<dB=c8fD<n8cFTzZ1
 R2
-R12
-R13
-R14
-R15
+R3
+R16
+R17
+R18
 L0 22
 R6
 r1
 !s85 0
 31
-R16
-R17
-R18
+R19
+R20
+R21
 !i113 1
-R10
+R8
 vvga_adapter
 !s110 1763412746
 !i10b 1
 !s100 1^Q?j5P;DL;A^H492R2JC0
 I;91_8c>CV<@K<iaz`G1d02
 R2
-R12
+R3
 w1763328321
 8..\vga_adapter.v
 F..\vga_adapter.v
-Z26 L0 13
+Z27 L0 13
 R6
 r1
 !s85 0
 31
 !s108 1763412746.000000
 !s107 ..\vga_adapter.v|../test.v|
-R21
+R22
 !i113 1
-R10
+R8
 vvga_adapter_desim
-R19
+R1
 !i10b 1
 !s100 [HbFM88WleII5JMCMMo<G3
 ITdbd@=IGoRm722C;`fHnC3
 R2
-R12
-Z27 w1763568355
-Z28 8../vga_adapter_desim.v
-Z29 F../vga_adapter_desim.v
-R26
+R3
+Z28 w1763568355
+Z29 8../vga_adapter_desim.v
+Z30 F../vga_adapter_desim.v
+R27
 R6
 r1
 !s85 0
 31
-R20
-Z30 !s107 ../vga_adapter_desim.v|
-Z31 !s90 -reportprogress|300|../vga_adapter_desim.v|
+R7
+Z31 !s107 ../vga_adapter_desim.v|
+Z32 !s90 -reportprogress|300|../vga_adapter_desim.v|
 !i113 1
-R10
+R8
 vvga_convert
-R19
+R1
 !i10b 1
 !s100 AZjhQ_[N<FJZ5X]@1GXfV1
 IRaiO>5Lm7lUB@Ue3k]NB_1
 R2
-R12
-R27
+R3
 R28
 R29
+R30
 L0 170
 R6
 r1
 !s85 0
 31
-R20
-R30
+R7
 R31
+R32
 !i113 1
-R10
+R8
 vvga_ff
-R19
+R1
 !i10b 1
 !s100 ca<XezdKL@Qk^R]<d9_zU3
 I>6f:LM2YV<bQSj@><1Emh3
 R2
-R12
-R27
+R3
 R28
 R29
+R30
 L0 154
 R6
 r1
 !s85 0
 31
-R20
-R30
+R7
 R31
+R32
 !i113 1
-R10
+R8

@@ -1,12 +1,10 @@
-module keyboard (CLOCK_50, reset, received_data, received_data_en, lose, break, LEDR);
+module keyboard (CLOCK_50, reset, received_data, received_data_en, lose, break);
     input CLOCK_50;
     input reset;
     input [7:0] received_data;
     input received_data_en;
     output reg lose;
     output reg break;
-
-    output reg [7:0] LEDR;
 
     wire [7:0] expected;
 
@@ -18,7 +16,6 @@ module keyboard (CLOCK_50, reset, received_data, received_data_en, lose, break, 
     begin
     if (received_data_en)
         begin
-            LEDR <= received_data;
             if (received_data == BREAK)
             begin
                 break <= 1'b1;

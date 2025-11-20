@@ -8,6 +8,7 @@ add wave -noupdate -label x -radix binary /testbench/x
 add wave -noupdate -label y -radix binary /testbench/y
 add wave -noupdate -label VGA_COLOR -radix binary /testbench/VGA_COLOR
 add wave -noupdate -label state -radix binary /testbench/state
+add wave -noupdate -label received_data -radix hex /testbench/received_data
 
 
 add wave -noupdate -divider led

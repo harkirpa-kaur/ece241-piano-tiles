@@ -2,13 +2,13 @@
 // Please see license at https://github.com/fpgacademy/DESim
 `include "vga_adapter_desim.v"
 
-module top (CLOCK_50, SW, KEY, PS2_CLK, PS2_DAT, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, LEDR, received_data);
+module top (CLOCK_50, SW, KEY, PS2_CLK, PS2_DAT, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, LEDR);
 
     input CLOCK_50;             // DE-series 50 MHz clock signal
     input wire [9:0] SW;        // DE-series switches
     input wire [3:0] KEY;       // DE-series pushbuttons
-    input wire PS2_CLK;
-    input wire PS2_DAT;
+    inout wire PS2_CLK;
+    inout wire PS2_DAT;
 
     output wire [6:0] HEX0;     // DE-series HEX displays
     output wire [6:0] HEX1;
@@ -77,30 +77,15 @@ module top (CLOCK_50, SW, KEY, PS2_CLK, PS2_DAT, HEX0, HEX1, HEX2, HEX3, HEX4, H
 //        .plot(plot)
 //    );
 
-   output [7:0] received_data;
-   wire received_data_en;
+
    wire lose, break;
+   wire [7:0] scancode;
+   wire ps2_rec;
 
-    PS2_Controller ps2 (
-	// Inputs
-	.CLOCK_50(CLOCK_50),
-	.reset(KEY[0]),
-	.the_command(),
-	.send_command(),
+ps2_demo ps2 (CLOCK_50, KEY, PS2_CLK, PS2_DAT, LEDR, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, scancode, ps2_rec);
 
-	// Bidirectionals
-	.PS2_CLK(PS2_CLK),					// PS2 Clock
- 	.PS2_DAT(PS2_DAT),					// PS2 Data
 
-	// Outputs
-	.command_was_sent(),
-	.error_communication_timed_out(),
-
-	.received_data(received_data),
-	.received_data_en(received_data_en)			// If 1 - new data has been received
-);
-
-keyboard kbd (CLOCK_50, KEY[0], received_data, received_data_en, lose, break, LEDR[7:0]);
+keyboard kbd (CLOCK_50, KEY[0], scancode, ps2_rec, lose, break);
 
 
 

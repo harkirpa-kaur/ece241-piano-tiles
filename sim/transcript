@@ -1,5 +1,5 @@
 # vsim -pli "C:\Users\harki\Downloads\DESim\modelsim.vpi" -Lf 220model -Lf altera_mf_ver -Lf verilog -t 1ns -c -do "run -all" tb 
-# Start time: 12:45:54 on Nov 20,2025
+# Start time: 13:27:22 on Nov 20,2025
 # Loading work.tb
 # Loading work.top
 # Loading work.PS2_Controller
@@ -8,15 +8,10 @@
 # Loading work.keyboard
 # Loading work.expected_key
 # Loading work.timer
-# Loading C:\Users\harki\Downloads\DESim\modelsim.vpi
-# run -all
-# Time scaling: 0.0001 sim seconds per real-time second
-# 
-# 
-# Connected to server!
-# ** Note: $finish    : ../tb/tb.v(33)
-#    Time: 13870 us  Iteration: 1  Instance: /tb
-# 
-# Quitting...
-# End time: 12:46:05 on Nov 20,2025, Elapsed time: 0:00:11
-# Errors: 0, Warnings: 0
+# ** Error (suppressible): (vsim-3053) ../tb/tb.v(52): Illegal output or inout port connection for port 'PS2_CLK'.
+#    Time: 0 ns  Iteration: 0  Instance: /tb/T1 File: ../top.v
+# ** Error (suppressible): (vsim-3053) ../tb/tb.v(52): Illegal output or inout port connection for port 'PS2_DAT'.
+#    Time: 0 ns  Iteration: 0  Instance: /tb/T1 File: ../top.v
+# Error loading design
+# End time: 13:27:22 on Nov 20,2025, Elapsed time: 0:00:00
+# Errors: 2, Warnings: 0
