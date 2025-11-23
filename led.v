@@ -1,14 +1,11 @@
 
-module led (CLOCK_50, KEY, LEDR, t, sr, srd1, srd2, srd3);
+module led (CLOCK_50, KEY, t, sr, srd1, srd2, srd3);
     input CLOCK_50;
     input [0:0] KEY;
-    output [3:0] LEDR;
+    //output [3:0] LEDR;
     output t;
     output [3:0] sr, srd1, srd2, srd3;
     wire reset = KEY[0];
-
-    assign LEDR[3:0] = sr;
-
     
     third_counter tc (CLOCK_50, reset, t);
     shift_register shr (CLOCK_50, reset, t, sr);
@@ -22,19 +19,19 @@ endmodule
 module third_counter (CLOCK_50, reset, t);
     input CLOCK_50;
     input reset;
-    reg [14:0] little = 15'd0;
+    reg [24:0] little = 25'd0;
     output reg t = 1'b0;
     
     always @ (posedge CLOCK_50)
     begin
         if (!reset)
             begin
-                little <= 15'd0;
+                little <= 25'd0;
                 t <= 1'b0;
             end
-        else if (little == 15'd3)
+        else if (little == 25'd16_666)
             begin
-                little <= 15'd0;
+                little <= 25'd0;
                 t <= 1'b1;
             end
         else

@@ -1,10 +1,10 @@
-module keyboard (CLOCK_50, reset, received_data, received_data_en, lose, break);
+module keyboard (CLOCK_50, reset, received_data, received_data_en, lose);
     input CLOCK_50;
     input reset;
     input [7:0] received_data;
     input received_data_en;
     output reg lose;
-    output reg break;
+    reg break;
 
     wire [7:0] expected;
 
@@ -50,7 +50,7 @@ module timer (CLOCK_50, reset, timer);
             little <= 25'd0;
             timer <= 1'b0;
         end
-        else if (little <= 25'd22_222_222)
+        else if (little <= 25'd16_666)
         begin
             little <= little + 1;
         end

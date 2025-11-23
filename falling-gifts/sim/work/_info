@@ -7,15 +7,15 @@ z2
 !i10e 25
 !i10f 100
 cModel Technology
-Z0 dC:/Users/thula/Downloads/animate/animate/sim
+Z0 dC:/Users/harki/ece241/project/falling-gifts/sim
 vfalling_tile
-Z1 !s110 1763441731
+Z1 !s110 1763672968
 !i10b 1
 !s100 V6^@TVDj7`]SI4@g9eJ@50
 I?mE4_OY:YZN]4XiOJZTBN3
 Z2 VDg1SIo80bB@j0V0VzS_@n1
 R0
-Z3 w1763441675
+Z3 w1763485703
 Z4 8../vga_demo.v
 Z5 F../vga_demo.v
 L0 141
@@ -23,7 +23,7 @@ Z6 OV;L;10.5b;63
 r1
 !s85 0
 31
-Z7 !s108 1763441730.000000
+Z7 !s108 1763672968.000000
 Z8 !s107 ../vga_adapter/vga_controller.v|../vga_adapter/vga_address_translator.v|../vga_adapter/vga_adapter.v|../vga_demo.v|../top.v|../gift.v|
 Z9 !s90 ../gift.v|../top.v|../vga_demo.v|../vga_adapter/vga_adapter.v|../vga_adapter/vga_address_translator.v|../vga_adapter/vga_controller.v|
 !i113 1
@@ -35,7 +35,7 @@ R1
 I^6@o?K<j`RB:327o7D36S0
 R2
 R0
-w1763347076
+R3
 8../gift.v
 F../gift.v
 L0 1
@@ -49,13 +49,13 @@ R9
 !i113 1
 R10
 vtb
-!s110 1763441730
+R1
 !i10b 1
 !s100 NcRbSdG<85Gk1Q^G>=6IN1
 I>4gBVN2Yd729jFEF1:MKn1
 R2
 R0
-Z11 w1763305011
+R3
 8../tb/tb.v
 F../tb/tb.v
 L0 6
@@ -63,7 +63,7 @@ R6
 r1
 !s85 0
 31
-R7
+!s108 1763672967.000000
 !s107 ../tb/tb.v|
 !s90 ../tb/tb.v|
 !i113 1
@@ -75,7 +75,7 @@ R1
 I;VSU4MThC;QQXZ<gA[?i12
 R2
 R0
-w1763348471
+R3
 8../top.v
 F../top.v
 L0 1
@@ -95,9 +95,9 @@ R1
 Io^nYRl23UGXS>Qh=5Se2f2
 R2
 R0
-Z12 w1763316451
-Z13 8../vga_adapter/vga_adapter.v
-Z14 F../vga_adapter/vga_adapter.v
+R3
+Z11 8../vga_adapter/vga_adapter.v
+Z12 F../vga_adapter/vga_adapter.v
 L0 13
 R6
 r1
@@ -115,7 +115,7 @@ R1
 IQf6bgg416;`z;57fofQV23
 R2
 R0
-R11
+R3
 8../vga_adapter/vga_address_translator.v
 F../vga_adapter/vga_address_translator.v
 L0 4
@@ -135,7 +135,7 @@ R1
 IjhYa6S9;BCQ0R>55aGh7N3
 R2
 R0
-R11
+R3
 8../vga_adapter/vga_controller.v
 F../vga_adapter/vga_controller.v
 L0 5
@@ -155,9 +155,9 @@ R1
 IE`=>jCY4QUo1BkzbYP[[[0
 R2
 R0
+R3
+R11
 R12
-R13
-R14
 L0 177
 R6
 r1
@@ -195,9 +195,9 @@ R1
 IGYmH@jAMYAi^];Q<?BhfS3
 R2
 R0
+R3
+R11
 R12
-R13
-R14
 L0 161
 R6
 r1

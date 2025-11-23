@@ -1,5 +1,5 @@
-# vsim -pli "C:\Users\thula\Downloads\DESim\modelsim.vpi" -Lf 220model -Lf altera_mf_ver -Lf verilog -t 1ns -c -do "run -all" tb 
-# Start time: 23:55:32 on Nov 17,2025
+# vsim -pli "C:\Users\harki\Downloads\DESim\modelsim.vpi" -Lf 220model -Lf altera_mf_ver -Lf verilog -t 1ns -c -do "run -all" tb 
+# Start time: 16:09:29 on Nov 20,2025
 # Loading work.tb
 # Loading work.top
 # Loading work.vga_demo
@@ -14,9 +14,93 @@
 # Loading altera_mf_ver.altsyncram_body
 # Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
 # Loading altera_mf_ver.ALTERA_MF_MEMORY_INITIALIZATION
-# Loading C:\Users\thula\Downloads\DESim\modelsim.vpi
+# Loading C:\Users\harki\Downloads\DESim\modelsim.vpi
 # run -all
 # Time scaling: 0.0001 sim seconds per real-time second
 # 
 # 
 # Connected to server!
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst
+# ** Warning: (vsim-PLI-3410) Illegal character '    : /build/swbuild/SJ/nightly/18.1std/625/l64/work/modelsim/eda/sim_lib/altera_mf.v(48976)
+#    Time: 0 ns  Iteration: 0  Instance: /tb/DUT/U1/VGA/VideoMemory/m_default/altsyncram_inst

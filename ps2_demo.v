@@ -4,11 +4,11 @@
 // This module uses ps2_clk and ps2_dat to capture scancodes received from the PS/2 keyboard. The
 // last three scancodes received are always displayed on HEX6 - HEX0. Each time a scancode is 
 // received, a counter called Total is incremented and displayed on LEDR. 
-module ps2_demo (CLOCK_50, KEY, PS2_CLK, PS2_DAT, LEDR, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, scancode, ps2_rec);
+module ps2_demo (CLOCK_50, KEY, PS2_CLK, PS2_DAT, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, scancode, ps2_rec);
     input wire CLOCK_50;
     input wire [0:0] KEY;
     inout wire PS2_CLK, PS2_DAT;
-    output wire [9:0] LEDR;       // DE-series LEDs
+    wire [9:0] LEDR;       // DE-series LEDs
     output wire [6:0] HEX0;
     output wire [6:0] HEX1;       // DE-series HEX displays
     output wire [6:0] HEX2;

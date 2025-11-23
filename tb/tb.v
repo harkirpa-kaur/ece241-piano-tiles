@@ -10,8 +10,8 @@ module tb();
     reg CLOCK_50 = 0;               // DE-series 50 MHz clock
     reg [9:0] SW = 0;               // DE-series SW switches
     reg [3:0] KEY = 0;              // DE-series pushbutton keys
-    inout reg PS2_CLK;
-    inout reg PS2_DAT;
+    wire PS2_CLK;
+    wire PS2_DAT;
     wire [(8*6)-1:0] HEX;           // HEX displays (six ports)
     wire [9:0] LEDR;                // DE-series LEDs
 
@@ -28,6 +28,7 @@ module tb();
     wire [2:0] state;
     wire [9:0] x;
     wire [8:0] y;
+    wire VGA_SYNC;
     wire [7:0] received_data;
 
 
@@ -49,5 +50,5 @@ module tb();
     assign HEX[15: 8] = {1'b0, HEX4};
     assign HEX[ 7: 0] = {1'b0, HEX5};
 
- top T1 (CLOCK_50, SW, KEY, PS2_CLK, PS2_DAT, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, LEDR);
+ top T1 (CLOCK_50, SW, KEY, PS2_CLK, PS2_DAT, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, LEDR, VGA_X, VGA_Y, VGA_COLOR, plot, VGA_SYNC);
 endmodule

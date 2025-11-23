@@ -1,17 +1,51 @@
 # vsim -pli "C:\Users\harki\Downloads\DESim\modelsim.vpi" -Lf 220model -Lf altera_mf_ver -Lf verilog -t 1ns -c -do "run -all" tb 
-# Start time: 13:27:22 on Nov 20,2025
+# Start time: 15:04:39 on Nov 23,2025
 # Loading work.tb
 # Loading work.top
-# Loading work.PS2_Controller
-# Loading work.Altera_UP_PS2_Data_In
-# Loading work.Altera_UP_PS2_Command_Out
+# Loading work.test
+# Loading work.led
+# Loading work.third_counter
+# Loading work.shift_register
+# Loading work.shift_register_delay1
+# Loading work.shift_register_delay2
+# Loading work.shift_register_delay3
+# Loading work.spawn_tile
+# Loading work.shift_tile
+# Loading work.vga_adapter_desim
+# Loading work.vga_convert
+# Loading work.ps2_demo
+# Loading work.sync
+# Loading work.regn
+# Loading work.hex7seg
 # Loading work.keyboard
 # Loading work.expected_key
 # Loading work.timer
-# ** Error (suppressible): (vsim-3053) ../tb/tb.v(52): Illegal output or inout port connection for port 'PS2_CLK'.
-#    Time: 0 ns  Iteration: 0  Instance: /tb/T1 File: ../top.v
-# ** Error (suppressible): (vsim-3053) ../tb/tb.v(52): Illegal output or inout port connection for port 'PS2_DAT'.
-#    Time: 0 ns  Iteration: 0  Instance: /tb/T1 File: ../top.v
-# Error loading design
-# End time: 13:27:22 on Nov 20,2025, Elapsed time: 0:00:00
-# Errors: 2, Warnings: 0
+# ** Warning: (vsim-3017) ../top.v(50): [TFMPC] - Too few port connections. Expected 10, found 9.
+#    Time: 0 ns  Iteration: 0  Instance: /tb/T1/U2 File: ../test.v
+# ** Warning: (vsim-3015) ../top.v(50): [PCDPC] - Port size (8) does not match connection size (10) for port 'VGA_X'. The port definition is at: ../test.v(1).
+#    Time: 0 ns  Iteration: 0  Instance: /tb/T1/U2 File: ../test.v
+# ** Warning: (vsim-3015) ../top.v(50): [PCDPC] - Port size (7) does not match connection size (9) for port 'VGA_Y'. The port definition is at: ../test.v(1).
+#    Time: 0 ns  Iteration: 0  Instance: /tb/T1/U2 File: ../test.v
+# ** Warning: (vsim-3722) ../top.v(50): [TFMPC] - Missing connection for port 'keyboard_enable'.
+# ** Warning: (vsim-3015) ../top.v(68): [PCDPC] - Port size (8) does not match connection size (10) for port 'x'. The port definition is at: ../vga_adapter_desim.v(17).
+#    Time: 0 ns  Iteration: 0  Instance: /tb/T1/VGA_DESIM File: ../vga_adapter_desim.v
+# ** Warning: (vsim-3015) ../top.v(68): [PCDPC] - Port size (7) does not match connection size (9) for port 'y'. The port definition is at: ../vga_adapter_desim.v(17).
+#    Time: 0 ns  Iteration: 0  Instance: /tb/T1/VGA_DESIM File: ../vga_adapter_desim.v
+# ** Warning: (vsim-3015) ../top.v(68): [PCDPC] - Port size (8) does not match connection size (10) for port 'VGA_X'. The port definition is at: ../vga_adapter_desim.v(18).
+#    Time: 0 ns  Iteration: 0  Instance: /tb/T1/VGA_DESIM File: ../vga_adapter_desim.v
+# ** Warning: (vsim-3015) ../top.v(68): [PCDPC] - Port size (7) does not match connection size (9) for port 'VGA_Y'. The port definition is at: ../vga_adapter_desim.v(19).
+#    Time: 0 ns  Iteration: 0  Instance: /tb/T1/VGA_DESIM File: ../vga_adapter_desim.v
+# ** Warning: (vsim-3015) ../top.v(84): [PCDPC] - Port size (1) does not match connection size (4) for port 'KEY'. The port definition is at: ../ps2_demo.v(7).
+#    Time: 0 ns  Iteration: 0  Instance: /tb/T1/ps2 File: ../ps2_demo.v
+# Loading C:\Users\harki\Downloads\DESim\modelsim.vpi
+# run -all
+# Time scaling: 0.0001 sim seconds per real-time second
+# 
+# 
+# Connected to server!
+# ** Note: $finish    : ../tb/tb.v(35)
+#    Time: 12560 us  Iteration: 1  Instance: /tb
+# 
+# Quitting...
+# End time: 15:05:30 on Nov 23,2025, Elapsed time: 0:00:51
+# Errors: 0, Warnings: 9

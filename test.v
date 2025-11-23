@@ -1,22 +1,22 @@
-// Fixed version - key changes marked with comments
-
-module test (CLOCK_50, KEY, LEDR, VGA_X, VGA_Y, VGA_COLOR, state, t);
-	input CLOCK_50;
-    input KEY;
+module test (CLOCK_50, KEY, LEDR, VGA_X, VGA_Y, VGA_COLOR, state, t, lose, keyboard_enable);
+	input wire CLOCK_50;
+    input wire KEY;
+	input wire lose;
+	input wire keyboard_enable;
 	wire reset = KEY;
 
 	wire [3:0] sr, srd1, srd2, srd3;
 	wire done_spawn;
 	wire done_shift1, done_shift2, done_shift3;
-	wire [9:0] spawn_VGA_X;
-	wire [9:0] shift_VGA_X1, shift_VGA_X2, shift_VGA_X3;
-	wire [8:0] spawn_VGA_Y;
-	wire [8:0] shift_VGA_Y1, shift_VGA_Y2, shift_VGA_Y3;
+	wire [7:0] spawn_VGA_X;
+	wire [7:0] shift_VGA_X1, shift_VGA_X2, shift_VGA_X3;
+	wire [6:0] spawn_VGA_Y;
+	wire [6:0] shift_VGA_Y1, shift_VGA_Y2, shift_VGA_Y3;
 	wire [8:0] spawn_VGA_COLOR, shift_VGA_COLOR1, shift_VGA_COLOR2, shift_VGA_COLOR3;
-	output reg [9:0] VGA_X;
-	output reg [8:0] VGA_Y;
+	output reg [7:0] VGA_X;
+	output reg [6:0] VGA_Y;
 	output reg [8:0] VGA_COLOR;
-	output [3:0] LEDR;
+	output reg [3:0] LEDR;
 
 	reg [2:0] spawn_count, shift_count1, shift_count2, shift_count3;
 
@@ -28,7 +28,7 @@ module test (CLOCK_50, KEY, LEDR, VGA_X, VGA_Y, VGA_COLOR, state, t);
 
 	reg [1:0] spawn_tile_x = 2'd0, shift_tile_x1 = 2'd0, shift_tile_x2 = 2'd0, shift_tile_x3 = 2'd0;
 
-	led ld (CLOCK_50, KEY, LEDR, t, sr, srd1, srd2, srd3);
+	led ld (CLOCK_50, KEY, t, sr, srd1, srd2, srd3);
 
 	always @ (posedge CLOCK_50)
 	begin
@@ -37,8 +37,15 @@ module test (CLOCK_50, KEY, LEDR, VGA_X, VGA_Y, VGA_COLOR, state, t);
 		else if (t)
 			start <= 1'b1;
 	end
+
+	always @ (posedge CLOCK_50)
+	begin
+		if (!reset)
+			LEDR <= 4'd0;
+		else if (keyboard_enable && !lose)
+			LEDR <= LEDR + 1;
+	end
   
-	// FIX: Changed to synchronous reset for counters
 	always @ (posedge CLOCK_50)
 	begin
 		if (state == SPAWN)
@@ -186,11 +193,10 @@ module test (CLOCK_50, KEY, LEDR, VGA_X, VGA_Y, VGA_COLOR, state, t);
 	end
 
     spawn_tile dt (sr, spawn_tile_x, 2'd0, CLOCK_50, reset, done_spawn, spawn_VGA_X, spawn_VGA_Y, spawn_VGA_COLOR);
-	shift_tile st1 (reset, CLOCK_50, shift_tile_x1, 2'd1, srd1, done_shift1, shift_VGA_X1, shift_VGA_Y1, shift_VGA_COLOR1);
-	shift_tile st2 (reset, CLOCK_50, shift_tile_x2, 2'd2, srd2, done_shift2, shift_VGA_X2, shift_VGA_Y2, shift_VGA_COLOR2);
-	shift_tile st3 (reset, CLOCK_50, shift_tile_x3, 2'd3, srd3, done_shift3, shift_VGA_X3, shift_VGA_Y3, shift_VGA_COLOR3);
+	shift_tile st1 (reset, CLOCK_50, shift_tile_x1, 2'd1, srd1, lose, done_shift1, shift_VGA_X1, shift_VGA_Y1, shift_VGA_COLOR1);
+	shift_tile st2 (reset, CLOCK_50, shift_tile_x2, 2'd2, srd2, lose, done_shift2, shift_VGA_X2, shift_VGA_Y2, shift_VGA_COLOR2);
+	shift_tile st3 (reset, CLOCK_50, shift_tile_x3, 2'd3, srd3, lose, done_shift3, shift_VGA_X3, shift_VGA_Y3, shift_VGA_COLOR3);
 
-	// FIX: Separated state transition and next state logic
 	always @ (posedge CLOCK_50)
 	begin
 		if (!reset)
@@ -199,7 +205,6 @@ module test (CLOCK_50, KEY, LEDR, VGA_X, VGA_Y, VGA_COLOR, state, t);
 			state <= next_state;
 	end
 
-	// FIX: Combinational logic for next_state in separate block
 	always @ (CLOCK_50)
 	begin
 		case (state)
@@ -239,11 +244,11 @@ module test (CLOCK_50, KEY, LEDR, VGA_X, VGA_Y, VGA_COLOR, state, t);
 endmodule
 
 module spawn_tile (shift_reg, tile_x, tile_y, CLOCK_50, reset, done_spawn, VGA_X, VGA_Y, VGA_COLOR);
-    input [3:0] shift_reg;
-    input [1:0] tile_x;
-    input [1:0] tile_y;
-    input CLOCK_50;
-    input reset;
+    input wire [3:0] shift_reg;
+    input wire [1:0] tile_x;
+    input wire [1:0] tile_y;
+    input wire CLOCK_50;
+    input wire reset;
 
     output reg done_spawn;
     output reg [7:0] VGA_X = 8'd0;
@@ -252,7 +257,7 @@ module spawn_tile (shift_reg, tile_x, tile_y, CLOCK_50, reset, done_spawn, VGA_X
 
 	reg initialized = 1'b0;
 	reg [8:0] latched_color;
-	reg [1:0] prev_tile_x = 1'b0;
+	reg [1:0] prev_tile_x = 2'b0;
 
 	reg [7:0] start_x;
 	reg [6:0] start_y;
@@ -265,7 +270,6 @@ module spawn_tile (shift_reg, tile_x, tile_y, CLOCK_50, reset, done_spawn, VGA_X
 				begin
 					prev_tile_x <= tile_x;
 					initialized <= 1'b0;
-					VGA_COLOR <= sr ? 9'h1ff : 9'h5a;
 				end
 			if (!reset)
 				begin
@@ -275,8 +279,8 @@ module spawn_tile (shift_reg, tile_x, tile_y, CLOCK_50, reset, done_spawn, VGA_X
 					start_y <= tile_y * 7'd30;
 					done_spawn <= 1'b0;
 					initialized <= 1'b0;
-					VGA_COLOR <= 9'h1ff;
-					prev_tile_x <= 1'b0;
+					VGA_COLOR <= 9'h5a;
+					prev_tile_x <= 2'd0;
 				end
 			else if (!initialized)
 				begin
@@ -313,27 +317,27 @@ module spawn_tile (shift_reg, tile_x, tile_y, CLOCK_50, reset, done_spawn, VGA_X
 
 endmodule
 
-module shift_tile (reset, CLOCK_50, tile_x, tile_y, shift_reg_delay, done_shift, VGA_X, VGA_Y, VGA_COLOR);
-	input CLOCK_50;
-	input reset;
-	input [1:0] tile_x;
-	input [1:0] tile_y;
-	input [3:0] shift_reg_delay;
+module shift_tile (reset, CLOCK_50, tile_x, tile_y, shift_reg_delay, lose, done_shift, VGA_X, VGA_Y, VGA_COLOR);
+	input wire CLOCK_50;
+	input wire reset;
+	input wire [1:0] tile_x;
+	input wire [1:0] tile_y;
+	input wire [3:0] shift_reg_delay;
+	input wire lose;
 
-	reg [1:0] prev_tile_x = 1'b0;
+	reg [1:0] prev_tile_x = 2'b0;
 
 	wire srd = shift_reg_delay[tile_x];
 
 	reg initialized = 1'b0;
 	
-	// FIX: Latch the color at the start of each tile
 	reg latched_color;
-	reg [9:0] start_x;
-	reg [8:0] start_y;
+	reg [7:0] start_x;
+	reg [6:0] start_y;
 
 	output reg done_shift;
-	output reg [9:0] VGA_X;
-	output reg [8:0] VGA_Y;
+	output reg [7:0] VGA_X;
+	output reg [6:0] VGA_Y;
 	output reg [8:0] VGA_COLOR;	
 
 	always @ (posedge CLOCK_50)
@@ -352,6 +356,7 @@ module shift_tile (reset, CLOCK_50, tile_x, tile_y, shift_reg_delay, done_shift,
 				VGA_COLOR <= 9'h5a;
 				initialized <= 1'b0;
 				done_shift <= 1'b0;
+				prev_tile_x <= 2'd0;
 			end
 			else
 			begin
@@ -364,7 +369,7 @@ module shift_tile (reset, CLOCK_50, tile_x, tile_y, shift_reg_delay, done_shift,
 					VGA_X <= tile_x * 8'd40;
 					VGA_Y <= tile_y * 8'd30;
 					initialized <= 1'b1;
-					VGA_COLOR <= srd ? 9'h1ff : 9'h5a;
+					VGA_COLOR <= (lose && tile_y == 2'd3 && srd) ? 9'hd4382c : srd ? 9'h1ff : 9'h5a;
 				end
 
 				if (VGA_X >= start_x + 8'd39 && initialized)
