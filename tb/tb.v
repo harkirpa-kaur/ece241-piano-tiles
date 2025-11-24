@@ -19,15 +19,15 @@ module tb();
     reg [7:0] scan_code = 0;        // if a PS/2 keyboard is being emulated in
     wire [2:0] ps2_lock_control;    // the DESim project
 
-    wire [9:0] VGA_X;               // "VGA" column
-    wire [8:0] VGA_Y;               // "VGA" row
+    wire [7:0] VGA_X;               // "VGA" column
+    wire [6:0] VGA_Y;               // "VGA" row
     wire [23:0] VGA_COLOR;          // "VGA pixel" colour
     wire plot;                      // "Pixel" is drawn when this is pulsed
     wire [31:0] GPIO;               // DE-series GPIO port
     wire t;
     wire [2:0] state;
-    wire [9:0] x;
-    wire [8:0] y;
+    wire [7:0] x;
+    wire [6:0] y;
     wire VGA_SYNC;
     wire [7:0] received_data;
 
@@ -51,4 +51,7 @@ module tb();
     assign HEX[ 7: 0] = {1'b0, HEX5};
 
  top T1 (CLOCK_50, SW, KEY, PS2_CLK, PS2_DAT, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, LEDR, VGA_X, VGA_Y, VGA_COLOR, plot, VGA_SYNC);
+
+  PS2_keyboard KeyBoard (CLOCK_50, KEY[0], key_action, scan_code, PS2_CLK, PS2_DAT);
+
 endmodule

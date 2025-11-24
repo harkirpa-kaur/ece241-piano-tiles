@@ -1,4 +1,4 @@
-module test (CLOCK_50, KEY, LEDR, VGA_X, VGA_Y, VGA_COLOR, state, t, lose, keyboard_enable);
+module test (CLOCK_50, KEY, fake_ledr, VGA_X, VGA_Y, VGA_COLOR, state, t, lose, keyboard_enable);
 	input wire CLOCK_50;
     input wire KEY;
 	input wire lose;
@@ -16,7 +16,7 @@ module test (CLOCK_50, KEY, LEDR, VGA_X, VGA_Y, VGA_COLOR, state, t, lose, keybo
 	output reg [7:0] VGA_X;
 	output reg [6:0] VGA_Y;
 	output reg [8:0] VGA_COLOR;
-	output reg [3:0] LEDR;
+	output reg [3:0] fake_ledr;
 
 	reg [2:0] spawn_count, shift_count1, shift_count2, shift_count3;
 
@@ -38,64 +38,52 @@ module test (CLOCK_50, KEY, LEDR, VGA_X, VGA_Y, VGA_COLOR, state, t, lose, keybo
 			start <= 1'b1;
 	end
 
-	always @ (posedge CLOCK_50)
+	always @ (posedge keyboard_enable)
 	begin
 		if (!reset)
-			LEDR <= 4'd0;
-		else if (keyboard_enable && !lose)
-			LEDR <= LEDR + 1;
+			fake_ledr <= 4'd0;
+		else if (!lose)
+			fake_ledr <= fake_ledr + 1;
 	end
   
 	always @ (posedge CLOCK_50)
 	begin
-		if (state == SPAWN)
-		begin
-			if (!reset)
-				spawn_count <= 3'd0;
-			else if (done_spawn && spawn_count < 3'd4)
-				spawn_count <= spawn_count + 1;
-			else if (done_spawn)
-				spawn_count <= 3'd0;
-		end
+		if (!reset)
+			spawn_count <= 3'd0;
+		else if (state == SPAWN && done_spawn && spawn_count < 3'd4)
+			spawn_count <= spawn_count + 1;
+		else if (state == SPAWN && done_spawn)
+			spawn_count <= 3'd0;
 	end
 
 	always @ (posedge CLOCK_50)
 	begin
-		if (state == SHIFT1)
-		begin
-			if (!reset)
-				shift_count1 <= 3'd0;
-			else if (done_shift1 && shift_count1 < 3'd4)
-				shift_count1 <= shift_count1 + 1;
-			else if (done_shift1)
-				shift_count1 <= 3'd0;
-		end
+		if (!reset)
+			shift_count1 <= 3'd0;
+		else if (state == SHIFT1 && done_shift1 && shift_count1 < 3'd4)
+			shift_count1 <= shift_count1 + 1;
+		else if (state == SHIFT1 && done_shift1)
+			shift_count1 <= 3'd0;
 	end
 
 	always @ (posedge CLOCK_50)
 	begin
-		if (state == SHIFT2)
-		begin
-			if (!reset)
-				shift_count2 <= 3'd0;
-			else if (done_shift2 && shift_count2 < 3'd4)
-				shift_count2 <= shift_count2 + 1;
-			else if (done_shift2)
-				shift_count2 <= 3'd0;
-		end
+		if (!reset)
+			shift_count2 <= 3'd0;
+		else if (state == SHIFT2 && done_shift2 && shift_count2 < 3'd4)
+			shift_count2 <= shift_count2 + 1;
+		else if (state == SHIFT2 && done_shift2)
+			shift_count2 <= 3'd0;
 	end
 
 	always @ (posedge CLOCK_50)
 	begin
-		if (state == SHIFT3)
-		begin
-			if (!reset)
-				shift_count3 <= 3'd0;
-			else if (done_shift3 && shift_count3 < 3'd4)
-				shift_count3 <= shift_count3 + 1;
-			else if (done_shift3)
-				shift_count3 <= 3'd0;
-		end
+		if (!reset)
+			shift_count3 <= 3'd0;
+		else if (state == SHIFT3 && done_shift3 && shift_count3 < 3'd4)
+			shift_count3 <= shift_count3 + 1;
+		else if (state == SHIFT3 && done_shift3)
+			shift_count3 <= 3'd0;
 	end
 
 	//counter for spawning tiles over the columns
@@ -205,7 +193,7 @@ module test (CLOCK_50, KEY, LEDR, VGA_X, VGA_Y, VGA_COLOR, state, t, lose, keybo
 			state <= next_state;
 	end
 
-	always @ (CLOCK_50)
+	always @ (*)
 	begin
 		case (state)
 			WAIT: begin
@@ -285,7 +273,7 @@ module spawn_tile (shift_reg, tile_x, tile_y, CLOCK_50, reset, done_spawn, VGA_X
 			else if (!initialized)
 				begin
 					start_x <= tile_x * 8'd40;
-					start_y <= tile_y * 8'd30;
+					start_y <= tile_y * 7'd30;
 					VGA_X <= tile_x * 8'd40;
 					VGA_Y <= tile_y * 8'd30;
 					initialized <= 1'b1;

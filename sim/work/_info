@@ -9,7 +9,7 @@ z2
 cModel Technology
 Z0 dC:/Users/harki/ece241/project/sim
 vAltera_UP_PS2_Command_Out
-Z1 !s110 1763928277
+Z1 !s110 1764007082
 !i10b 1
 !s100 ZjDIV:z^W4aE7ECD]ReVK0
 IU]h3@CJD>0jRZPEfYKgI33
@@ -23,7 +23,7 @@ Z5 OV;L;10.5b;63
 r1
 !s85 0
 31
-Z6 !s108 1763928277.000000
+Z6 !s108 1764007081.000000
 Z7 !s107 ..\vga_adapter_desim.v|../vga_pll.v|../vga_controller.v|../vga_address_translator.v|../vga_adapter_desim.v|../vga_adapter.v|../top.v|../test.v|../ps2_demo.v|../PS2_Controller.v|../led.v|../keyboard.v|../audio_counter.v|../Altera_UP_PS2_Data_In.v|../Altera_UP_PS2_Command_Out.v|
 Z8 !s90 ../Altera_UP_PS2_Command_Out.v|../Altera_UP_PS2_Data_In.v|../audio_counter.v|../keyboard.v|../led.v|../PS2_Controller.v|../ps2_demo.v|../test.v|../top.v|../vga_adapter.v|../vga_adapter_desim.v|../vga_address_translator.v|../vga_controller.v|../vga_pll.v|
 !i113 1
@@ -73,14 +73,14 @@ R9
 vexpected_key
 R1
 !i10b 1
-!s100 QYRh8Xn:0hdRakHWAfhn<0
-IZ09H:CznPacn>iO`5F;2Z2
+!s100 MYGi`NZWW8`az82]_<d7e2
+I8E14hoOVz4b:l6fJ=AQmo2
 R2
 R0
-Z10 w1763926928
+Z10 w1764006103
 Z11 8../keyboard.v
 Z12 F../keyboard.v
-L0 65
+L0 76
 R5
 r1
 !s85 0
@@ -113,8 +113,8 @@ R9
 vkeyboard
 R1
 !i10b 1
-!s100 R^@7GT4oFSE4FYW3mZgd93
-I3C@2SQjanIj_2i2cW9AI[1
+!s100 [:zaP<S:bO^mcDI3N0`7:0
+IG@TF3=6L1aD2ZdKh`Mz=k3
 R2
 R0
 R10
@@ -148,6 +148,26 @@ r1
 R6
 R7
 R8
+!i113 1
+R9
+vps2_clk_dat
+Z19 !s110 1764007081
+!i10b 1
+!s100 ;QPlBDZSY5KOR4JUT2gD_3
+I25iniZj@6==ZAR`dZY@OE0
+R2
+R0
+Z20 w1763926210
+Z21 8../tb/PS2_keyboard.v
+Z22 F../tb/PS2_keyboard.v
+L0 125
+R5
+r1
+!s85 0
+31
+R6
+Z23 !s107 ../tb/tb.v|../tb/PS2_keyboard.v|
+Z24 !s90 ../tb/PS2_keyboard.v|../tb/tb.v|
 !i113 1
 R9
 vPS2_Controller
@@ -191,6 +211,27 @@ R7
 R8
 !i113 1
 R9
+vPS2_keyboard
+R19
+!i10b 1
+!s100 SONZ;kR0o]8_XVQ9jP3ez3
+IX6`fRkl9<E2:dE@>JBM<_1
+R2
+R0
+R20
+R21
+R22
+L0 16
+R5
+r1
+!s85 0
+31
+R6
+R23
+R24
+!i113 1
+R9
+n@p@s2_keyboard
 vregn
 R1
 !i10b 1
@@ -261,7 +302,7 @@ R0
 R16
 R17
 R18
-Z19 L0 86
+Z25 L0 86
 R5
 r1
 !s85 0
@@ -294,14 +335,14 @@ R9
 vshift_tile
 R1
 !i10b 1
-!s100 nm`lY5Y5LTU6>RNaPUFJ]3
-IcSmVT2XVAjRam6b84_OJR0
+!s100 Ij_0;=0ZEBR:=FZkc>T5R1
+Ibn<V[cAVDj0D6=O^ocRC<3
 R2
 R0
-Z20 w1763928142
-Z21 8../test.v
-Z22 F../test.v
-L0 320
+Z26 w1764005317
+Z27 8../test.v
+Z28 F../test.v
+L0 308
 R5
 r1
 !s85 0
@@ -314,14 +355,14 @@ R9
 vspawn_tile
 R1
 !i10b 1
-!s100 H<^gC0dS7B7d2ST?la0gQ0
-IbLh_=Fc1=mz]VD=]5o2Hk0
+!s100 CkR_lo5m0EICnNhEGMhli2
+Im;WH<4lTC8oF^3:d8C5bF0
 R2
 R0
-R20
-R21
-R22
-L0 246
+R26
+R27
+R28
+L0 234
 R5
 r1
 !s85 0
@@ -341,7 +382,7 @@ R0
 R13
 R14
 R15
-R19
+R25
 R5
 r1
 !s85 0
@@ -352,13 +393,13 @@ R8
 !i113 1
 R9
 vtb
-R1
+R19
 !i10b 1
-!s100 cQYHAVJTSCTbUc@2IXK;D2
-I9O4c5<7:`6[UHPbn632e51
+!s100 n>ERnWiAO9HAAeQHEm<=g1
+I7]N9RhY1LD]o=[OY;idnH0
 R2
 R0
-w1763928087
+w1763940847
 8../tb/tb.v
 F../tb/tb.v
 L0 9
@@ -367,20 +408,20 @@ r1
 !s85 0
 31
 R6
-!s107 ../tb/tb.v|
-!s90 ../tb/tb.v|
+R23
+R24
 !i113 1
 R9
 vtest
 R1
 !i10b 1
-!s100 =>COSOPZUOgY;@UB_2[IU0
-IG1fj9i4cGO`:Y0SYHH?1_3
+!s100 nS;e;mga]_BXl?DSWfkZX1
+I_nK?6j[9IejNBA3V9Jcj40
 R2
 R0
-R20
-R21
-R22
+R26
+R27
+R28
 L0 1
 R5
 r1
@@ -414,14 +455,14 @@ R9
 vtimer
 R1
 !i10b 1
-!s100 VKja3DC22lMAT@z`dkcTi3
-IT[NPAI@^M_z6O:<KP8E5J1
+!s100 Z3@_f0ah3n929dZfb^ShT1
+I7hJLCMoYYS2oDQ@i5iW_J0
 R2
 R0
 R10
 R11
 R12
-L0 39
+L0 50
 R5
 r1
 !s85 0
@@ -434,11 +475,11 @@ R9
 vtop
 R1
 !i10b 1
-!s100 ^b6bAG_VPY8JdlPGO7D@13
-IDOB`>HSkO=ZQCEnm@Z1he1
+!s100 KD9k4C4?;U80QcA8:Lk`j3
+I`FQG44_dnZdieOgc_e[f83
 R2
 R0
-w1763927931
+w1764005982
 8../top.v
 F../top.v
 L0 4
@@ -478,9 +519,9 @@ R1
 IEU7RYPRW62Tl?2z`8^`k:3
 R2
 R0
-Z23 w1763568355
-Z24 8../vga_adapter_desim.v
-Z25 F../vga_adapter_desim.v
+Z29 w1763568355
+Z30 8../vga_adapter_desim.v
+Z31 F../vga_adapter_desim.v
 L0 13
 R5
 r1
@@ -498,7 +539,7 @@ R1
 I2z5YWoJ`8<<WJGM[N<i=m2
 R2
 R0
-Z26 w1763328276
+Z32 w1763328276
 8../vga_address_translator.v
 F../vga_address_translator.v
 L0 4
@@ -518,7 +559,7 @@ R1
 IFm7ZX;zDSe8j0;a;aQa?I1
 R2
 R0
-R26
+R32
 8../vga_controller.v
 F../vga_controller.v
 L0 5
@@ -538,9 +579,9 @@ R1
 I8Gi;[Qg^HWdZa6M:^hdoM0
 R2
 R0
-R23
-R24
-R25
+R29
+R30
+R31
 L0 170
 R5
 r1
@@ -558,9 +599,9 @@ R1
 IiT]>eTg3z;g<_Tj1>Jl8<3
 R2
 R0
-R23
-R24
-R25
+R29
+R30
+R31
 L0 154
 R5
 r1
