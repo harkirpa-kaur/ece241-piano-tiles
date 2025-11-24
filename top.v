@@ -39,7 +39,7 @@ module top (CLOCK_50, SW, KEY, PS2_CLK, PS2_DAT, HEX0, HEX1, HEX2, HEX3, HEX4, H
 	output wire VGA_CLK;	
 
 
-   wire lose;
+   wire [1:0] click_state;
    wire [32:0] Serial;
    wire ps2_rec;
     output wire [9:0] LEDR;     // DE-series LEDs   
@@ -48,7 +48,7 @@ module top (CLOCK_50, SW, KEY, PS2_CLK, PS2_DAT, HEX0, HEX1, HEX2, HEX3, HEX4, H
     wire [3:0] fake_ledr;
 
     //led U1 (CLOCK_50, KEY[0], LEDR[3:0], t, index, sr, srd);
-    test U2 (CLOCK_50, KEY[0], fake_ledr, x, y, color, state, t, lose, ps2_rec);
+    test U2 (CLOCK_50, KEY[0], fake_ledr, x, y, color, state, t, click_state, ps2_rec);
      vga_adapter VGA(
          .resetn(KEY[0]),
          .clock(CLOCK_50),
@@ -85,7 +85,7 @@ module top (CLOCK_50, SW, KEY, PS2_CLK, PS2_DAT, HEX0, HEX1, HEX2, HEX3, HEX4, H
 ps2_demo ps2 (CLOCK_50, KEY[0], PS2_CLK, PS2_DAT, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, Serial, ps2_rec);
 
 
-keyboard kbd (CLOCK_50, KEY[0], Serial, ps2_rec, LEDR[7:0], LEDR[9], lose);
+keyboard kbd (CLOCK_50, KEY[0], Serial, ps2_rec, LEDR[7:0], LEDR[9], click_state);
 
 
 

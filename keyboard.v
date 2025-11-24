@@ -1,21 +1,22 @@
-module keyboard (CLOCK_50, reset, received_data, received_data_en, LEDR, score_LEDR, lose);
+module keyboard (CLOCK_50, reset, received_data, received_data_en, LEDR, score_LEDR, click_state);
     input CLOCK_50;
     input reset;
     input [32:0] received_data;
     input received_data_en;
-    output reg lose;
+    output reg [1:0] click_state;
     output [7:0] LEDR;
     output reg score_LEDR;
-    reg break;
+    reg lose;
+    parameter WAIT = 2'd0, SCORE = 2'd1, MISS = 2'd2;
 
     wire [7:0] expected;
+    reg [1:0] next_click_state = WAIT;
 
     assign LEDR = expected;
 
     expected_key ek (CLOCK_50, reset, expected);
     
     parameter SPACE = 8'h29, A = 8'h1c, S = 8'h1b, D = 8'h23, F = 8'h2b, EMPTY = 8'h05, BREAK = 8'hf0;
-
     always @ (posedge CLOCK_50)
     begin
         if (!reset)
@@ -28,16 +29,52 @@ module keyboard (CLOCK_50, reset, received_data, received_data_en, LEDR, score_L
             if (Serial[30:23] == BREAK && Serial[19:12] == expected && Serial[8:1] == BREAK && expected != EMPTY)
             begin
                 lose <= 1'b0;
-                score_LEDR <= 1'b1;
             end
             else
             begin
                 lose <= 1'b1;
-                score_LEDR <= 1'b0;
             end
         end
     end
 endmodule
+
+always @ (posedge CLOCK_50){
+    click_state <= next_click_state;
+}
+
+always @ (*)
+begin
+    case (click_state):
+        WAIT:
+        begin
+            if (received_data_en && !lose)
+            begin
+                next_click_state <= SCORE;
+            end
+            else if (received_data_en && lose)
+            begin
+                next_click_state <= MISS;
+            end
+            else
+                next_click_state <= WAIT;
+        end
+        SCORE:
+        begin
+            if (!received_data_en)
+                next_click_state <= WAIT;
+            else
+                next_click_state <= SCORE;
+        end
+        MISS:
+        begin
+            if (!received_data_en)
+                next_click_state <= WAIT;
+            else
+                next_click_state <= MISS;
+        end
+        default: next_click_state <= WAIT;
+    endcase
+end
 
 module timer (CLOCK_50, reset, timer);
     input CLOCK_50;

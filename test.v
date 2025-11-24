@@ -24,6 +24,7 @@ module test (CLOCK_50, KEY, fake_ledr, VGA_X, VGA_Y, VGA_COLOR, state, t, lose, 
 	reg start;
 	parameter SPAWN = 3'b000, SHIFT1 = 3'b001, SHIFT2 = 3'b010, SHIFT3 = 3'b011, WAIT = 3'b100;
 	output reg [2:0] state = WAIT;
+	parameter WAIT = 2'd0, SCORE = 2'd1, MISS = 2'd2;
 	reg [2:0] next_state;
 
 	reg [1:0] spawn_tile_x = 2'd0, shift_tile_x1 = 2'd0, shift_tile_x2 = 2'd0, shift_tile_x3 = 2'd0;
@@ -181,9 +182,9 @@ module test (CLOCK_50, KEY, fake_ledr, VGA_X, VGA_Y, VGA_COLOR, state, t, lose, 
 	end
 
     spawn_tile dt (sr, spawn_tile_x, 2'd0, CLOCK_50, reset, done_spawn, spawn_VGA_X, spawn_VGA_Y, spawn_VGA_COLOR);
-	shift_tile st1 (reset, CLOCK_50, shift_tile_x1, 2'd1, srd1, lose, done_shift1, shift_VGA_X1, shift_VGA_Y1, shift_VGA_COLOR1);
-	shift_tile st2 (reset, CLOCK_50, shift_tile_x2, 2'd2, srd2, lose, done_shift2, shift_VGA_X2, shift_VGA_Y2, shift_VGA_COLOR2);
-	shift_tile st3 (reset, CLOCK_50, shift_tile_x3, 2'd3, srd3, lose, done_shift3, shift_VGA_X3, shift_VGA_Y3, shift_VGA_COLOR3);
+	shift_tile st1 (reset, CLOCK_50, shift_tile_x1, 2'd1, srd1, click_state, done_shift1, shift_VGA_X1, shift_VGA_Y1, shift_VGA_COLOR1);
+	shift_tile st2 (reset, CLOCK_50, shift_tile_x2, 2'd2, srd2, click_state, done_shift2, shift_VGA_X2, shift_VGA_Y2, shift_VGA_COLOR2);
+	shift_tile st3 (reset, CLOCK_50, shift_tile_x3, 2'd3, srd3, click_state, done_shift3, shift_VGA_X3, shift_VGA_Y3, shift_VGA_COLOR3);
 
 	always @ (posedge CLOCK_50)
 	begin
@@ -305,13 +306,13 @@ module spawn_tile (shift_reg, tile_x, tile_y, CLOCK_50, reset, done_spawn, VGA_X
 
 endmodule
 
-module shift_tile (reset, CLOCK_50, tile_x, tile_y, shift_reg_delay, lose, done_shift, VGA_X, VGA_Y, VGA_COLOR);
+module shift_tile (reset, CLOCK_50, tile_x, tile_y, shift_reg_delay, click_state, done_shift, VGA_X, VGA_Y, VGA_COLOR);
 	input wire CLOCK_50;
 	input wire reset;
 	input wire [1:0] tile_x;
 	input wire [1:0] tile_y;
 	input wire [3:0] shift_reg_delay;
-	input wire lose;
+	input wire [1:0] click_state;
 
 	reg [1:0] prev_tile_x = 2'b0;
 
@@ -357,7 +358,7 @@ module shift_tile (reset, CLOCK_50, tile_x, tile_y, shift_reg_delay, lose, done_
 					VGA_X <= tile_x * 8'd40;
 					VGA_Y <= tile_y * 8'd30;
 					initialized <= 1'b1;
-					VGA_COLOR <= (lose && tile_y == 2'd3 && srd) ? 9'hd4382c : srd ? 9'h1ff : 9'h5a;
+					VGA_COLOR <= (click_state == MISS && tile_y == 2'd3 && srd) ? 9'h3a1 : (click_state == SCORE && tile_y == 2'd3 && srd) ? 9'h3f2 : sr ? 9'h1ff : 9'h5a;
 				end
 
 				if (VGA_X >= start_x + 8'd39 && initialized)
