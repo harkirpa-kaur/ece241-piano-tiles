@@ -1,0 +1,208 @@
+`default_nettype none
+
+/*  This code animates two colored objects that move up/down on the display. The objects 
+ *  "bounce" off the top and bottom of the display and reverse directions. To run the demo
+ *  first press/release KEY[0] to reset the circuit. Select one object by making SW[9] = 0.
+ *  Then, press/release KEY[1] to set the object's color according to switches SW[8:0] 
+ *  (9-bit color), or SW[5:0] (6-bit color), or SW[2:0] (3-bit color). Press KEY[2] to increase
+ *  the speed of the selected object, or press KEY[3] to decrease the speed. Set SW[9] = 1
+ *  to select the other object, then use KEY[1] to KEY[3] to set its color and/or speed.
+ *
+ *  The code supports three VGA resolutions and three different color depths. 
+ *
+ *  A background image (MIF) is displayed on the VGA display.
+*/
+
+module vga_demo(CLOCK_50, SW, KEY, LEDR, VGA_R, VGA_G, VGA_B,
+				VGA_HS, VGA_VS, VGA_BLANK_N, VGA_SYNC_N, VGA_CLK);
+	
+    parameter RESOLUTION = "160x120"; // "640x480" "320x240" "160x120"
+
+    // specify the color depth. This design supports depths of 9, 6, and 3
+    parameter COLOR_DEPTH = 9; // 9 6 3
+
+    // specify the number of bits needed for an X (column) pixel coordinate on the VGA display
+    parameter nX = (RESOLUTION == "640x480") ? 10 : ((RESOLUTION == "320x240") ? 9 : 8);
+    // specify the number of bits needed for a Y (row) pixel coordinate on the VGA display
+    parameter nY = (RESOLUTION == "640x480") ? 9 : ((RESOLUTION == "320x240") ? 8 : 7);
+
+    // state codes for FSM that choses which object to draw at a given time
+    parameter A = 2'b00, B = 2'b01, C = 2'b10, D = 2'b11;
+
+	input wire CLOCK_50;	
+	input wire [9:0] SW;
+	input wire [3:0] KEY;
+	output wire [9:0] LEDR;
+	output wire [7:0] VGA_R;
+	output wire [7:0] VGA_G;
+	output wire [7:0] VGA_B;
+	output wire VGA_HS;
+	output wire VGA_VS;
+	output wire VGA_BLANK_N;
+	output wire VGA_SYNC_N;
+	output wire VGA_CLK;	
+
+	wire [nX-1:0] start_x, game_x, win_x, lose_x;
+	wire [nY-1:0] start_y, game_y, win_y, lose_y;
+	wire [COLOR_DEPTH-1:0] start_color, game_color, win_color, lose_color;
+    wire start_write, game_write, win_write, lose_write;
+    wire resetn; 
+	
+
+    assign resetn = KEY[0];
+    wire change_screen;
+
+    reg ff1, ff2;
+	 
+    always @ (posedge CLOCK_50)
+        begin
+            if(!resetn)
+                begin
+                    ff1 <= 1'b1;
+                    ff2 <= 1'b1; 
+                end
+            else
+                begin
+                    ff1 <= KEY[1];
+                    ff2 <= ff1; 
+                end
+        end
+
+    assign change_screen = (ff2) && (!ff1);
+
+    reg [1:0] pic_to_draw;
+    reg [8:0] q1, q2, q3, q4; 
+	 
+	green green_inst (
+	.address (pic_addr ),
+	.clock ( CLOCK_50 ),
+	.q (game_color)
+	);
+
+	 lose	lose_inst (
+	.address ( pic_addr ),
+	.clock ( CLOCK_50 ),
+	.q ( lose_color )
+	);
+
+    start	start_inst (
+	.address ( pic_addr ),
+	.clock ( CLOCK_50 ),
+	.q ( start_color )
+	);
+
+    win	win_inst (
+	.address ( pic_addr ),
+	.clock ( CLOCK_50 ),
+	.q ( win_color )
+	);
+
+	
+
+
+    // state codes for FSM that choses which object to draw at a given time
+    parameter START = 2'b00, GAME = 2'b01, LOSE = 2'b10, WIN = 2'b11;
+
+    parameter SCREEN_HEIGHT = 120;
+    parameter SCREEN_WIDTH = 160; 
+
+    reg [7:0] draw_x, x;
+    reg [6:0] draw_y, y; 
+    reg drawing, write; 
+	 reg [COLOR_DEPTH-1:0] color; 
+
+    wire [14:0] pic_addr; 
+    assign pic_addr = draw_y * SCREEN_WIDTH + draw_x; 
+
+    always @ (posedge CLOCK_50)
+        begin
+            if(!resetn)
+                pic_to_draw <= 2'b0;
+            else if (change_screen)
+                pic_to_draw <= pic_to_draw + 2'd1; 
+        end
+
+    //painter FSM
+    always @ (posedge CLOCK_50)
+    begin
+        if(!resetn)
+            begin
+                drawing <= 1'b1;
+                draw_x = 8'b0;
+                draw_y = 7'b0; 
+                x = 8'b0;
+                y = 7'b0;
+                color = 9'b0; 
+                write <= 1'b0; 
+            end
+        else 
+            begin
+                write <= 1'b0; 
+                if(change_screen)
+                    begin
+                        drawing <= 1'b1; 
+                    end
+                
+                if(drawing)
+                    begin
+                        x <= draw_x;
+                        y <= draw_y; 
+
+                        case (pic_to_draw)
+                            START: color <= start_color;
+                            GAME: color <= game_color;
+                            WIN: color <= win_color;
+                            LOSE: color <= lose_color; 
+                            default: color <= start_color; 
+                        endcase
+
+                        write <= 1'b1; 
+
+                        if(draw_x == SCREEN_WIDTH - 1)
+                            begin
+                                draw_x <= 8'd0;
+                                if(draw_y == SCREEN_HEIGHT - 1)
+                                    begin
+                                        draw_y <= 7'd0; 
+                                        drawing <= 1'b0; 
+                                    end
+                                else
+                                    begin
+                                        draw_y <= draw_y + 1'b1; 
+                                    end
+                            end
+                        else
+                            begin
+                                draw_x <= draw_x + 1'b1; 
+                            end
+                    end
+            end
+    end
+
+
+    // connect to VGA controller
+    vga_adapter VGA (
+		.resetn(resetn),
+		.clock(CLOCK_50),
+		.color(color),
+		.x(x),
+		.y(y),
+		.write(write),
+		.VGA_R(VGA_R),
+		.VGA_G(VGA_G),
+		.VGA_B(VGA_B),
+		.VGA_HS(VGA_HS),
+		.VGA_VS(VGA_VS),
+		.VGA_BLANK_N(VGA_BLANK_N),
+		.VGA_SYNC_N(VGA_SYNC_N),
+		.VGA_CLK(VGA_CLK));
+		defparam VGA.RESOLUTION = RESOLUTION;
+        // choose background image according to resolution and color depth
+		defparam VGA.BACKGROUND_IMAGE = "./MIF/green.mif";
+		defparam VGA.COLOR_DEPTH = COLOR_DEPTH;
+
+    assign LEDR[9] = 1'b0;
+    assign LEDR[8:0] = (COLOR_DEPTH == 9) ? SW[8:0] : ((COLOR_DEPTH == 6) ? {3'b0,SW[5:0]} :
+                       {6'b0,SW[2:0]});
+
+endmodule
