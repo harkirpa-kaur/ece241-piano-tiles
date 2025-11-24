@@ -1,7 +1,7 @@
 module keyboard (CLOCK_50, reset, received_data, received_data_en, LEDR, score_LEDR, lose);
     input CLOCK_50;
     input reset;
-    input [7:0] received_data;
+    input [32:0] received_data;
     input received_data_en;
     output reg lose;
     output [7:0] LEDR;
@@ -25,15 +25,7 @@ module keyboard (CLOCK_50, reset, received_data, received_data_en, LEDR, score_L
         end
     if (received_data_en)
         begin
-            if (received_data == BREAK)
-            begin
-                break <= 1'b1;
-            end
-            else if (break)
-            begin
-                break <= 1'b0;
-            end
-            else if (received_data == expected && expected != EMPTY)
+            if (Serial[30:23] == BREAK && Serial[19:12] == expected && Serial[8:1] == BREAK && expected != EMPTY)
             begin
                 lose <= 1'b0;
                 score_LEDR <= 1'b1;
@@ -60,7 +52,7 @@ module timer (CLOCK_50, reset, timer);
             little <= 25'd0;
             timer <= 1'b0;
         end
-        else if (little == 25'd16_666)
+        else if (little == 25'd16_666_666)
         begin
             little <= 25'd0;
             timer <= 1'b1;

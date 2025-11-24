@@ -29,7 +29,7 @@ module third_counter (CLOCK_50, reset, t);
                 little <= 25'd0;
                 t <= 1'b0;
             end
-        else if (little == 25'd16_666)
+        else if (little == 25'd16_666_666)
             begin
                 little <= 25'd0;
                 t <= 1'b1;

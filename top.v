@@ -40,7 +40,7 @@ module top (CLOCK_50, SW, KEY, PS2_CLK, PS2_DAT, HEX0, HEX1, HEX2, HEX3, HEX4, H
 
 
    wire lose;
-   wire [7:0] scancode;
+   wire [32:0] Serial;
    wire ps2_rec;
     output wire [9:0] LEDR;     // DE-series LEDs   
     wire [2:0] state;
@@ -82,10 +82,10 @@ module top (CLOCK_50, SW, KEY, PS2_CLK, PS2_DAT, HEX0, HEX1, HEX2, HEX3, HEX4, H
 
 
 
-ps2_demo ps2 (CLOCK_50, KEY[0], PS2_CLK, PS2_DAT, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, scancode, ps2_rec);
+ps2_demo ps2 (CLOCK_50, KEY[0], PS2_CLK, PS2_DAT, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, Serial, ps2_rec);
 
 
-keyboard kbd (CLOCK_50, KEY[0], scancode, ps2_rec, LEDR[7:0], LEDR[9], lose);
+keyboard kbd (CLOCK_50, KEY[0], Serial, ps2_rec, LEDR[7:0], LEDR[9], lose);
 
 
 
