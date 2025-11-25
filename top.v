@@ -82,10 +82,10 @@ module top (CLOCK_50, SW, KEY, PS2_CLK, PS2_DAT, HEX0, HEX1, HEX2, HEX3, HEX4, H
 
 
 
-ps2_demo ps2 (CLOCK_50, KEY[0], PS2_CLK, PS2_DAT, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, Serial, ps2_rec);
+ps2_demo ps2 (CLOCK_50, KEY[0], PS2_CLK, PS2_DAT, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, Serial, ps2_rec, LEDR[9]);
 
 
-keyboard kbd (CLOCK_50, KEY[0], Serial, ps2_rec, LEDR[7:0], LEDR[9], click_state);
+keyboard kbd (CLOCK_50, KEY[0], Serial, ps2_rec, LEDR[7:0], LEDR[8], click_state);
 
 
 
