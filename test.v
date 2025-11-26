@@ -1,33 +1,36 @@
-`include "led.v"
-
-module test (CLOCK_50, KEY, LEDR, VGA_X, VGA_Y, VGA_COLOR, done_spawn, t, sr, srd1, srd2, srd3);
-	input CLOCK_50;
-    input KEY;
+module test (CLOCK_50, KEY, LEDR, VGA_X, VGA_Y, VGA_COLOR, state, t, click_state, keyboard_enable, scancode, tile_state1, tile_state2, tile_state3, expected_key);
+	input wire CLOCK_50;
+    input wire KEY;
+	input wire [1:0] click_state;
+	input wire [7:0] scancode; 
+	input wire keyboard_enable;
 	wire reset = KEY;
 
-	output [3:0] sr, srd1, srd2, srd3;
-	output wire done_spawn;
+	wire [3:0] sr, srd1, srd2, srd3;
+	wire done_spawn;
 	wire done_shift1, done_shift2, done_shift3;
-	wire [9:0] spawn_VGA_X;
-	wire [9:0] shift_VGA_X1, shift_VGA_X2, shift_VGA_X3;
-	wire [8:0] spawn_VGA_Y;
-	wire [8:0] shift_VGA_Y1, shift_VGA_Y2, shift_VGA_Y3;
+	wire [7:0] spawn_VGA_X;
+	wire [7:0] shift_VGA_X1, shift_VGA_X2, shift_VGA_X3;
+	wire [6:0] spawn_VGA_Y;
+	wire [6:0] shift_VGA_Y1, shift_VGA_Y2, shift_VGA_Y3;
 	wire [8:0] spawn_VGA_COLOR, shift_VGA_COLOR1, shift_VGA_COLOR2, shift_VGA_COLOR3;
-	output reg [9:0] VGA_X;
-	output reg [8:0] VGA_Y;
+	output reg [7:0] VGA_X;
+	output reg [6:0] VGA_Y;
 	output reg [8:0] VGA_COLOR;
-	output [3:0] LEDR;
+	output wire [1:0] LEDR;
 
 	reg [2:0] spawn_count, shift_count1, shift_count2, shift_count3;
 
-	output t;
+	output wire t;
 	reg start;
 	parameter SPAWN = 3'b000, SHIFT1 = 3'b001, SHIFT2 = 3'b010, SHIFT3 = 3'b011, WAIT = 3'b100;
-	reg [2:0] state = WAIT, next_state;
+	output reg [2:0] state = WAIT;
+	parameter PAUSE = 2'd0, SCORE = 2'd1, MISS = 2'd2;
+	reg [2:0] next_state;
 
 	reg [1:0] spawn_tile_x = 2'd0, shift_tile_x1 = 2'd0, shift_tile_x2 = 2'd0, shift_tile_x3 = 2'd0;
 
-	led ld (CLOCK_50, KEY, LEDR, t, sr, srd1, srd2, srd3);
+	led ld (CLOCK_50, KEY, t, sr, srd1, srd2, srd3);
 
 	always @ (posedge CLOCK_50)
 	begin
@@ -36,46 +39,52 @@ module test (CLOCK_50, KEY, LEDR, VGA_X, VGA_Y, VGA_COLOR, done_spawn, t, sr, sr
 		else if (t)
 			start <= 1'b1;
 	end
+
+//	always @ (posedge keyboard_enable)
+//	begin
+//		if (!reset)
+//			fake_ledr <= 4'd0;
+//		else if (!lose)
+//			fake_ledr <= fake_ledr + 1;
+//	end
   
-	// counters for number of spawn and shift operations
-
-	always @ (posedge done_spawn)
+	always @ (posedge CLOCK_50)
 	begin
 		if (!reset)
 			spawn_count <= 3'd0;
-		else if (spawn_count < 3'd4)
+		else if (state == SPAWN && done_spawn && spawn_count < 3'd4)
 			spawn_count <= spawn_count + 1;
-		else
+		else if (state == SPAWN && done_spawn)
 			spawn_count <= 3'd0;
 	end
 
-	always @ (posedge done_shift1)
+	always @ (posedge CLOCK_50)
 	begin
 		if (!reset)
 			shift_count1 <= 3'd0;
-		else if (shift_count1 < 3'd4)
+		else if (state == SHIFT1 && done_shift1 && shift_count1 < 3'd4)
 			shift_count1 <= shift_count1 + 1;
-		else
+		else if (state == SHIFT1 && done_shift1)
 			shift_count1 <= 3'd0;
 	end
 
-	always @ (posedge done_shift2)
+	always @ (posedge CLOCK_50)
 	begin
 		if (!reset)
 			shift_count2 <= 3'd0;
-		else if (shift_count2 < 3'd4)
+		else if (state == SHIFT2 && done_shift2 && shift_count2 < 3'd4)
 			shift_count2 <= shift_count2 + 1;
-		else
+		else if (state == SHIFT2 && done_shift2)
 			shift_count2 <= 3'd0;
 	end
 
-	always @ (posedge done_shift3)
+	always @ (posedge CLOCK_50)
 	begin
 		if (!reset)
 			shift_count3 <= 3'd0;
-		else if (shift_count3 < 3'd4)
+		else if (state == SHIFT3 && done_shift3 && shift_count3 < 3'd4)
 			shift_count3 <= shift_count3 + 1;
-		else
+		else if (state == SHIFT3 && done_shift3)
 			shift_count3 <= 3'd0;
 	end
 
@@ -83,17 +92,20 @@ module test (CLOCK_50, KEY, LEDR, VGA_X, VGA_Y, VGA_COLOR, done_spawn, t, sr, sr
 	always @ (posedge CLOCK_50)
 	begin
 		if (!reset)
-		begin
-			spawn_tile_x <= 2'b00;
-		end
-		else if (spawn_tile_x < 2'd3 && done_spawn)
-			begin
-				spawn_tile_x <= spawn_tile_x + 1;
-			end
-		else if (done_spawn)
 			begin
 				spawn_tile_x <= 2'b00;
 			end
+		else if (state == SPAWN)
+		begin
+		if (spawn_tile_x < 2'd3 && done_spawn)
+				begin
+					spawn_tile_x <= spawn_tile_x + 1;
+				end
+			else if (done_spawn)
+				begin
+					spawn_tile_x <= 2'b00;
+				end
+		end
 	end
 
 	// counter for shifting tiles over the columns
@@ -169,14 +181,36 @@ module test (CLOCK_50, KEY, LEDR, VGA_X, VGA_Y, VGA_COLOR, done_spawn, t, sr, sr
 			VGA_COLOR <= shift_VGA_COLOR3;
 		end
 	end
+	
+	parameter WAITING = 2'd0, EXPECTING = 2'd1, SCORED = 2'd2, MISSED = 2'd3;
+	
+	output wire [1:0] tile_state1, tile_state2, tile_state3;
+	
+	reg [1:0] combined_click_state;
+	always @(*) begin
+		 if (tile_state1 == SCORED || tile_state2 == SCORED || tile_state3 == SCORED)
+			  combined_click_state = SCORED;
+		 else if (tile_state1 == MISSED || tile_state2 == MISSED || tile_state3 == MISSED)
+			  combined_click_state = MISSED;
+		 else
+			  combined_click_state = WAITING;
+	end
+	
+	wire [7:0] fake1, fake2; 
+	output wire [7:0] expected_key;
+
 
     spawn_tile dt (sr, spawn_tile_x, 2'd0, CLOCK_50, reset, done_spawn, spawn_VGA_X, spawn_VGA_Y, spawn_VGA_COLOR);
-	shift_tile st1 (reset, CLOCK_50, shift_tile_x1, 2'd1, srd1, done_shift1, shift_VGA_X1, shift_VGA_Y1, shift_VGA_COLOR1);
-	shift_tile st2 (reset, CLOCK_50, shift_tile_x2, 2'd2, srd2, done_shift2, shift_VGA_X2, shift_VGA_Y2, shift_VGA_COLOR2);
-	shift_tile st3 (reset, CLOCK_50, shift_tile_x3, 2'd3, srd3, done_shift3, shift_VGA_X3, shift_VGA_Y3, shift_VGA_COLOR3);
-
-	// state machine to control spawning and shifting
-
+	shift_tile st1 (reset, CLOCK_50, shift_tile_x1, 2'd1, srd1, click_state, done_shift1, shift_VGA_X1, shift_VGA_Y1, shift_VGA_COLOR1);
+	shift_tile st2 (reset, CLOCK_50, shift_tile_x2, 2'd2, srd2, click_state, done_shift2, shift_VGA_X2, shift_VGA_Y2, shift_VGA_COLOR2);
+	shift_tile st3 (reset, CLOCK_50, shift_tile_x3, 2'd3, srd3, click_state, done_shift3, shift_VGA_X3, shift_VGA_Y3, shift_VGA_COLOR3);
+	
+	//shift_tile st1 (reset, CLOCK_50, shift_tile_x1, 2'd1, srd1, scancode, 
+   //             done_shift1, shift_VGA_X1, shift_VGA_Y1, shift_VGA_COLOR1, tile_state1, fake1);
+	//shift_tile st2 (reset, CLOCK_50, shift_tile_x2, 2'd2, srd2, scancode, 
+    //            done_shift2, shift_VGA_X2, shift_VGA_Y2, shift_VGA_COLOR2, tile_state2, fake2);
+	//shift_tile st3 (reset, CLOCK_50, shift_tile_x3, 2'd3, srd3, scancode, 
+   //             done_shift3, shift_VGA_X3, shift_VGA_Y3, shift_VGA_COLOR3, tile_state3, expected_key);
 
 	always @ (posedge CLOCK_50)
 	begin
@@ -184,170 +218,259 @@ module test (CLOCK_50, KEY, LEDR, VGA_X, VGA_Y, VGA_COLOR, done_spawn, t, sr, sr
 			state <= WAIT;
 		else
 			state <= next_state;
-			
+	end
+
+	always @ (*)
+	begin
 		case (state)
 			WAIT: begin
 				if (start)
-					next_state <= SPAWN;
+					next_state = SPAWN;
 				else
-					next_state <= WAIT;
+					next_state = WAIT;
 			end
 			SPAWN: begin
 				if (spawn_count >= 3'd4)
-				begin
-					next_state <= SHIFT1;
-					//done_spawn <= 1'b0;
-				end
+					next_state = SHIFT1;
 				else
-					next_state <= SPAWN;
+					next_state = SPAWN;
 			end
 			SHIFT1: begin
 				if (shift_count1 >= 3'd4)
-				begin
-					next_state <= SHIFT2;
-					//done_shift1 <= 1'b0;
-				end
+					next_state = SHIFT2;
 				else
-					next_state <= SHIFT1;
+					next_state = SHIFT1;
 			end
 			SHIFT2: begin
 				if (shift_count2 >= 3'd4)
-				begin
-					next_state <= SHIFT3;
-					//done_shift2 <= 1'b0;
-				end
+					next_state = SHIFT3;
 				else
-					next_state <= SHIFT2;
+					next_state = SHIFT2;
 			end
 			SHIFT3: begin
 				if (shift_count3 >= 3'd4)
-				begin
-					next_state <= SPAWN;
-					//done_shift3 <= 1'b0;
-				end
+					next_state = SPAWN;
 				else
-					next_state <= SHIFT3;
+					next_state = SHIFT3;
 			end
-			default: next_state <= WAIT;
+			default: next_state = WAIT;
 		endcase
 	end
-
 endmodule
 
 module spawn_tile (shift_reg, tile_x, tile_y, CLOCK_50, reset, done_spawn, VGA_X, VGA_Y, VGA_COLOR);
-    input [3:0] shift_reg;
-    //gives index of tile (4x4)
-    input [1:0] tile_x;
-    input [1:0] tile_y;
-    input CLOCK_50;
-    input reset;
-
+    input wire [3:0] shift_reg;
+    input wire [1:0] tile_x;
+    input wire [1:0] tile_y;
+    input wire CLOCK_50;
+    input wire reset;
     output reg done_spawn;
-    output reg [9:0] VGA_X = 10'd0;
-    output reg [8:0] VGA_Y = 9'd0;
+    output reg [7:0] VGA_X = 8'd0;
+    output reg [6:0] VGA_Y = 7'd0;
     output reg [8:0] VGA_COLOR;
+	 
+    reg initialized = 1'b0;
+    reg [1:0] prev_tile_x = 2'b0;
+    reg [7:0] start_x;
+    reg [6:0] start_y;
+    
+    wire sr = shift_reg[tile_x];
+    reg [14:0] address = 15'd0; 
+    wire [8:0] gift_colour;
+    
+    gift g1 (
+        .address ( address ),
+        .clock ( CLOCK_50 ),
+        .q ( gift_colour )
+    );
+    
+    reg [5:0] gift_x = 6'd0;
+    reg [4:0] gift_y = 5'd0; 
+    
+    // MIF dimensions - we only read from top-left 40x30 tile
+    parameter MIF_WIDTH = 160;  // Full width of the MIF image
 
-	//wire [3:0] test = 4'b1010;
-	wire sr = shift_reg[tile_x];
-
-    //cycles through pixels of a 160x120 tile
     always @ (posedge CLOCK_50)
     begin
+        if (prev_tile_x != tile_x)
+        begin
+            prev_tile_x <= tile_x;
+            initialized <= 1'b0;
+        end
+        
         if (!reset)
         begin
-            VGA_X <= tile_x * 10'd160;
-            VGA_Y <= tile_y * 9'd120;
-			VGA_COLOR <= 9'h5a;
-            done_spawn <= 2'b0;
+            VGA_X <= tile_x * 8'd40;
+            VGA_Y <= tile_y * 7'd30;
+            start_x <= tile_x * 8'd40;
+            start_y <= tile_y * 7'd30;
+            done_spawn <= 1'b0;
+            initialized <= 1'b0;
+            VGA_COLOR <= 9'h5a;
+            prev_tile_x <= 2'd0;
+            gift_x <= 6'd0;
+            gift_y <= 5'd0; 
+            address <= 15'd0;
+        end
+        else if (!initialized)
+        begin
+            start_x <= tile_x * 8'd40;
+            start_y <= tile_y * 7'd30;
+            VGA_X <= tile_x * 8'd40;
+            VGA_Y <= tile_y * 8'd30;
+            initialized <= 1'b1;
+            gift_x <= 6'd0;
+            gift_y <= 5'd0;
+            address <= 15'd0;  // Start at top-left corner of MIF
+            VGA_COLOR <= sr ? gift_colour : 9'h5a;
+            done_spawn <= 1'b0;
         end
         else
         begin
-			done_spawn <= 1'b0;
-			if (sr == 1'b1)
-				VGA_COLOR <= 9'hffffff; //white
-			else if (sr == 1'b0)
-				VGA_COLOR <= 9'h5a; //green
-
-            if (VGA_X >= (tile_x * 10'd160) + 10'd159)
-				begin
-					VGA_X <= tile_x * 10'd160;
-					if (VGA_Y == 9'd120)
-					begin
-						VGA_Y <= 9'd0;
-						done_spawn <= 1'b1;
-					end
-					else 
-					begin
-						VGA_Y <= VGA_Y + 1;
-					end
-				end
-            else
-				begin
-					VGA_X <= VGA_X + 1;
-				end
-        end
-    end
-
-endmodule
-
-module shift_tile (reset, CLOCK_50, tile_x, tile_y, shift_reg_delay, done_shift, VGA_X, VGA_Y, VGA_COLOR);
-	input CLOCK_50;
-	input reset;
-	input [1:0] tile_x;
-	input [1:0] tile_y;
-	input [3:0] shift_reg_delay;
-
-	wire srd = shift_reg_delay[tile_x];
-
-	reg initialized = 1'b0;
-
-	output reg done_shift;
-	output reg [9:0] VGA_X;
-	output reg [8:0] VGA_Y;
-	output reg [8:0] VGA_COLOR;	
-
-	always @ (posedge CLOCK_50)
-    begin
-        if (!reset)
-        begin
-            VGA_X <= tile_x * 10'd160;
-            VGA_Y <= tile_y * 9'd120;
-				VGA_COLOR <= 9'h5a;
-            done_shift <= 1'b0;
-        end
-        else
-        begin
-			done_shift <= 1'b0;
-			if (srd == 1'b1)
-				VGA_COLOR <= 9'hffffff; //white
-			else if (srd == 1'b0)
-				VGA_COLOR <= 9'h5a; //green
-
-			if (!initialized)
-			begin
-				VGA_X <= tile_x * 10'd160;
-				VGA_Y <= tile_y * 9'd120;
-				initialized <= 1'b1;
-			end
-
-            if (VGA_X >= (tile_x * 10'd160) + 10'd159 && initialized)
+            done_spawn <= 1'b0;
+            
+            // Output current color based on current address (from previous cycle)
+            VGA_COLOR <= sr ? gift_colour : 9'h5a;
+            
+            // Increment pixel position
+            if (gift_x >= 6'd39)
             begin
-                VGA_X <= tile_x * 10'd160;
-                if (VGA_Y >= (tile_y * 9'd120) + 9'd119)
+                VGA_X <= start_x;
+                gift_x <= 6'd0; 
+                if (gift_y >= 5'd29)
                 begin
-                    VGA_Y <= tile_y * 9'd120;
-                    done_shift <= 1'b1;
+                    VGA_Y <= start_y;
+                    gift_y <= 5'd0; 
+                    address <= 15'd0;
+                    done_spawn <= 1'b1;
                 end
                 else 
                 begin
+                    gift_y <= gift_y + 1;
                     VGA_Y <= VGA_Y + 1;
+                    // Move to next row: skip full MIF width to get to same x position on next row
+                    address <= (gift_y + 5'd1) * MIF_WIDTH;
                 end
             end
-            else if (initialized)
+            else
             begin
+                gift_x <= gift_x + 1; 
                 VGA_X <= VGA_X + 1;
+                // Move to next pixel in same row
+                address <= gift_y * MIF_WIDTH + (gift_x + 6'd1);
             end
         end
     end
+endmodule
 
+module shift_tile (reset, CLOCK_50, tile_x, tile_y, shift_reg_delay, click_state, done_shift, VGA_X, VGA_Y, VGA_COLOR);
+	input wire CLOCK_50;
+	input wire reset;
+	input wire [1:0] tile_x;
+	input wire [1:0] tile_y;
+	input wire [3:0] shift_reg_delay;
+	input wire [1:0] click_state;
+	
+	reg [1:0] prev_tile_x = 2'b0;
+	wire srd = shift_reg_delay[tile_x];
+	reg initialized = 1'b0;
+	
+	reg [7:0] start_x;
+	reg [6:0] start_y;
+	
+	output reg done_shift;
+	output reg [7:0] VGA_X;
+	output reg [6:0] VGA_Y;
+	output reg [8:0] VGA_COLOR;	
+	
+	parameter PAUSE = 2'd0, SCORE = 2'd1, MISS = 2'd2;
+	
+	reg [14:0] address = 15'd0; 
+	wire [8:0] gift_colour;
+	
+	gift g2 (
+		.address ( address ),
+		.clock ( CLOCK_50 ),
+		.q ( gift_colour )
+	);
+	
+	reg [5:0] gift_x = 6'd0;
+	reg [4:0] gift_y = 5'd0; 
+	
+	// MIF dimensions - we only read from top-left 40x30 tile
+	parameter MIF_WIDTH = 160;  // Full width of the MIF image
+	
+	always @ (posedge CLOCK_50)
+	begin
+		if (prev_tile_x != tile_x)
+		begin
+			prev_tile_x <= tile_x;
+			initialized <= 1'b0;
+		end
+		
+		if (!reset)
+		begin
+			VGA_X <= tile_x * 8'd40;
+			VGA_Y <= tile_y * 7'd30;
+			start_x <= tile_x * 8'd40;
+			start_y <= tile_y * 7'd30;
+			VGA_COLOR <= 9'h5a;
+			initialized <= 1'b0;
+			done_shift <= 1'b0;
+			prev_tile_x <= 2'd0;
+			gift_x <= 6'd0;
+			gift_y <= 5'd0; 
+			address <= 15'd0;
+		end
+		else
+		begin
+			done_shift <= 1'b0;
+			
+			if (!initialized)
+			begin
+				start_x <= tile_x * 8'd40;
+				start_y <= tile_y * 8'd30;
+				VGA_X <= tile_x * 8'd40;
+				VGA_Y <= tile_y * 8'd30;
+				initialized <= 1'b1;
+				gift_x <= 6'd0;
+				gift_y <= 5'd0; 
+				address <= 15'd0;  // Start at top-left corner of MIF
+				VGA_COLOR <= (click_state == MISS && tile_y == 2'd3 && srd) ? 9'hf00 : (click_state == SCORE && tile_y == 2'd3 && srd) ? 9'h5a : (srd) ? gift_colour : 9'h5a;
+			end
+			else
+			begin
+				// Output current color based on current address (from previous cycle)
+				VGA_COLOR <= (click_state == MISS && tile_y == 2'd3 && srd) ? 9'hf00 : (click_state == SCORE && tile_y == 2'd3 && srd) ? 9'h5a : (srd) ? gift_colour : 9'h5a;
+				
+				// Increment pixel position
+				if (gift_x >= 6'd39)
+				begin
+					VGA_X <= start_x;
+					gift_x <= 6'd0; 
+					if (gift_y >= 5'd29)
+					begin
+						VGA_Y <= start_y;
+						gift_y <= 5'd0; 
+						address <= 15'd0;
+						done_shift <= 1'b1;
+					end
+					else 
+					begin
+						gift_y <= gift_y + 1;
+						VGA_Y <= VGA_Y + 1;
+						// Move to next row: skip full MIF width to get to same x position on next row
+						address <= (gift_y + 5'd1) * MIF_WIDTH;
+					end
+				end
+				else
+				begin
+					gift_x <= gift_x + 1; 
+					VGA_X <= VGA_X + 1;
+					// Move to next pixel in same row
+					address <= gift_y * MIF_WIDTH + (gift_x + 6'd1);
+				end
+			end
+		end
+	end
 endmodule
