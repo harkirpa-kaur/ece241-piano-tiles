@@ -6,11 +6,11 @@ module game_controller(
     input wire shift1_done,
     input wire shift2_done,
     input wire shift3_done,
-    output reg [1:0] state
+    output reg [2:0] state
 );
 
     parameter SPAWN = 3'b000, SHIFT1 = 3'b001, SHIFT2 = 3'b010, SHIFT3 = 3'b011, WAIT = 3'b100;
-    reg [1:0] next_state;
+    reg [2:0] next_state;
 
     always @ (*)
         begin
