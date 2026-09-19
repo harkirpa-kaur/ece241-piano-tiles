@@ -205,9 +205,9 @@ module test (CLOCK_50, KEY, LEDR, VGA_X, VGA_Y, VGA_COLOR, state, t, click_state
 	shift_tile st2 (reset, CLOCK_50, shift_tile_x2, 2'd2, srd2, click_state, done_shift2, shift_VGA_X2, shift_VGA_Y2, shift_VGA_COLOR2);
 	shift_tile st3 (reset, CLOCK_50, shift_tile_x3, 2'd3, srd3, click_state, done_shift3, shift_VGA_X3, shift_VGA_Y3, shift_VGA_COLOR3);
 	
-	game_datapath dp (CLOCK_50, reset, spawn_count, shift_count1, shift_count2, shift_count3, done_spawn, done_shift1, done_shit2, done_shift3);
+	controller_datapath dp (spawn_count, shift_count1, shift_count2, shift_count3, done_spawn, done_shift1, done_shit2, done_shift3);
 	game_controller gc (CLOCK_50, reset, start, done_spawn, done_shift1, done_shift2, done_shift3, state);
-	
+
 endmodule
 
 module spawn_tile (shift_reg, tile_x, tile_y, CLOCK_50, reset, done_spawn, VGA_X, VGA_Y, VGA_COLOR);

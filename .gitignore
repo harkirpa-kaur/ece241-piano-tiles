@@ -1,0 +1,27 @@
+# ModelSim
+work/
+transcript
+vsim.wlf
+*.wlf
+*.log
+
+# Quartus generated folders
+db/
+incremental_db/
+output_files/
+
+# Quartus temporary/generated files
+*.rpt
+*.summary
+*.smsg
+*.jdi
+*.pin
+*.sof
+*.pof
+*.qws
+
+# Editor/OS junk
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
