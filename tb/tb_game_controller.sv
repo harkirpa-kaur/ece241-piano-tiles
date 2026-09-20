@@ -13,6 +13,8 @@ module tb_game_controller();
 
     //error counter
     int errors = 0;
+
+    int wait_cycles;
     
     //tile states
     parameter SPAWN = 3'b000, SHIFT1 = 3'b001, SHIFT2 = 3'b010, SHIFT3 = 3'b011, WAIT = 3'b100;
@@ -31,6 +33,7 @@ module tb_game_controller();
     initial clk = 0;
     always #5 clk = ~clk;
 
+    /* requires higher licence :(
     //covergroup for functional coverage
     covergroup controller_cg @(posedge clk);
         //state visit coverage
@@ -52,6 +55,7 @@ module tb_game_controller();
     endgroup
 
     controller_cg cg = new();
+    */
 
     //properties for temporal assertions
     property reset_state;
@@ -196,72 +200,143 @@ module tb_game_controller();
 
         @(posedge clk);
         #1;
-        
         @(negedge clk);
         resetn = 1;
+        
         @(posedge clk);
         #1;
-        
         @(negedge clk);
         start = 1;
+       
         @(posedge clk);
         #1;
-        
         @(negedge clk);
         start = 0;
+        
         @(posedge clk);
         #1;
-        
         @(negedge clk);
         spawn_done = 1;
+
         @(posedge clk);
         #1;
-        
         @(negedge clk);
         spawn_done = 0;
+        
         @(posedge clk);
         #1;
-        
         @(negedge clk);
         shift1_done = 1;
+        
         @(posedge clk);
         #1;
-        
         @(negedge clk)
         shift1_done = 0;
+        
         @(posedge clk);
         #1;
-        
         @(negedge clk);
         shift2_done = 1;
+       
         @(posedge clk);
         #1;
-        
         @(negedge clk);
         shift2_done = 0;
+        
         @(posedge clk);
         #1;
-        
         @(negedge clk);
         shift3_done = 1;
+        
         @(posedge clk);
         #1;
-        
         @(negedge clk);
         shift3_done = 0;
+        
         @(posedge clk);
         #1;
         
         @(posedge clk);
         #1;
 
+        //randomized stimulus
+        repeat(20) begin
+            //spawn state
+            wait_cycles = $urandom_range(0, 5);
+            $display("SPAWN wait cycles: %0d", wait_cycles);
+            repeat (wait_cycles) begin
+                @(posedge clk);
+            end
+
+            @(negedge clk);
+            spawn_done = 1;
+
+            @(posedge clk);
+            #1;
+
+            @(negedge clk);
+            spawn_done = 0;
+
+            //shift1 state
+            wait_cycles = $urandom_range(0, 5);
+
+            repeat (wait_cycles) begin
+                @(posedge clk);
+            end
+
+            @(negedge clk);
+            shift1_done = 1;
+
+            @(posedge clk);
+            #1;
+
+            @(negedge clk);
+            shift1_done = 0;
+
+            //shift2 state
+            wait_cycles = $urandom_range(0, 5);
+
+            repeat (wait_cycles) begin
+                @(posedge clk);
+            end
+
+            @(negedge clk);
+            shift2_done = 1;
+
+            @(posedge clk);
+            #1;
+
+            @(negedge clk);
+            shift2_done = 0;
+
+            //shift3 state
+            wait_cycles = $urandom_range(0, 5);
+            
+            repeat(wait_cycles) begin
+                @(posedge clk);
+            end
+
+            @(negedge clk);
+            shift3_done = 1;
+
+            @(posedge clk);
+            #1;
+
+            @(negedge clk);
+            shift3_done = 0;
+        end
+
+        @(posedge clk);
+        #1;
+        
+        //result printing
         if (errors == 0) begin
             $display("tb_game_controller PASSED");
         end else begin
             $display("tb_game_controller FAILED with %0d errors", errors);
         end
 
-        $display("Controller coverage = %0.2f%%", cg.get_inst_coverage());
+        //$display("Controller coverage = %0.2f%%", cg.get_inst_coverage());
 
         $stop;
     end
