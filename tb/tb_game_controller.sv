@@ -30,6 +30,139 @@ module tb_game_controller();
     initial clk = 0;
     always #5 clk = ~clk;
 
+    //properties for temporal assertions
+    property reset_state;
+        @(posedge clk)
+        (!resetn) |=> (state == WAIT);
+    endproperty
+
+    property wait_state;
+        @(posedge clk)
+        disable iff (!resetn)
+        (state == WAIT && !start) |=> (state == WAIT);
+    endproperty
+
+    property spawn_state;
+        @(posedge clk)
+        disable iff (!resetn)
+        (state == WAIT && start) |=> (state == SPAWN);
+    endproperty
+
+    property hold_spawn;
+        @(posedge clk)
+        disable iff (!resetn)
+        (state == SPAWN && !spawn_done) |=> (state == SPAWN);
+    endproperty
+
+    property shift1_state;
+        @(posedge clk)
+        disable iff (!resetn)
+        (state == SPAWN && spawn_done) |=> (state == SHIFT1);
+    endproperty
+
+    property hold_shift1;
+        @(posedge clk)
+        disable iff (!resetn)
+        (state == SHIFT1 && !shift1_done) |=> (state == SHIFT1);
+    endproperty
+
+    property shift2_state;
+        @(posedge clk)
+        disable iff (!resetn)
+        (state == SHIFT1 && shift1_done) |=> (state == SHIFT2);
+    endproperty
+
+    property hold_shift2;
+        @(posedge clk)
+        disable iff (!resetn)
+        (state == SHIFT2 && !shift2_done) |=> (state == SHIFT2);
+    endproperty
+
+    property shift3_state;
+        @(posedge clk)
+        disable iff (!resetn)
+        (state == SHIFT2 && shift2_done) |=> (state == SHIFT3);
+    endproperty
+
+    property hold_shift3;
+        @(posedge clk)
+        disable iff (!resetn)
+        (state == SHIFT3 && !shift3_done) |=> (state == SHIFT3);
+    endproperty
+
+    property respawn;
+        @(posedge clk)
+        disable iff (!resetn)
+        (state == SHIFT3 && shift3_done) |=> (state == SPAWN);
+    endproperty
+
+    //temporal assertions
+    a_reset: assert property (reset_state)
+        else begin
+            $error("Reset did not force WAIT");
+            errors++;
+        end
+
+    a_wait: assert property (wait_state)
+        else begin
+            $error("WAIT did not hold while start = 0");
+            errors++;
+        end
+
+    a_spawn: assert property (spawn_state)
+        else begin
+            $error("WAIT did not transition to SPAWN");
+            errors++;
+        end
+
+    a_hold_spawn: assert property (hold_spawn)
+        else begin
+            $error("SPAWN did not hold while spawn_done = 0");
+            errors++;
+        end
+
+    a_shift1: assert property (shift1_state)
+        else begin
+            $error("SPAWN did not transition to SHIFT1");
+            errors++;
+        end
+
+    a_hold_shift1: assert property (hold_shift1)
+        else begin
+            $error("SHIFT1 did not hold while shift1_done = 0");
+            errors++;
+        end
+
+    a_shift2: assert property (shift2_state)
+        else begin
+            $error("SHIFT1 did not transition to SHIFT2");
+            errors++;
+        end
+
+    a_hold_shift2: assert property (hold_shift2)
+        else begin 
+            $error("SHIFT2 did not hold while shift2_done = 0");
+            errors++;
+        end
+
+    a_shift3: assert property (shift3_state)
+        else begin 
+            $error("SHIFT2 did not transition to SHIFT3");
+            errors++;
+        end
+
+    a_hold_shift3: assert property (hold_shift3)
+        else begin
+            $error("SHIFT3 did not hold while shift3_done = 0");
+            errors++;
+        end
+
+    a_respawn: assert property (respawn)
+        else begin
+            $error("SHIFT3 did not transition to SPAWN");
+            errors++;
+        end
+
     initial begin
         resetn = 0;
         start = 0;
@@ -42,133 +175,63 @@ module tb_game_controller();
         //resetn = 0
         @(posedge clk);
         #1;
-        assert (state == WAIT)
-            else begin
-                $error("state should be WAIT when resetn = 0");
-                errors++;
-            end
-
-        //resetn = 1, start = 0
         @(negedge clk);
         resetn = 1;
         @(posedge clk);
         #1;
-        //verify state
-        assert (state == WAIT)
-            else begin
-                $error("state should be WAIT when resetn = 1 and start = 0");
-                errors++;
-            end
         
-        //SPAWN state
-        //start = 1, spawn_done = 0
         @(negedge clk);
         start = 1;
         @(posedge clk);
         #1;
-        assert (state == SPAWN)
-            else begin
-                $error("state should be SPAWN when start = 1 and spawn_done = 0");
-                errors++;
-            end
-        //ensure state remains SPAWN while spawn_done = 0
+        
         @(negedge clk);
         start = 0;
         @(posedge clk);
         #1;
-        assert (state == SPAWN)
-            else begin
-                $error("state should remain SPAWN while start = 0 and current state is SPAWN");
-                errors++;
-            end
-
-        //SHIFT1 state
-        //spawn_done = 1, shift1_done = 0
+        
         @(negedge clk);
         spawn_done = 1;
         @(posedge clk);
         #1;
-        assert (state == SHIFT1)
-            else begin
-                $error("state should be SHIFT1 when spawn_done = 1 and shift1_done = 0");
-                errors++;
-            end
-        //ensure state remains SHIFT1 while shift1_done = 0
+        
         @(negedge clk);
         spawn_done = 0;
         @(posedge clk);
         #1;
-        assert (state == SHIFT1)
-            else begin
-                $error("state should remain SHIFT1 while shift1_done = 0 and current state is SHIFT1");
-                errors++;
-            end
-
-        //SHIFT2 state
-        //shift1_done = 1, shift2_done = 0
+        
         @(negedge clk);
         shift1_done = 1;
         @(posedge clk);
         #1;
-        assert (state == SHIFT2)
-            else begin
-                $error("state should be SHIFT2 when shift1_done = 1 and shift2_done = 0");
-                errors++;
-            end
-        //ensure state remains SHIFT2 while shift2_done = 0
-        @(negedge clk);
+        
+        @(negedge clk)
         shift1_done = 0;
         @(posedge clk);
         #1;
-        assert (state == SHIFT2)
-            else begin
-                $error("state should remain SHIFT2 while shift2_done = 0 and current state is SHIFT2");
-                errors++;
-            end
-
-        //SHIFT3 state
-        //shift2_done = 1, shift3_done = 0
+        
         @(negedge clk);
         shift2_done = 1;
         @(posedge clk);
         #1;
-        assert (state == SHIFT3)
-            else begin
-                $error("state should be SHIFT3 when shift2_done = 1 and shift3_done = 0");
-                errors++;
-            end
-        //ensure state remains SHIFT3 while shift3_done = 0
+        
         @(negedge clk);
         shift2_done = 0;
         @(posedge clk);
         #1;
-        assert (state == SHIFT3)
-            else begin
-                $error("state should remain SHIFT3 while shift3_done = 0 and current state is SHIFT3");
-                errors++;
-            end
-
-        //return to SPAWN state
-        //shift3_done = 1
+        
         @(negedge clk);
         shift3_done = 1;
         @(posedge clk);
         #1;
-        assert (state == SPAWN)
-            else begin
-                $error("state should be SPAWN when shift3_done = 1");
-                errors++;
-            end
-        //ensure state remains SPAWN while shift3_done = 0
+        
         @(negedge clk);
         shift3_done = 0;
         @(posedge clk);
         #1;
-        assert (state == SPAWN)
-            else begin
-                $error("state should remain SPAWN while shift3_done = 0 and current state is SPAWN");
-                errors++;
-            end
+        
+        @(posedge clk);
+        #1;
 
         if (errors == 0) begin
             $display("tb_game_controller PASSED");
