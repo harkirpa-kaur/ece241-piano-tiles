@@ -28,8 +28,8 @@ Generating .mifs for the options:
 module audio_demo (
 	// Inputs
 	CLOCK_50,
-	KEY,
-
+	KEY0,
+	play_heehee,
 	AUD_ADCDAT,
 
 	// Bidirectionals
@@ -43,8 +43,7 @@ module audio_demo (
 	AUD_XCK,
 	AUD_DACDAT,
 
-	FPGA_I2C_SCLK,
-	SW
+	FPGA_I2C_SCLK
 );
 
 /*****************************************************************************
@@ -57,8 +56,8 @@ module audio_demo (
  *****************************************************************************/
 // Inputs
 input				CLOCK_50;
-input		[3:0]	KEY;
-input		[3:0]	SW;
+input		KEY0;
+input play_heehee; 
 
 input				AUD_ADCDAT;
 
@@ -117,7 +116,7 @@ always @(posedge CLOCK_50)
 		addr_cnt <= 16'b0;
 		write_audio_out <= 1'b0;
 		playback <= 1'b0;
-	end else if (~KEY[1]) begin
+	end else if (play_heehee) begin
 		playback <= 1'b1;
 		addr_cnt <= 16'b0;
 		write_audio_out <= 1'b0;
@@ -125,11 +124,11 @@ always @(posedge CLOCK_50)
 		if (enable)
 			addr_cnt <= addr_cnt + 1;
 		write_audio_out <= 1'b1;
-		if (addr_cnt == 16'h43A8 && enable)
+		if (addr_cnt == 16'h1651 && enable)
 			playback <= 1'b0;
 	end
 
-assign reset = ~KEY[0];
+assign reset = ~KEY0;
 
 /****32bit, L Only, Down Sampled****/
 
@@ -228,7 +227,7 @@ heehee	heehee_inst (
 Audio_Controller Audio_Controller (
 	// Inputs
 	.CLOCK_50						(CLOCK_50),
-	.reset						(~KEY[0]),
+	.reset						(~KEY0),
 
 	.clear_audio_in_memory		(),
 	.read_audio_in				(read_audio_in),
@@ -262,8 +261,7 @@ avconf #(.USE_MIC_INPUT(1)) avc (
 	.FPGA_I2C_SCLK					(FPGA_I2C_SCLK),
 	.FPGA_I2C_SDAT					(FPGA_I2C_SDAT),
 	.CLOCK_50					(CLOCK_50),
-	.reset						(~KEY[0])
+	.reset						(~KEY0)
 );
 
 endmodule
-

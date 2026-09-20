@@ -1,0 +1,22 @@
+{
+	"system" : {
+		"platform" : "windows64",
+		"os_name" : "Windows 10",
+		"os_version" : "10.0"
+	},
+	"error" : {
+		"executable" : "quartus_map",
+		"comment" : "none",
+		"error_message" : "FIO_FILE_SYSTEM::exists(fullpath)",
+		"source_file" : "/quartus/db/hdbx/hdbx_reader.cpp",
+		"line" : "323",
+		"stack_trace" : "\t0x7ff9bd0821ec: db_hdbx + 0x221ec (?parse@HDBX_READER@@AEAA_NXZ + 0x8c)\n\t0x7ff9bd082656: db_hdbx + 0x22656 (?read_common@HDBX_READER@@AEAA_NXZ + 0x36)\n\t0x7ff9bd065068: db_hdbx + 0x5068 (hdbx_drl_hdbx_read + 0x88)\n\t0x7ff7bf062dd4: quartus_map + 0x22dd4 (?write_qic_databases@QSYN_FRAMEWORK@@AEAA_N_N@Z + 0x514)\n\t0x7ff7bf061f34: quartus_map + 0x21f34 (?write_databases@QSYN_FRAMEWORK@@UEAA_N_N@Z + 0x114)\n\t0x7ff9af781378: comp_qexe + 0x11378 (qexe_do_normal + 0x2a8)\n\t0x7ff9af786142: comp_qexe + 0x16142 (qexe_run + 0x432)\n\t0x7ff9af786e51: comp_qexe + 0x16e51 (?qexe_standard_main@@YAHPEAVQEXE_FRAMEWORK@@PEAPEBUQEXE_OPTION_DEFINITION@@HPEAPEBD@Z + 0xc1)\n\t0x7ff7bf05b07b: quartus_map + 0x1b07b (?qsyn_main@@YAHHPEAPEBD@Z + 0x51b)\n\t0x7ff992572e98: CCL_MSG + 0x12e98 (?msg_main_thread@@YAPEAXPEAX@Z + 0x18)\n\t0x7ff99257467e: CCL_MSG + 0x1467e (?msg_thread_wrapper@@YAPEAXP6APEAXPEAX@Z0@Z + 0x6e)\n\t0x7ff9d7df6660: ccl_mem + 0x16660 (?mem_thread_wrapper@@YAPEAXP6APEAXPEAX@Z0@Z + 0x70)\n\t0x7ff992572761: CCL_MSG + 0x12761 (?msg_exe_main@@YAHHPEAPEBDP6AHH0@Z@Z + 0xa1)\n\t0x7ff7bf069872: quartus_map + 0x29872 (__tmainCRTStartup + 0x10e)\n\t0x7ff9e2637373: KERNEL32 + 0x17373 (BaseThreadInitThunk + 0x13)\n\t0x7ff9e277cc90: ntdll + 0x4cc90 (RtlUserThreadStart + 0x20)\n",
+		"subsystem" : "HDBX"
+	},
+	"quartus" : {
+		"quartus_bits" : "64",
+		"version" : "18.0.0",
+		"build" : "614",
+		"edition" : "Standard Edition"
+	}
+}

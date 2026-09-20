@@ -1,9 +1,10 @@
-module test (CLOCK_50, KEY, LEDR, VGA_X, VGA_Y, VGA_COLOR, state, t, click_state, keyboard_enable, scancode, tile_state1, tile_state2, tile_state3, expected_key);
+module test (CLOCK_50, KEY, LEDR, VGA_X, VGA_Y, VGA_COLOR, state, t, click_state, keyboard_enable, scancode, expected_key, start_game);
 	input wire CLOCK_50;
     input wire KEY;
 	input wire [1:0] click_state;
 	input wire [7:0] scancode; 
 	input wire keyboard_enable;
+	input wire start_game;
 	wire reset = KEY;
 
 	wire [3:0] sr, srd1, srd2, srd3;
@@ -30,23 +31,7 @@ module test (CLOCK_50, KEY, LEDR, VGA_X, VGA_Y, VGA_COLOR, state, t, click_state
 
 	reg [1:0] spawn_tile_x = 2'd0, shift_tile_x1 = 2'd0, shift_tile_x2 = 2'd0, shift_tile_x3 = 2'd0;
 
-	led ld (CLOCK_50, KEY, t, sr, srd1, srd2, srd3);
-
-	always @ (posedge CLOCK_50)
-	begin
-		if (!reset)
-			start <= 1'b0;
-		else if (t)
-			start <= 1'b1;
-	end
-
-//	always @ (posedge keyboard_enable)
-//	begin
-//		if (!reset)
-//			fake_ledr <= 4'd0;
-//		else if (!lose)
-//			fake_ledr <= fake_ledr + 1;
-//	end
+	led ld (CLOCK_50, KEY, start_game, t, sr, srd1, srd2, srd3);
   
 	always @ (posedge CLOCK_50)
 	begin
@@ -182,21 +167,6 @@ module test (CLOCK_50, KEY, LEDR, VGA_X, VGA_Y, VGA_COLOR, state, t, click_state
 		end
 	end
 	
-	parameter WAITING = 2'd0, EXPECTING = 2'd1, SCORED = 2'd2, MISSED = 2'd3;
-	
-	output wire [1:0] tile_state1, tile_state2, tile_state3;
-	
-	reg [1:0] combined_click_state;
-	always @(*) begin
-		 if (tile_state1 == SCORED || tile_state2 == SCORED || tile_state3 == SCORED)
-			  combined_click_state = SCORED;
-		 else if (tile_state1 == MISSED || tile_state2 == MISSED || tile_state3 == MISSED)
-			  combined_click_state = MISSED;
-		 else
-			  combined_click_state = WAITING;
-	end
-	
-	wire [7:0] fake1, fake2; 
 	output wire [7:0] expected_key;
 
 
@@ -244,12 +214,6 @@ module spawn_tile (shift_reg, tile_x, tile_y, CLOCK_50, reset, done_spawn, VGA_X
 
     always @ (posedge CLOCK_50)
     begin
-        if (prev_tile_x != tile_x)
-        begin
-            prev_tile_x <= tile_x;
-            initialized <= 1'b0;
-        end
-        
         if (!reset)
         begin
             VGA_X <= tile_x * 8'd40;
@@ -264,54 +228,63 @@ module spawn_tile (shift_reg, tile_x, tile_y, CLOCK_50, reset, done_spawn, VGA_X
             gift_y <= 5'd0; 
             address <= 15'd0;
         end
-        else if (!initialized)
-        begin
-            start_x <= tile_x * 8'd40;
-            start_y <= tile_y * 7'd30;
-            VGA_X <= tile_x * 8'd40;
-            VGA_Y <= tile_y * 8'd30;
-            initialized <= 1'b1;
-            gift_x <= 6'd0;
-            gift_y <= 5'd0;
-            address <= 15'd0;  // Start at top-left corner of MIF
-            VGA_COLOR <= sr ? gift_colour : 9'h5a;
-            done_spawn <= 1'b0;
-        end
-        else
-        begin
-            done_spawn <= 1'b0;
-            
-            // Output current color based on current address (from previous cycle)
-            VGA_COLOR <= sr ? gift_colour : 9'h5a;
-            
-            // Increment pixel position
-            if (gift_x >= 6'd39)
-            begin
-                VGA_X <= start_x;
-                gift_x <= 6'd0; 
-                if (gift_y >= 5'd29)
-                begin
-                    VGA_Y <= start_y;
-                    gift_y <= 5'd0; 
-                    address <= 15'd0;
-                    done_spawn <= 1'b1;
-                end
-                else 
-                begin
-                    gift_y <= gift_y + 1;
-                    VGA_Y <= VGA_Y + 1;
-                    // Move to next row: skip full MIF width to get to same x position on next row
-                    address <= (gift_y + 5'd1) * MIF_WIDTH;
-                end
-            end
-            else
-            begin
-                gift_x <= gift_x + 1; 
-                VGA_X <= VGA_X + 1;
-                // Move to next pixel in same row
-                address <= gift_y * MIF_WIDTH + (gift_x + 6'd1);
-            end
-        end
+		  else
+		  begin
+			  if (prev_tile_x != tile_x)
+			  begin
+					prev_tile_x <= tile_x;
+					initialized <= 1'b0;
+			  end
+			  else if (!initialized)
+			  begin
+					start_x <= tile_x * 8'd40;
+					start_y <= tile_y * 7'd30;
+					VGA_X <= tile_x * 8'd40;
+					VGA_Y <= tile_y * 8'd30;
+					initialized <= 1'b1;
+					gift_x <= 6'd0;
+					gift_y <= 5'd0;
+					address <= 15'd0;  // Start at top-left corner of MIF
+					VGA_COLOR <= sr ? gift_colour : 9'h5a;
+					done_spawn <= 1'b0;
+			  end
+			  else
+			  begin
+					done_spawn <= 1'b0;
+					
+					// Output current color based on current address (from previous cycle)
+					VGA_COLOR <= sr ? gift_colour : 9'h5a;
+					
+					// Increment pixel position
+					if (gift_x >= 6'd39)
+					begin
+						 VGA_X <= start_x;
+						 gift_x <= 6'd0; 
+						 if (gift_y >= 5'd29)
+						 begin
+							  VGA_Y <= start_y;
+							  gift_y <= 5'd0; 
+							  address <= 15'd0;
+							  done_spawn <= 1'b1;
+						 end
+						 
+						 else 
+						 begin
+							  gift_y <= gift_y + 1;
+							  VGA_Y <= VGA_Y + 1;
+							  // Move to next row: skip full MIF width to get to same x position on next row
+							  address <= (gift_y + 5'd1) * MIF_WIDTH;
+						 end
+					end
+					else
+					begin
+						 gift_x <= gift_x + 1; 
+						 VGA_X <= VGA_X + 1;
+						 // Move to next pixel in same row
+						 address <= gift_y * MIF_WIDTH + (gift_x + 6'd1);
+					end
+			  end
+		  end
     end
 endmodule
 
@@ -353,13 +326,7 @@ module shift_tile (reset, CLOCK_50, tile_x, tile_y, shift_reg_delay, click_state
 	parameter MIF_WIDTH = 160;  // Full width of the MIF image
 	
 	always @ (posedge CLOCK_50)
-	begin
-		if (prev_tile_x != tile_x)
-		begin
-			prev_tile_x <= tile_x;
-			initialized <= 1'b0;
-		end
-		
+	begin		
 		if (!reset)
 		begin
 			VGA_X <= tile_x * 8'd40;
@@ -376,9 +343,14 @@ module shift_tile (reset, CLOCK_50, tile_x, tile_y, shift_reg_delay, click_state
 		end
 		else
 		begin
-			done_shift <= 1'b0;
+			done_shift <= 1'b0;  // Default: always clear done_shift
 			
-			if (!initialized)
+			if (prev_tile_x != tile_x)
+			begin
+				prev_tile_x <= tile_x;
+				initialized <= 1'b0;
+			end
+			else if (!initialized)
 			begin
 				start_x <= tile_x * 8'd40;
 				start_y <= tile_y * 8'd30;
@@ -387,15 +359,13 @@ module shift_tile (reset, CLOCK_50, tile_x, tile_y, shift_reg_delay, click_state
 				initialized <= 1'b1;
 				gift_x <= 6'd0;
 				gift_y <= 5'd0; 
-				address <= 15'd0;  // Start at top-left corner of MIF
+				address <= 15'd0;
 				VGA_COLOR <= (click_state == MISS && tile_y == 2'd3 && srd) ? 9'hf00 : (click_state == SCORE && tile_y == 2'd3 && srd) ? 9'h5a : (srd) ? gift_colour : 9'h5a;
 			end
 			else
 			begin
-				// Output current color based on current address (from previous cycle)
 				VGA_COLOR <= (click_state == MISS && tile_y == 2'd3 && srd) ? 9'hf00 : (click_state == SCORE && tile_y == 2'd3 && srd) ? 9'h5a : (srd) ? gift_colour : 9'h5a;
 				
-				// Increment pixel position
 				if (gift_x >= 6'd39)
 				begin
 					VGA_X <= start_x;
@@ -405,13 +375,12 @@ module shift_tile (reset, CLOCK_50, tile_x, tile_y, shift_reg_delay, click_state
 						VGA_Y <= start_y;
 						gift_y <= 5'd0; 
 						address <= 15'd0;
-						done_shift <= 1'b1;
+						done_shift <= 1'b1;  // Only set high when truly done
 					end
 					else 
 					begin
 						gift_y <= gift_y + 1;
 						VGA_Y <= VGA_Y + 1;
-						// Move to next row: skip full MIF width to get to same x position on next row
 						address <= (gift_y + 5'd1) * MIF_WIDTH;
 					end
 				end
@@ -419,7 +388,6 @@ module shift_tile (reset, CLOCK_50, tile_x, tile_y, shift_reg_delay, click_state
 				begin
 					gift_x <= gift_x + 1; 
 					VGA_X <= VGA_X + 1;
-					// Move to next pixel in same row
 					address <= gift_y * MIF_WIDTH + (gift_x + 6'd1);
 				end
 			end

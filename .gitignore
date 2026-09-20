@@ -19,9 +19,14 @@ output_files/
 *.sof
 *.pof
 *.qws
+*.bak
 
 # Editor/OS junk
 .vscode/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Quartus generated reports / metadata
+c5_pin_model_dump.txt
+cr_ie_info.json
