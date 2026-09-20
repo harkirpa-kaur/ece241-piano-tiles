@@ -14,6 +14,7 @@ module tb_game_controller();
     //error counter
     int errors = 0;
     
+    //tile states
     parameter SPAWN = 3'b000, SHIFT1 = 3'b001, SHIFT2 = 3'b010, SHIFT3 = 3'b011, WAIT = 3'b100;
 
     game_controller dut (
@@ -29,6 +30,28 @@ module tb_game_controller();
 
     initial clk = 0;
     always #5 clk = ~clk;
+
+    //covergroup for functional coverage
+    covergroup controller_cg @(posedge clk);
+        //state visit coverage
+        state_cp: coverpoint state {
+            bins wait_state   = {WAIT};
+            bins spawn_state  = {SPAWN};
+            bins shift1_state = {SHIFT1};
+            bins shift2_state = {SHIFT2};
+            bins shift3_state = {SHIFT3};
+        }
+        //state transition coverage
+        state_transitions: coverpoint state {
+            bins wait_to_spawn   = (WAIT   => SPAWN);
+            bins spawn_to_shift1 = (SPAWN  => SHIFT1);
+            bins shift1_to_shift2 = (SHIFT1 => SHIFT2);
+            bins shift2_to_shift3 = (SHIFT2 => SHIFT3);
+            bins shift3_to_spawn  = (SHIFT3 => SPAWN);
+        }
+    endgroup
+
+    controller_cg cg = new();
 
     //properties for temporal assertions
     property reset_state;
@@ -171,10 +194,9 @@ module tb_game_controller();
         shift2_done = 0;
         shift3_done = 0;
 
-        //state = WAIT
-        //resetn = 0
         @(posedge clk);
         #1;
+        
         @(negedge clk);
         resetn = 1;
         @(posedge clk);
@@ -238,6 +260,8 @@ module tb_game_controller();
         end else begin
             $display("tb_game_controller FAILED with %0d errors", errors);
         end
+
+        $display("Controller coverage = %0.2f%%", cg.get_inst_coverage());
 
         $stop;
     end
