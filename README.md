@@ -8,7 +8,7 @@ The project combines VGA graphics, PS/2 keyboard input, audio playback, and FSM-
 
 Hardware demo of the Piano Tiles game running on the DE1-SoC FPGA:
 
-[Watch the demo](media/piano_tiles_demo.mp4)
+[Watch the demo](docs/demo.mp4)
 
 ## Highlights
 
