@@ -4,6 +4,12 @@ A **Piano Tiles-style rhythm game** implemented in Verilog for the DE1-SoC FPGA 
 
 The project combines VGA graphics, PS/2 keyboard input, audio playback, and FSM-based game control. I later refactored the design to make the controller and datapath easier to test independently and built a SystemVerilog verification environment around them.
 
+## Demo
+
+Hardware demo of the Piano Tiles game running on the DE1-SoC FPGA:
+
+[Watch the demo](media/piano_tiles_demo.mp4)
+
 ## Highlights
 
 - Verilog RTL for game logic and FPGA integration
